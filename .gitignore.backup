@@ -61,17 +61,3 @@ out/
 private/
 secrets/
 credentials/
-
-# PAI Personal Data Protection
-PAI_DIRECTORY/.env
-PAI_DIRECTORY/context/personal-info.md
-PAI_DIRECTORY/learnings/
-PAI_DIRECTORY/temp/
-PAI_DIRECTORY/credentials/
-PAI_DIRECTORY/hooks/personal-*
-PAI_DIRECTORY/commands/personal-*
-
-# Notion and API tokens
-*notion*token*
-*api*key*
-*secret*
