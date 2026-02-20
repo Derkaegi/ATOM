@@ -1,0 +1,277 @@
+{
+  "name": "Morning Briefing - Herbert",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 7 * * *"
+            }
+          ]
+        }
+      },
+      "name": "Daily 7am Trigger",
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [250, 300],
+      "id": "node-1"
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "https://wttr.in/Barcelona?format=j1",
+        "options": {}
+      },
+      "name": "Get Weather",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [450, 200],
+      "id": "node-2"
+    },
+    {
+      "parameters": {
+        "jsCode": "const weather = $input.first().json;\nconst current = weather.current_condition[0];\nconst forecast = weather.weather[0];\n\nreturn {\n  json: {\n    temp: `${current.temp_C}°C`,\n    condition: current.weatherDesc[0].value,\n    high: `${forecast.maxtempC}°C`,\n    low: `${forecast.mintempC}°C`,\n    precipitation: `${forecast.hourly[0].chanceofrain}% rain`\n  }\n};"
+      },
+      "name": "Parse Weather",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 200],
+      "id": "node-3"
+    },
+    {
+      "parameters": {
+        "command": "cd /home/herbert/.claude/tasks && find . -name '*.json' -type f -exec cat {} \\; | jq -s 'map(select(.status == \"pending\" or .status == \"in_progress\")) | { pending: map(select(.status == \"pending\")) | length, inProgress: map(select(.status == \"in_progress\")) | length, urgent: map(select(.status == \"pending\" and (.priority == \"high\" or .priority == \"urgent\"))) | .[0:3] | map({id: .id, subject: .subject}) }'"
+      },
+      "name": "Read PAI Tasks",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 400],
+      "id": "node-4"
+    },
+    {
+      "parameters": {
+        "command": "tail -n 5 /home/herbert/.claude/MEMORY/LEARNING/REFLECTIONS/algorithm-reflections.jsonl | jq -s 'map({ date: .timestamp | split(\"T\")[0], insight: .reflection_q2 // .reflection_q1 // \"No recent insights\" }) | .[0:3]'"
+      },
+      "name": "Read Learnings",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [450, 500],
+      "id": "node-5"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst weather = items.find(i => i.json.temp)?.json;\nconst tasks = items.find(i => i.json.pending)?.json;\nconst learnings = items.filter(i => i.json.insight).map(i => i.json);\n\nconst now = new Date();\nconst dateStr = now.toLocaleDateString('en-US', {\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric'\n});\n\nreturn {\n  json: {\n    date: dateStr,\n    weather: weather || { temp: 'N/A', condition: 'Unknown', high: 'N/A', low: 'N/A' },\n    calendar: [],\n    tasks: tasks || { pending: 0, inProgress: 0, urgent: [] },\n    learnings: learnings || []\n  }\n};"
+      },
+      "name": "Merge Data",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [850, 300],
+      "id": "node-6"
+    },
+    {
+      "parameters": {
+        "command": "=echo '{{ JSON.stringify($json) }}' | bun /home/herbert/.claude/skills/MorningBriefing/format-briefing.ts"
+      },
+      "name": "Format Briefing",
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [1050, 300],
+      "id": "node-7"
+    },
+    {
+      "parameters": {
+        "fromEmail": "=ATOM <{{ $env.GMAIL_USER }}>",
+        "toEmail": "={{ $env.GMAIL_RECIPIENT }}",
+        "subject": "={{ $json.email.subject }}",
+        "emailFormat": "html",
+        "text": "={{ $json.email.html }}",
+        "options": {}
+      },
+      "name": "Send Email",
+      "type": "n8n-nodes-base.emailSend",
+      "typeVersion": 2.1,
+      "position": [1250, 200],
+      "credentials": {
+        "smtp": {
+          "id": "GMAIL_SMTP_CREDENTIAL_ID",
+          "name": "Gmail SMTP"
+        }
+      },
+      "id": "node-8"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://api.telegram.org/bot{{ $env.TELEGRAM_BOT_TOKEN }}/sendMessage",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "chat_id",
+              "value": "={{ $env.TELEGRAM_CHAT_ID }}"
+            },
+            {
+              "name": "text",
+              "value": "={{ $json.telegram.text }}"
+            },
+            {
+              "name": "parse_mode",
+              "value": "HTML"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "name": "Send Telegram",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 300],
+      "id": "node-9"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://ntfy.sh/{{ $env.NTFY_TOPIC }}",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Title",
+              "value": "={{ $json.ntfy.title }}"
+            },
+            {
+              "name": "Priority",
+              "value": "={{ $json.ntfy.priority }}"
+            },
+            {
+              "name": "Tags",
+              "value": "={{ $json.ntfy.tags }}"
+            }
+          ]
+        },
+        "sendBody": true,
+        "body": "={{ $json.ntfy.message }}",
+        "options": {}
+      },
+      "name": "Send ntfy",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [1250, 400],
+      "id": "node-10"
+    }
+  ],
+  "connections": {
+    "Daily 7am Trigger": {
+      "main": [
+        [
+          {
+            "node": "Get Weather",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read PAI Tasks",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Read Learnings",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Weather": {
+      "main": [
+        [
+          {
+            "node": "Parse Weather",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Weather": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read PAI Tasks": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read Learnings": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Merge Data": {
+      "main": [
+        [
+          {
+            "node": "Format Briefing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Briefing": {
+      "main": [
+        [
+          {
+            "node": "Send Email",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send Telegram",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Send ntfy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1",
+    "saveManualExecutions": true,
+    "callerPolicy": "workflowsFromSameOwner",
+    "errorWorkflow": "",
+    "timezone": "Europe/Berlin"
+  },
+  "staticData": null,
+  "tags": [],
+  "triggerCount": 0,
+  "updatedAt": "2026-02-16T21:40:00.000Z",
+  "versionId": "1"
+}

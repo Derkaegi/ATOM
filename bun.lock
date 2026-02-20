@@ -1,0 +1,14 @@
+{
+  "lockfileVersion": 1,
+  "configVersion": 1,
+  "workspaces": {
+    "": {
+      "dependencies": {
+        "@notionhq/client": "^5.9.0",
+      },
+    },
+  },
+  "packages": {
+    "@notionhq/client": ["@notionhq/client@5.9.0", "", {}, "sha512-TvAVMfwtVv61hsPrRfB9ehgzSjX6DaAi1ZRAnpg8xFjzaXhzhEfbO0PhBRm3ecSv1azDuO2kBuyQHh2/z7G4YQ=="],
+  }
+}

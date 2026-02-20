@@ -1,0 +1,49 @@
+# Secrets — NEVER commit
+.env
+.env.*
+*.key
+*.pem
+.credentials.json
+credentials*.json
+google-oauth.ts
+
+# Node / Bun
+node_modules/
+.bun/
+bun.lockb
+
+# Session state (ephemeral)
+MEMORY/STATE/
+MEMORY/WORK/
+MEMORY/LEARNING/FAILURES/
+MEMORY/LEARNING/ALGORITHM/
+
+# Caches and temp files
+*.tmp
+*.log
+.cache/
+__pycache__/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Task output
+/tasks/
+
+# Claude internal (session logs, project caches)
+.claude-project
+projects/
+statsig/
+history.jsonl
+stats-cache.json
+telemetry/
+debug/
+cache/
+paste-cache/
+shell-snapshots/
+file-history/
+downloads/
+backups/
+todos/
+plugins/
