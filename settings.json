@@ -60,8 +60,9 @@
       "Write(~/.ssh/*)",
       "Edit(~/.ssh/*)"
     ],
-    "defaultMode": "default"
+    "defaultMode": "plan"
   },
+  "model": "opus",
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [],
   "hooks": {
@@ -857,14 +858,13 @@
     "skills": 38,
     "workflows": 162,
     "hooks": 20,
-    "signals": 44,
+    "signals": 56,
     "files": 21,
-    "work": 11,
+    "work": 16,
     "sessions": 12,
     "research": 0,
-    "ratings": 44,
-    "updatedAt": "2026-02-18T18:41:16.077Z"
+    "ratings": 56,
+    "updatedAt": "2026-02-20T17:52:56.221Z"
   },
-  "effortLevel": "low",
-  "model": "opus"
+  "effortLevel": "low"
 }
