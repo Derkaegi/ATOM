@@ -1,0 +1,5 @@
+# NARRATIVES
+
+- **N1:** Herbert with philosophy PhD training who built a poker career, explored AI questions, now returning to academia with enriched practical perspective — rigorous analysis mixed with willingness to chase weird ideas. Formal training provides the analytical backbone, real-world experience (poker, entrepreneurship) keeps it grounded, returning to research with interdisciplinary insights academia rarely sees.
+- **N2:** Authority through unconventional path — academic rigor + practical success + creative exploration. Not afraid to look silly if the idea is interesting. Work quality matters more than polished positioning. Some projects succeed (PokerStories), some are just fun (weird philosophical experiments).
+- **N3:** Work speaks through honesty, depth, and occasional delightful weirdness. Philosophy training shows in how I think, not what I call myself. Poker expertise proves through insider access and results. AI/creative work earns respect through substance, tolerates experimental tangents.
