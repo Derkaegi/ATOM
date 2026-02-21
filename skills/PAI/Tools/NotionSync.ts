@@ -35,12 +35,12 @@ function loadEnv(): Record<string, string> {
 // ─── Constants ───────────────────────────────────────────────────────────────
 const PINNED_DBS: Record<string, string> = {
   tasks: "231f11fc665580e88f51d9ba5b7293b5",
-  projects: "6e3e9c861f8840779d0757e44c93956f",
+  projects: "231f11fc66558096bf4ed377065f61d8",
 };
 
 const CACHE_PATH = join(homedir(), ".claude/MEMORY/STATE/notion-cache.json");
 const NOTION_API = "https://api.notion.com/v1";
-const NOTION_VERSION = "2025-09-03";
+const NOTION_VERSION = "2022-06-28";
 const MAX_PAGES_PER_DB = 500;
 
 // ─── Parse args ──────────────────────────────────────────────────────────────
