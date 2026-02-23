@@ -108,3 +108,7 @@
 {"timestamp":"2026-02-22T20:14:50+01:00","rating":5,"session_id":"c453d7ef-efd1-4c9d-a0b1-3ab45ec5710d","source":"implicit","sentiment_summary":"Factual clarification about SSH key state","confidence":0.95}
 {"timestamp":"2026-02-22T20:15:32+01:00","rating":5,"session_id":"c453d7ef-efd1-4c9d-a0b1-3ab45ec5710d","source":"implicit","sentiment_summary":"Simple task request, no emotional content","confidence":0.95}
 {"timestamp":"2026-02-22T20:28:51+01:00","rating":5,"session_id":"78a8f2a4-72ec-4698-bc9d-6a2fe74ed97f","source":"implicit","sentiment_summary":"Straightforward technical command, no sentiment","confidence":0.95}
+{"timestamp":"2026-02-23T07:26:09+01:00","rating":5,"session_id":"d239eae0-497c-46de-952b-426b56d0386f","source":"implicit","sentiment_summary":"Simple affirmative command, no sentiment","confidence":0.95}
+{"timestamp":"2026-02-23T21:55:44+01:00","rating":5,"session_id":"d6a18ce2-9fbc-4138-9941-d3528958fb4b","source":"implicit","sentiment_summary":"Task instruction, no sentiment toward ATOM","confidence":0.9}
+{"timestamp":"2026-02-23T22:04:17+01:00","rating":5,"session_id":"ed92a3ec-0539-433d-88ac-26579c459b09","source":"implicit","sentiment_summary":"Feature request for browser keyboard/mouse controls","confidence":0.95}
+{"timestamp":"2026-02-23T22:28:24+01:00","rating":5,"session_id":"ed92a3ec-0539-433d-88ac-26579c459b09","source":"implicit","sentiment_summary":"Task directive with feature specifications, no sentiment","confidence":0.95}
