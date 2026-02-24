@@ -855,16 +855,16 @@
     }
   },
   "counts": {
-    "skills": 38,
+    "skills": 45,
     "workflows": 162,
     "hooks": 20,
-    "signals": 112,
+    "signals": 116,
     "files": 38,
-    "work": 32,
+    "work": 38,
     "sessions": 14,
     "research": 0,
-    "ratings": 112,
-    "updatedAt": "2026-02-23T20:57:27.964Z"
+    "ratings": 116,
+    "updatedAt": "2026-02-24T07:44:59.090Z"
   },
   "effortLevel": "low"
 }
