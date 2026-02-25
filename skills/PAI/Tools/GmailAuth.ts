@@ -27,7 +27,7 @@ function loadEnv(): Record<string, string> {
 const env = loadEnv();
 const CLIENT_ID = env.GOOGLE_OAUTH_CLIENT_ID;
 const CLIENT_SECRET = env.GOOGLE_OAUTH_CLIENT_SECRET;
-const REDIRECT_URI = "http://localhost:3457"; // different port from Calendar
+const REDIRECT_URI = "http://localhost:3456"; // same port registered in Google Cloud Console
 const SCOPES = [
   "https://www.googleapis.com/auth/gmail.readonly",
 ];
@@ -47,10 +47,10 @@ console.log("📌 Opening browser — authorize as herboko@gmail.com ...\n");
 
 Bun.spawn(["xdg-open", authUrl.toString()]);
 
-console.log("⏳ Waiting for callback on http://localhost:3457 ...\n");
+console.log("⏳ Waiting for callback on http://localhost:3456 ...\n");
 
 const server = Bun.serve({
-  port: 3457,
+  port: 3456,
   async fetch(req) {
     const url = new URL(req.url);
     const code = url.searchParams.get("code");
