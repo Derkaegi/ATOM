@@ -114,3 +114,7 @@
 {"timestamp":"2026-02-23T22:28:24+01:00","rating":5,"session_id":"ed92a3ec-0539-433d-88ac-26579c459b09","source":"implicit","sentiment_summary":"Task directive with feature specifications, no sentiment","confidence":0.95}
 {"timestamp":"2026-02-24T06:27:50+01:00","rating":5,"session_id":"e550cf82-e29d-41cc-ba46-99e6c0241704","source":"implicit","sentiment_summary":"Technical help command, no ATOM sentiment expressed","confidence":0.95}
 {"timestamp":"2026-02-24T06:32:15+01:00","rating":5,"session_id":"257651ed-d2ab-41d9-9316-14e33f614f28","source":"implicit","sentiment_summary":"Technical command, no emotional indicators","confidence":0.95}
+{"timestamp":"2026-02-26T18:31:46+01:00","rating":5,"session_id":"5e305d21-3511-4d61-aec6-47daa7c580de","source":"implicit","sentiment_summary":"Direct technical request, no sentiment","confidence":0.95}
+{"timestamp":"2026-02-26T18:40:11+01:00","rating":5,"session_id":"5e305d21-3511-4d61-aec6-47daa7c580de","source":"implicit","sentiment_summary":"Simple instruction, no sentiment toward ATOM","confidence":0.95}
+{"timestamp":"2026-02-26T18:53:25+01:00","rating":5,"session_id":"2887555a-97c9-4802-9c3c-74a731d30132","source":"implicit","sentiment_summary":"Neutral command to persist preferences","confidence":0.95}
+{"timestamp":"2026-02-26T21:30:30+01:00","rating":5,"session_id":"2887555a-97c9-4802-9c3c-74a731d30132","source":"implicit","sentiment_summary":"Simple notification command, no emotion","confidence":0.95}
