@@ -93,8 +93,13 @@ function weatherIcon(desc: string): string {
 
 async function getWeatherForLocation(location: string): Promise<string> {
   try {
-    const res = await fetch(`https://wttr.in/${encodeURIComponent(location)}?format=j1`);
-    const data = await res.json() as { current_condition: [WttrCondition]; weather: [WttrDay] };
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10_000);
+    const res = await fetch(`https://wttr.in/${encodeURIComponent(location)}?format=j1`, { signal: controller.signal });
+    clearTimeout(timeoutId);
+    const text = await res.text();
+    if (!text.trim().startsWith("{")) throw new Error("Non-JSON response from wttr.in");
+    const data = JSON.parse(text) as { current_condition: [WttrCondition]; weather: [WttrDay] };
     const c = data.current_condition[0];
     const day = data.weather[0];
     const icon = weatherIcon(c.weatherDesc[0].value);
@@ -113,7 +118,10 @@ async function getWeatherForLocation(location: string): Promise<string> {
 }
 
 async function getAllWeather(): Promise<string> {
-  const results = await Promise.all(WEATHER_LOCATIONS.map(getWeatherForLocation));
+  const results: string[] = [];
+  for (const loc of WEATHER_LOCATIONS) {
+    results.push(await getWeatherForLocation(loc));
+  }
   return results.join("\n\n");
 }
 

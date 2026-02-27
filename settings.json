@@ -62,7 +62,6 @@
     ],
     "defaultMode": "plan"
   },
-  "model": "opus",
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [],
   "hooks": {
@@ -858,13 +857,13 @@
     "skills": 45,
     "workflows": 162,
     "hooks": 20,
-    "signals": 120,
+    "signals": 123,
     "files": 38,
-    "work": 46,
+    "work": 50,
     "sessions": 14,
     "research": 0,
-    "ratings": 120,
-    "updatedAt": "2026-02-26T20:48:39.076Z"
+    "ratings": 123,
+    "updatedAt": "2026-02-27T17:08:34.284Z"
   },
   "effortLevel": "low"
 }

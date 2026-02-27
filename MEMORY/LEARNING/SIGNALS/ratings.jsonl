@@ -118,3 +118,6 @@
 {"timestamp":"2026-02-26T18:40:11+01:00","rating":5,"session_id":"5e305d21-3511-4d61-aec6-47daa7c580de","source":"implicit","sentiment_summary":"Simple instruction, no sentiment toward ATOM","confidence":0.95}
 {"timestamp":"2026-02-26T18:53:25+01:00","rating":5,"session_id":"2887555a-97c9-4802-9c3c-74a731d30132","source":"implicit","sentiment_summary":"Neutral command to persist preferences","confidence":0.95}
 {"timestamp":"2026-02-26T21:30:30+01:00","rating":5,"session_id":"2887555a-97c9-4802-9c3c-74a731d30132","source":"implicit","sentiment_summary":"Simple notification command, no emotion","confidence":0.95}
+{"timestamp":"2026-02-27T17:43:30+01:00","rating":5,"session_id":"496d83ef-cf4e-437d-9b26-5d60e4c1894b","source":"implicit","sentiment_summary":"Simple task request, no sentiment","confidence":0.95}
+{"timestamp":"2026-02-27T17:52:25+01:00","rating":5,"session_id":"496d83ef-cf4e-437d-9b26-5d60e4c1894b","source":"implicit","sentiment_summary":"Neutral technical status inquiry, no emotional content","confidence":0.95}
+{"timestamp":"2026-02-27T17:54:42+01:00","rating":5,"session_id":"edb02d0a-9128-4c35-a358-d0c0b2394bfb","source":"implicit","sentiment_summary":"Neutral technical command, no sentiment","confidence":0.95}
