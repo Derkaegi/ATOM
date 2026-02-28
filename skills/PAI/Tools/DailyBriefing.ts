@@ -94,7 +94,7 @@ function weatherIcon(desc: string): string {
 async function getWeatherForLocation(location: string): Promise<string> {
   try {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10_000);
+    const timeoutId = setTimeout(() => controller.abort(), 30_000);
     const res = await fetch(`https://wttr.in/${encodeURIComponent(location)}?format=j1`, { signal: controller.signal });
     clearTimeout(timeoutId);
     const text = await res.text();

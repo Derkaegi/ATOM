@@ -30,3 +30,17 @@
 - **Hosting:** Hostinger
 - **Services:** n8n instance, custom workflows
 - **Notes:** Also hosts games.srv988482.hstgr.cloud
+
+---
+
+## Bank Accounts
+
+### Revolut (Private)
+- **Account Holder:** Herbert Paul Okolowitz
+- **IBAN:** ES77 1583 0001 1190 7467 4857
+- **BIC:** REVOESM2
+
+### VR Bank
+- **Account Holder:** Dr. Herbert Okolowitz
+- **IBAN:** DE65 7406 1101 0001 9137 00
+- **BIC:** GENODEF1RGS
