@@ -152,3 +152,9 @@
 {"timestamp":"2026-02-28T16:59:08+01:00","rating":5,"session_id":"ed829269-9820-4663-bcaf-65736c6b964d","source":"implicit","sentiment_summary":"Neutral technical clarification question","confidence":0.95}
 {"timestamp":"2026-02-28T17:01:30+01:00","rating":5,"session_id":"ed829269-9820-4663-bcaf-65736c6b964d","source":"implicit","sentiment_summary":"Simple technical command, no emotional indicator","confidence":0.95}
 {"timestamp":"2026-02-28T17:04:35+01:00","rating":5,"session_id":"75d84f91-9dcf-453e-838a-ff9c7d971215","source":"implicit","sentiment_summary":"Simple command with no sentiment","confidence":0.95}
+{"timestamp":"2026-03-01T08:17:30+01:00","rating":5,"session_id":"75d84f91-9dcf-453e-838a-ff9c7d971215","source":"implicit","sentiment_summary":"Simple command, no emotion detected","confidence":0.95}
+{"timestamp":"2026-03-01T08:52:43+01:00","rating":5,"session_id":"75d84f91-9dcf-453e-838a-ff9c7d971215","source":"implicit","sentiment_summary":"Direct task request, no emotional indicators","confidence":0.95}
+{"timestamp":"2026-03-01T09:32:00+01:00","rating":3,"session_id":"9c42439c-e5e8-484b-bf3e-3a3f2086aade","source":"implicit","sentiment_summary":"Frustrated by overcomplicated solution suggestion","confidence":0.85}
+{"timestamp":"2026-03-01T09:56:12+01:00","rating":5,"session_id":"9c42439c-e5e8-484b-bf3e-3a3f2086aade","source":"implicit","sentiment_summary":"Neutral follow-up command, no emotional indicators","confidence":0.95}
+{"timestamp":"2026-03-01T09:56:49+01:00","rating":5,"session_id":"9c42439c-e5e8-484b-bf3e-3a3f2086aade","source":"implicit","sentiment_summary":"Technical reference, no emotional content","confidence":0.95}
+{"timestamp":"2026-03-01T10:07:25+01:00","rating":5,"session_id":"90edd80b-9caf-4ecb-9d42-f67cea5574a7","source":"implicit","sentiment_summary":"Neutral command, directing file organization","confidence":0.95}
