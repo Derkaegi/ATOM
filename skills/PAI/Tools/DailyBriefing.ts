@@ -32,7 +32,8 @@ function loadEnv(): Record<string, string> {
       const t = line.trim();
       if (t && !t.startsWith("#") && t.includes("=")) {
         const eq = t.indexOf("=");
-        env[t.slice(0, eq).trim()] = t.slice(eq + 1).trim();
+        const val = t.slice(eq + 1).trim();
+        env[t.slice(0, eq).trim()] = val.replace(/^["']|["']$/g, "");
       }
     }
   } catch {}
@@ -118,10 +119,7 @@ async function getWeatherForLocation(location: string): Promise<string> {
 }
 
 async function getAllWeather(): Promise<string> {
-  const results: string[] = [];
-  for (const loc of WEATHER_LOCATIONS) {
-    results.push(await getWeatherForLocation(loc));
-  }
+  const results = await Promise.all(WEATHER_LOCATIONS.map(loc => getWeatherForLocation(loc)));
   return results.join("\n\n");
 }
 
@@ -137,17 +135,40 @@ async function getTodayEvents(accessToken: string): Promise<string> {
     const today = new Date();
     const timeMin = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0).toISOString();
     const timeMax = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
-    const url = new URL("https://www.googleapis.com/calendar/v3/calendars/primary/events");
-    url.searchParams.set("timeMin", timeMin);
-    url.searchParams.set("timeMax", timeMax);
-    url.searchParams.set("singleEvents", "true");
-    url.searchParams.set("orderBy", "startTime");
-    url.searchParams.set("maxResults", "20");
-    const res = await fetch(url.toString(), { headers: { Authorization: `Bearer ${accessToken}` } });
-    const data = await res.json() as { items?: CalEvent[] };
-    const events = data.items ?? [];
-    if (events.length === 0) return "📭 No events today — free day!";
-    const lines = events.map(e => {
+    const headers = { Authorization: `Bearer ${accessToken}` };
+
+    // Fetch all calendars first
+    const listRes = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", { headers });
+    const listData = await listRes.json() as { items?: Array<{ id: string; summary: string; selected?: boolean }> };
+    const calendars = (listData.items ?? []).filter(c => c.selected !== false);
+
+    // Query all calendars in parallel
+    const allEvents: Array<CalEvent & { calendarName: string }> = [];
+    await Promise.all(calendars.map(async cal => {
+      try {
+        const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events`);
+        url.searchParams.set("timeMin", timeMin);
+        url.searchParams.set("timeMax", timeMax);
+        url.searchParams.set("singleEvents", "true");
+        url.searchParams.set("orderBy", "startTime");
+        url.searchParams.set("maxResults", "20");
+        const res = await fetch(url.toString(), { headers });
+        const data = await res.json() as { items?: CalEvent[] };
+        for (const e of data.items ?? []) {
+          allEvents.push({ ...e, calendarName: cal.summary });
+        }
+      } catch {}
+    }));
+
+    // Sort by start time
+    allEvents.sort((a, b) => {
+      const ta = a.start?.dateTime ?? a.start?.date ?? "";
+      const tb = b.start?.dateTime ?? b.start?.date ?? "";
+      return ta.localeCompare(tb);
+    });
+
+    if (allEvents.length === 0) return "📭 No events today — free day!";
+    const lines = allEvents.map(e => {
       const startRaw = e.start?.dateTime ?? e.start?.date ?? "";
       let timeStr = "All day";
       if (startRaw.includes("T")) {
@@ -156,7 +177,7 @@ async function getTodayEvents(accessToken: string): Promise<string> {
       const loc = e.location ? `  📍 ${e.location}` : "";
       return `  ${timeStr}  ${e.summary ?? "(no title)"}${loc}`;
     });
-    return `📅 ${events.length} event${events.length !== 1 ? "s" : ""} today:\n${lines.join("\n")}`;
+    return `📅 ${allEvents.length} event${allEvents.length !== 1 ? "s" : ""} today:\n${lines.join("\n")}`;
   } catch (e) {
     return `❌ Calendar unavailable: ${e}`;
   }
