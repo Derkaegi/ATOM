@@ -68,53 +68,76 @@ async function getAccessToken(): Promise<string> {
   return data.access_token;
 }
 
-// ─── Weather via wttr.in ──────────────────────────────────────────────────────
-interface WttrCondition {
-  temp_C: string; FeelsLikeC: string; windspeedKmph: string;
-  humidity: string; weatherDesc: [{ value: string }]; weatherCode: string;
-}
-interface WttrDay {
-  date: string; hourly: Array<{ chanceofrain: string }>;
-  astronomy: [{ sunrise: string; sunset: string }];
-  maxtempC: string; mintempC: string;
+// ─── Weather via open-meteo + nominatim geocoding ────────────────────────────
+// WMO weather code → description + icon
+function wmoDescription(code: number): { desc: string; icon: string } {
+  if (code === 0) return { desc: "Clear sky", icon: "☀️" };
+  if (code === 1) return { desc: "Mainly clear", icon: "🌤️" };
+  if (code === 2) return { desc: "Partly cloudy", icon: "⛅" };
+  if (code === 3) return { desc: "Overcast", icon: "☁️" };
+  if (code <= 49) return { desc: "Fog / mist", icon: "🌫️" };
+  if (code <= 59) return { desc: "Drizzle", icon: "🌦️" };
+  if (code <= 69) return { desc: "Rain", icon: "🌧️" };
+  if (code <= 79) return { desc: "Snow", icon: "❄️" };
+  if (code <= 84) return { desc: "Rain showers", icon: "🌧️" };
+  if (code <= 86) return { desc: "Snow showers", icon: "🌨️" };
+  if (code <= 99) return { desc: "Thunderstorm", icon: "⛈️" };
+  return { desc: "Unknown", icon: "🌡" };
 }
 
-function weatherIcon(desc: string): string {
-  const d = desc.toLowerCase();
-  if (d.includes("sunny") || d.includes("clear")) return "☀️";
-  if (d.includes("partly cloudy")) return "⛅";
-  if (d.includes("overcast") || d.includes("cloudy")) return "☁️";
-  if (d.includes("rain") || d.includes("drizzle") || d.includes("shower")) return "🌧️";
-  if (d.includes("thunder") || d.includes("storm")) return "⛈️";
-  if (d.includes("snow") || d.includes("sleet") || d.includes("blizzard")) return "❄️";
-  if (d.includes("fog") || d.includes("mist")) return "🌫️";
-  if (d.includes("wind")) return "💨";
-  return "🌤️";
+async function geocode(location: string): Promise<{ lat: number; lon: number } | null> {
+  try {
+    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(location)}&format=json&limit=1`;
+    const res = await fetch(url, {
+      signal: AbortSignal.timeout(8_000),
+      headers: { "User-Agent": "PAI-DailyBriefing/1.0" },
+    });
+    const data = await res.json() as Array<{ lat: string; lon: string }>;
+    if (!data.length) return null;
+    return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
+  } catch {
+    return null;
+  }
 }
 
 async function getWeatherForLocation(location: string): Promise<string> {
   try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 30_000);
-    const res = await fetch(`https://wttr.in/${encodeURIComponent(location)}?format=j1`, { signal: controller.signal });
-    clearTimeout(timeoutId);
-    const text = await res.text();
-    if (!text.trim().startsWith("{")) throw new Error("Non-JSON response from wttr.in");
-    const data = JSON.parse(text) as { current_condition: [WttrCondition]; weather: [WttrDay] };
-    const c = data.current_condition[0];
-    const day = data.weather[0];
-    const icon = weatherIcon(c.weatherDesc[0].value);
-    const rainChance = Math.max(...day.hourly.map(h => parseInt(h.chanceofrain)));
+    const coords = await geocode(location);
+    if (!coords) return `📍 ${location}\n❌ Location not found`;
+
+    const url = new URL("https://api.open-meteo.com/v1/forecast");
+    url.searchParams.set("latitude", coords.lat.toString());
+    url.searchParams.set("longitude", coords.lon.toString());
+    url.searchParams.set("current", "temperature_2m,apparent_temperature,weathercode,windspeed_10m,relativehumidity_2m");
+    url.searchParams.set("daily", "temperature_2m_max,temperature_2m_min,precipitation_probability_max,sunrise,sunset");
+    url.searchParams.set("timezone", "auto");
+    url.searchParams.set("forecast_days", "1");
+
+    const res = await fetch(url.toString(), { signal: AbortSignal.timeout(10_000) });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    const data = await res.json() as {
+      current: { temperature_2m: number; apparent_temperature: number; weathercode: number; windspeed_10m: number; relativehumidity_2m: number };
+      daily: { temperature_2m_max: [number]; temperature_2m_min: [number]; precipitation_probability_max: [number]; sunrise: [string]; sunset: [string] };
+    };
+
+    const c = data.current;
+    const d = data.daily;
+    const { desc, icon } = wmoDescription(c.weathercode);
+    const sunrise = d.sunrise[0].split("T")[1];
+    const sunset = d.sunset[0].split("T")[1];
+    const rainChance = d.precipitation_probability_max[0] ?? 0;
+
     return [
       `📍 ${location}`,
-      `${icon} ${c.weatherDesc[0].value}`,
-      `🌡 ${c.temp_C}°C (feels ${c.FeelsLikeC}°C)  ↑${day.maxtempC}° ↓${day.mintempC}°`,
-      `💨 Wind ${c.windspeedKmph} km/h  💧 Humidity ${c.humidity}%`,
+      `${icon} ${desc}`,
+      `🌡 ${c.temperature_2m}°C (feels ${c.apparent_temperature}°C)  ↑${d.temperature_2m_max[0]}° ↓${d.temperature_2m_min[0]}°`,
+      `💨 Wind ${c.windspeed_10m} km/h  💧 Humidity ${c.relativehumidity_2m}%`,
       `🌧 Rain chance ${rainChance}%`,
-      `🌅 Sunrise ${day.astronomy[0].sunrise}  🌇 Sunset ${day.astronomy[0].sunset}`,
+      `🌅 Sunrise ${sunrise}  🌇 Sunset ${sunset}`,
     ].join("\n");
   } catch (e) {
-    return `📍 ${location}\n❌ Weather unavailable: ${e}`;
+    const msg = e instanceof Error ? e.message : String(e);
+    return `📍 ${location}\n❌ Weather unavailable: ${msg}`;
   }
 }
 
@@ -140,7 +163,8 @@ async function getTodayEvents(accessToken: string): Promise<string> {
     // Fetch all calendars first
     const listRes = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", { headers });
     const listData = await listRes.json() as { items?: Array<{ id: string; summary: string; selected?: boolean }> };
-    const calendars = (listData.items ?? []).filter(c => c.selected !== false);
+    // Include all calendars — output only shows ones with events that day
+    const calendars = listData.items ?? [];
 
     // Query all calendars in parallel
     const allEvents: Array<CalEvent & { calendarName: string }> = [];
@@ -168,7 +192,16 @@ async function getTodayEvents(accessToken: string): Promise<string> {
     });
 
     if (allEvents.length === 0) return "📭 No events today — free day!";
-    const lines = allEvents.map(e => {
+
+    // Group by calendar
+    const byCalendar = new Map<string, Array<CalEvent & { calendarName: string }>>();
+    for (const e of allEvents) {
+      const key = e.calendarName;
+      if (!byCalendar.has(key)) byCalendar.set(key, []);
+      byCalendar.get(key)!.push(e);
+    }
+
+    const formatEvent = (e: CalEvent & { calendarName: string }) => {
       const startRaw = e.start?.dateTime ?? e.start?.date ?? "";
       let timeStr = "All day";
       if (startRaw.includes("T")) {
@@ -176,8 +209,14 @@ async function getTodayEvents(accessToken: string): Promise<string> {
       }
       const loc = e.location ? `  📍 ${e.location}` : "";
       return `  ${timeStr}  ${e.summary ?? "(no title)"}${loc}`;
-    });
-    return `📅 ${allEvents.length} event${allEvents.length !== 1 ? "s" : ""} today:\n${lines.join("\n")}`;
+    };
+
+    const sections: string[] = [];
+    for (const [calName, events] of byCalendar) {
+      const eventLines = events.map(formatEvent).join("\n");
+      sections.push(`📅 ${calName}\n${eventLines}`);
+    }
+    return sections.join("\n\n");
   } catch (e) {
     return `❌ Calendar unavailable: ${e}`;
   }
@@ -364,11 +403,28 @@ const [accessToken, weatherText, tasks] = await Promise.all([
 const calendarText = await getTodayEvents(accessToken);
 
 // ─── Compose two versions ─────────────────────────────────────────────────────
-const header = `🌅 Daily Briefing — ${dateStr}\n\n🌤 Weather\n${weatherText}\n\n${calendarText}`;
+const divider = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";
+
+const header = [
+  `🌅 Daily Briefing — ${dateStr}`,
+  divider,
+  "",
+  "🌤  WEATHER",
+  divider,
+  weatherText,
+  "",
+  divider,
+  "📆  CALENDAR",
+  divider,
+  calendarText,
+].join("\n");
 
 const compactBriefing = [
   header,
   "",
+  divider,
+  "📋  TASKS",
+  divider,
   formatTasksCompact(tasks, 10),
   "",
   "— ATOM",
@@ -377,6 +433,9 @@ const compactBriefing = [
 const fullBriefing = [
   header,
   "",
+  divider,
+  "📋  TASKS",
+  divider,
   formatTasksFull(tasks),
   "",
   "— ATOM",

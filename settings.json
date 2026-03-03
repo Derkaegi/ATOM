@@ -712,11 +712,11 @@
     "voices": {
       "main": {
         "_docs": "Primary DA voice - stability 0.85 for consistent output, style 0.3 for minimal variation",
-        "voiceId": "onwK4e9ZLuTAKqWW03F9",
-        "voiceName": "Daniel - Steady Broadcaster",
-        "stability": 0.85,
-        "similarity_boost": 0.7,
-        "style": 0.3,
+        "voiceId": "cgSgspJ2msm6clMCkdW9",
+        "voiceName": "Jessica - Playful, Bright, Warm",
+        "stability": 0.7,
+        "similarity_boost": 0.75,
+        "style": 0.5,
         "speed": 1.1,
         "use_speaker_boost": true,
         "volume": 1.2
@@ -857,13 +857,13 @@
     "skills": 45,
     "workflows": 162,
     "hooks": 20,
-    "signals": 160,
+    "signals": 167,
     "files": 38,
-    "work": 81,
+    "work": 94,
     "sessions": 15,
     "research": 0,
-    "ratings": 160,
-    "updatedAt": "2026-03-02T06:39:18.730Z"
+    "ratings": 167,
+    "updatedAt": "2026-03-03T21:03:10.134Z"
   },
   "effortLevel": "low"
 }
