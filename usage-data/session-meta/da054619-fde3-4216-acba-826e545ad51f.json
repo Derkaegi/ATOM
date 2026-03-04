@@ -1,0 +1,36 @@
+{
+  "session_id": "da054619-fde3-4216-acba-826e545ad51f",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-01T06:08:06.262Z",
+  "duration_minutes": 1,
+  "user_message_count": 1,
+  "assistant_message_count": 8,
+  "tool_counts": {
+    "Bash": 1,
+    "Read": 1,
+    "Edit": 1
+  },
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 14,
+  "output_tokens": 934,
+  "first_prompt": "wieso beginnt meine terminal sitzung immer mit bash: export: `Cugat,Wasching': not a valid identifier",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 1,
+  "lines_removed": 1,
+  "files_modified": 1,
+  "message_hours": [
+    7
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T06:08:12.353Z"
+  ]
+}

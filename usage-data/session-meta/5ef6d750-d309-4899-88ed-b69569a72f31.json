@@ -1,0 +1,32 @@
+{
+  "session_id": "5ef6d750-d309-4899-88ed-b69569a72f31",
+  "project_path": "/home/herbert/Projects/data-setpiecetakers",
+  "start_time": "2026-02-28T14:57:11.326Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 1,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 10,
+  "output_tokens": 1,
+  "first_prompt": "CONTEXT: Assistant: Partial update is broken for this node — doing a full workflow update instead: Assistant: Updated. Now trigger a manual run to verify all 27 combos process: Assistant: Schedule tri…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-28T14:57:11.326Z"
+  ]
+}

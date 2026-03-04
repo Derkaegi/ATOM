@@ -1,0 +1,32 @@
+{
+  "session_id": "6b193304-ac23-4254-8c15-688ddc5fbb75",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-04T17:32:10.663Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 6,
+  "first_prompt": "CONTEXT: Assistant: Good — Gmail SMTP via Python is available. Composing and sending now. Assistant: Email and ntfy delivered. Telegram had a markdown parsing error (asterisk in the body conflicted wi…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    18
+  ],
+  "user_message_timestamps": [
+    "2026-03-04T17:32:10.663Z"
+  ]
+}

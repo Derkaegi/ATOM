@@ -1,0 +1,73 @@
+{
+  "session_id": "13998ad6-f795-40bd-a3da-3593a4fe7244",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-03T19:18:13.270Z",
+  "duration_minutes": 1406,
+  "user_message_count": 9,
+  "assistant_message_count": 172,
+  "tool_counts": {
+    "Bash": 74,
+    "TodoWrite": 6,
+    "Agent": 2,
+    "TaskOutput": 2,
+    "AskUserQuestion": 2,
+    "Write": 1,
+    "ExitPlanMode": 1,
+    "Read": 10,
+    "Edit": 5
+  },
+  "languages": {
+    "Markdown": 2,
+    "TypeScript": 1,
+    "HTML": 12
+  },
+  "git_commits": 5,
+  "git_pushes": 6,
+  "input_tokens": 226,
+  "output_tokens": 24724,
+  "first_prompt": "Evaluate this project plan and adapt to my PAI Atom system. Invoke subagents to evaluate specs and tech stack.   Let me design your Obsidian + QMD setup with concrete implementation steps.  ## Your Im…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    1505.321,
+    246.101,
+    717.135,
+    374.076,
+    376.044,
+    2069.592,
+    13.902
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 2,
+    "Other": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 169,
+  "lines_removed": 9,
+  "files_modified": 2,
+  "message_hours": [
+    20,
+    20,
+    18,
+    18,
+    18,
+    18,
+    19,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T19:19:41.639Z",
+    "2026-03-03T19:48:59.443Z",
+    "2026-03-04T17:32:07.716Z",
+    "2026-03-04T17:38:33.989Z",
+    "2026-03-04T17:52:12.782Z",
+    "2026-03-04T17:59:54.672Z",
+    "2026-03-04T18:07:56.784Z",
+    "2026-03-04T18:42:57.948Z",
+    "2026-03-04T18:43:53.564Z"
+  ]
+}

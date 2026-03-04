@@ -1,0 +1,32 @@
+{
+  "session_id": "258c7fe3-8875-43cb-801d-dc6e535e7d65",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T07:17:23.804Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 626,
+  "first_prompt": "The user opened the file /home/herbert/Projects/setpiecetakers.com/workflows/scripts/club-names.ts in the IDE. This may or may not be related to the current task. clean up the google sheets",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    8
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T07:17:23.804Z"
+  ]
+}

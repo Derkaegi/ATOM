@@ -1,0 +1,36 @@
+{
+  "session_id": "689dc0d6-8280-4249-971b-f6f48c67b436",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-02-28T15:48:52.541Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 3,
+  "tool_counts": {
+    "mcp__claude_ai_Hugging_Face__hub_repo_search": 1
+  },
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 30,
+  "output_tokens": 582,
+  "first_prompt": "in the data-setpiecetakers project, we need to do some adjustments. 1. We do not update every 2h, that is overhead, we change to 'daily updates'. 2. we disable the csv download button, it should still…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 1,
+  "tool_error_categories": {
+    "Other": 1
+  },
+  "uses_task_agent": false,
+  "uses_mcp": true,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    16
+  ],
+  "user_message_timestamps": [
+    "2026-02-28T15:48:52.541Z"
+  ]
+}

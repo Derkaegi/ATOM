@@ -1,0 +1,36 @@
+{
+  "session_id": "dff0c941-abed-42fb-8396-37c16e68992f",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-02T06:27:10.383Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 4,
+  "tool_counts": {
+    "mcp__claude_ai_Notion__notion-search": 2
+  },
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 8,
+  "output_tokens": 380,
+  "first_prompt": "Analyze these source file changes and documentation sections for factual inaccuracies:  === SOURCE FILE: DailyBriefing.ts === #!/usr/bin/env bun /**  * DailyBriefing.ts — Daily briefing: weather + cal…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Other": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": true,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    7
+  ],
+  "user_message_timestamps": [
+    "2026-03-02T06:27:10.383Z"
+  ]
+}

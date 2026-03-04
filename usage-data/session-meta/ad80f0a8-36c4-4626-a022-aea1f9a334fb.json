@@ -1,0 +1,32 @@
+{
+  "session_id": "ad80f0a8-36c4-4626-a022-aea1f9a334fb",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T07:17:23.925Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 494,
+  "first_prompt": "CONTEXT: Assistant: Perfect. Clear decisions. Let me now write the complete expanded map.  **Summary of your answers:** - **BL**: Short — `Bayern`, `Köln`, `Heidenheim` - Assistant: 201 mappings, all…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    8
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T07:17:23.925Z"
+  ]
+}

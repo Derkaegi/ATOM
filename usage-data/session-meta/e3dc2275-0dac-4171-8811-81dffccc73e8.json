@@ -1,0 +1,47 @@
+{
+  "session_id": "e3dc2275-0dac-4171-8811-81dffccc73e8",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-03T17:51:18.327Z",
+  "duration_minutes": 11,
+  "user_message_count": 3,
+  "assistant_message_count": 31,
+  "tool_counts": {
+    "Read": 1,
+    "Bash": 9,
+    "Edit": 5
+  },
+  "languages": {
+    "TypeScript": 6
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 45,
+  "output_tokens": 8373,
+  "first_prompt": "this was my daily briefing this morning 🌅 Daily Briefing — Tuesday, March 3, 2026  🌤 Weather 📍 Barcelona ❌ Weather unavailable: AbortError: The operation was aborted.  📍 Sant Cugat ❌ Weather unava…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    120.038,
+    66.371
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Command Failed": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 139,
+  "lines_removed": 80,
+  "files_modified": 1,
+  "message_hours": [
+    18,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T17:55:01.471Z",
+    "2026-03-03T18:00:35.711Z",
+    "2026-03-03T18:02:17.604Z"
+  ]
+}

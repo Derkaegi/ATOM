@@ -1,0 +1,20 @@
+{
+  "underlying_goal": "Get a daily briefing with weather, calendar events, and tasks sent to all notification channels",
+  "goal_categories": {
+    "run_automated_workflow": 1,
+    "bug_fix": 1
+  },
+  "outcome": "mostly_achieved",
+  "user_satisfaction_counts": {
+    "frustrated": 1
+  },
+  "claude_helpfulness": "very_helpful",
+  "session_type": "iterative_refinement",
+  "friction_counts": {
+    "buggy_code": 1
+  },
+  "friction_detail": "Initial daily briefing had broken weather (timeouts) and missing calendar events due to bugs in the script.",
+  "primary_success": "good_debugging",
+  "brief_summary": "User requested a daily briefing notification; the first attempt was broken (missing calendar/weather), but Claude diagnosed and fixed the bugs and resent successfully.",
+  "session_id": "ab6ef571-c91c-4d6b-bf19-d2d3217ae90e"
+}

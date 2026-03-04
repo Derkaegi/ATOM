@@ -1,0 +1,32 @@
+{
+  "session_id": "18a0fa16-ff6c-462f-814d-ed6abb36014f",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T18:04:29.969Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 452,
+  "first_prompt": "CONTEXT: Assistant: Good — server is running. Now create the launcher alias so it's easy to start next time: Assistant: ━━━ ✅ VERIFY ━━━ 6/7 Assistant: - **ISC-C1** ✅ VoiceServer.ts created, starts cl…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T18:04:29.969Z"
+  ]
+}

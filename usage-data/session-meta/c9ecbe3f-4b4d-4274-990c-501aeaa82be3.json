@@ -1,0 +1,52 @@
+{
+  "session_id": "c9ecbe3f-4b4d-4274-990c-501aeaa82be3",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-02T06:03:24.076Z",
+  "duration_minutes": 5,
+  "user_message_count": 3,
+  "assistant_message_count": 38,
+  "tool_counts": {
+    "Bash": 12,
+    "Grep": 1,
+    "Write": 1,
+    "ExitPlanMode": 1,
+    "Read": 2,
+    "Edit": 2,
+    "Skill": 1,
+    "TaskOutput": 2
+  },
+  "languages": {
+    "Markdown": 1,
+    "TypeScript": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 54,
+  "output_tokens": 4271,
+  "first_prompt": "fix the bash: export: `Cugat,Wasching': not a valid identifier herbert@herbert-desktop:~ error when I open terminal.",
+  "user_interruptions": 0,
+  "user_response_times": [
+    15.145
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 3
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 32,
+  "lines_removed": 2,
+  "files_modified": 3,
+  "message_hours": [
+    7,
+    7,
+    7
+  ],
+  "user_message_timestamps": [
+    "2026-03-02T06:04:19.449Z",
+    "2026-03-02T06:05:45.670Z",
+    "2026-03-02T06:07:45.285Z"
+  ]
+}

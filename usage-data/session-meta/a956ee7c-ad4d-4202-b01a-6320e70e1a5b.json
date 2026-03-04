@@ -1,0 +1,32 @@
+{
+  "session_id": "a956ee7c-ad4d-4202-b01a-6320e70e1a5b",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T07:02:08.693Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 1,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 10,
+  "output_tokens": 8,
+  "first_prompt": "we need to work really hard on the naming conventions for the clubs. We have many duplicate names in the runs, and I would like to create a club naming convention list for all clubs currently in the c…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    8
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T07:02:08.693Z"
+  ]
+}

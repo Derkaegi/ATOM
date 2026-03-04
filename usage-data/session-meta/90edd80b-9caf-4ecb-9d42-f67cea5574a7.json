@@ -1,0 +1,53 @@
+{
+  "session_id": "90edd80b-9caf-4ecb-9d42-f67cea5574a7",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-03T06:17:16.521Z",
+  "duration_minutes": 31,
+  "user_message_count": 3,
+  "assistant_message_count": 178,
+  "tool_counts": {
+    "Agent": 1,
+    "Bash": 59,
+    "Read": 19,
+    "Grep": 1,
+    "Edit": 22,
+    "Glob": 5,
+    "TodoWrite": 8
+  },
+  "languages": {
+    "TypeScript": 39,
+    "Shell": 2
+  },
+  "git_commits": 1,
+  "git_pushes": 1,
+  "input_tokens": 918,
+  "output_tokens": 30445,
+  "first_prompt": "erstelle einen guard auch fuer den penalty workflow, am einfachsten scheint mir ein zwischenschrit zu sein, scrapen, ergebnis speichern, vergleichen mit canonical names, dann eintrag in sheet, dann da…",
+  "user_interruptions": 1,
+  "user_response_times": [
+    190.689,
+    519.599
+  ],
+  "tool_errors": 8,
+  "tool_error_categories": {
+    "Command Failed": 6,
+    "Other": 2
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 132,
+  "lines_removed": 25,
+  "files_modified": 2,
+  "message_hours": [
+    7,
+    7,
+    7
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T06:17:16.522Z",
+    "2026-03-03T06:22:08.544Z",
+    "2026-03-03T06:33:38.015Z"
+  ]
+}

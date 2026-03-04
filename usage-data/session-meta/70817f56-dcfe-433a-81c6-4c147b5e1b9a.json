@@ -1,0 +1,32 @@
+{
+  "session_id": "70817f56-dcfe-433a-81c6-4c147b5e1b9a",
+  "project_path": "/home/herbert/Projects/data-setpiecetakers",
+  "start_time": "2026-02-28T14:35:49.576Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 352,
+  "first_prompt": "CONTEXT: User: write extensive report of what happened User: This session is being continued from a previous conversation that ran out of context. The summary below covers the earlier portion of the c…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    15
+  ],
+  "user_message_timestamps": [
+    "2026-02-28T14:35:49.576Z"
+  ]
+}

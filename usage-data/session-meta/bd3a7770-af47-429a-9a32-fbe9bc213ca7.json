@@ -1,0 +1,32 @@
+{
+  "session_id": "bd3a7770-af47-429a-9a32-fbe9bc213ca7",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T18:07:51.732Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 715,
+  "first_prompt": "CONTEXT: User: Yes, I can hear you. Assistant: ♻︎ Entering the PAI ALGORITHM… (v1.2.0) ═════════════ Assistant: All ISC criteria pass. Voice is live.  **What's working:** - Phase announcements now spe…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T18:07:51.732Z"
+  ]
+}

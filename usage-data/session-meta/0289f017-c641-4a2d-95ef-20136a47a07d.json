@@ -1,0 +1,46 @@
+{
+  "session_id": "0289f017-c641-4a2d-95ef-20136a47a07d",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T18:46:43.460Z",
+  "duration_minutes": 7,
+  "user_message_count": 4,
+  "assistant_message_count": 30,
+  "tool_counts": {
+    "Bash": 12,
+    "Read": 1,
+    "Write": 1
+  },
+  "languages": {
+    "Markdown": 2
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 42,
+  "output_tokens": 6506,
+  "first_prompt": "Hilf mir eine nette Antwort an Karl-Heinz zu schreiben und gib bereits Feedback zu seinem Input.   Lieber Herbert,  der beiliegende Text ist meine Ankündigung für den Pflichtwahlkurs , den ich bei der…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    168.427
+  ],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 83,
+  "lines_removed": 0,
+  "files_modified": 1,
+  "message_hours": [
+    19,
+    19,
+    19,
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T18:46:45.004Z",
+    "2026-03-03T18:46:19.919Z",
+    "2026-03-03T18:47:20.311Z",
+    "2026-03-03T18:51:43.855Z"
+  ]
+}

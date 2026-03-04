@@ -1,0 +1,50 @@
+{
+  "session_id": "127b558d-d37e-412e-b6ff-a5b6bde738d8",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T05:47:37.237Z",
+  "duration_minutes": 28,
+  "user_message_count": 2,
+  "assistant_message_count": 105,
+  "tool_counts": {
+    "Agent": 1,
+    "Glob": 8,
+    "Read": 11,
+    "Write": 1,
+    "ExitPlanMode": 1,
+    "Bash": 25,
+    "Edit": 19
+  },
+  "languages": {
+    "TypeScript": 29,
+    "Markdown": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 117,
+  "output_tokens": 32807,
+  "first_prompt": "schauen wir data.setpiecetakers an. Die Daten sind immer noch nicht bereinigt, Bundesliga Penalties 22 teams freekicks 21 corners 22. Das muessen 18 teams sein. Untersuche, aus welchem prozess die fal…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    295.426
+  ],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Command Failed": 1,
+    "Edit Failed": 1
+  },
+  "uses_task_agent": true,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 328,
+  "lines_removed": 23,
+  "files_modified": 4,
+  "message_hours": [
+    6,
+    7
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T05:56:34.123Z",
+    "2026-03-03T06:14:52.247Z"
+  ]
+}

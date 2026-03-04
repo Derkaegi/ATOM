@@ -1,0 +1,19 @@
+{
+  "underlying_goal": "Fix push-to-talk transcription not producing any output",
+  "goal_categories": {
+    "debugging": 2
+  },
+  "outcome": "fully_achieved",
+  "user_satisfaction_counts": {
+    "likely_satisfied": 1
+  },
+  "claude_helpfulness": "essential",
+  "session_type": "iterative_refinement",
+  "friction_counts": {
+    "wrong_approach": 1
+  },
+  "friction_detail": "Claude initially spent time checking mic levels, network, and Claude Code version before the user identified it was a system-level audio device issue.",
+  "primary_success": "good_debugging",
+  "brief_summary": "User reported push-to-talk transcription not working; Claude eventually identified and fixed a crashed PipeWire-Pulse service after the user pointed out missing audio devices in system settings.",
+  "session_id": "314722c0-955e-4a23-b199-4ee3c04fe111"
+}

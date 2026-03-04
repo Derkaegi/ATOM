@@ -1,0 +1,32 @@
+{
+  "session_id": "44bf3c55-7fa1-42a5-a5fb-d499b3836265",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-03T18:00:38.484Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 738,
+  "first_prompt": "add the calendario Fede+Herbert as well to the overview, and adjust dynamically for the other calendars to be added when there are entries available on that day",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T18:00:38.484Z"
+  ]
+}

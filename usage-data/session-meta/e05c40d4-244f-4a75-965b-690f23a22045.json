@@ -1,0 +1,32 @@
+{
+  "session_id": "e05c40d4-244f-4a75-965b-690f23a22045",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T08:31:52.019Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 648,
+  "first_prompt": "CONTEXT: Assistant: Good — full picture. 16 sections. I'll write a Google Apps Script you paste into the sheet. It'll create one tab per section with proper headers, colo Assistant: ━━━ 🔨 BUILD ━━━ 4…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T08:31:52.019Z"
+  ]
+}

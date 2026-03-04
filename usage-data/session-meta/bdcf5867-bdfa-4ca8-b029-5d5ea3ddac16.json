@@ -1,0 +1,43 @@
+{
+  "session_id": "bdcf5867-bdfa-4ca8-b029-5d5ea3ddac16",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T19:57:40.312Z",
+  "duration_minutes": 6,
+  "user_message_count": 1,
+  "assistant_message_count": 55,
+  "tool_counts": {
+    "Bash": 33,
+    "Glob": 1,
+    "Read": 3,
+    "Edit": 2
+  },
+  "languages": {
+    "Shell": 1,
+    "TypeScript": 1,
+    "Python": 3
+  },
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 127,
+  "output_tokens": 6936,
+  "first_prompt": "push to talk isnt working, there is no output, and once I started it, it will not trigger again",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 2,
+  "tool_error_categories": {
+    "Command Failed": 2
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 6,
+  "lines_removed": 4,
+  "files_modified": 1,
+  "message_hours": [
+    20
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T19:59:32.958Z"
+  ]
+}

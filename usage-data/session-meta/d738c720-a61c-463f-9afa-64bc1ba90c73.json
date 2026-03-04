@@ -1,0 +1,32 @@
+{
+  "session_id": "d738c720-a61c-463f-9afa-64bc1ba90c73",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T07:17:24.066Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 496,
+  "first_prompt": "The user opened the file in the IDE. This may or may not be related to the current task. clean up the google sheets",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    8
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T07:17:24.066Z"
+  ]
+}

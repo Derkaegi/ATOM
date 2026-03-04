@@ -1,0 +1,51 @@
+{
+  "session_id": "9c42439c-e5e8-484b-bf3e-3a3f2086aade",
+  "project_path": "/home/herbert/Projects",
+  "start_time": "2026-03-01T08:24:00.720Z",
+  "duration_minutes": 33,
+  "user_message_count": 4,
+  "assistant_message_count": 40,
+  "tool_counts": {
+    "Bash": 13,
+    "AskUserQuestion": 1,
+    "Read": 3,
+    "Write": 2
+  },
+  "languages": {
+    "TypeScript": 1
+  },
+  "git_commits": 0,
+  "git_pushes": 2,
+  "input_tokens": 64,
+  "output_tokens": 28645,
+  "first_prompt": "I imported the masterfile now https://docs.google.com/spreadsheets/d/163KKLL_R-xjs1lcF1zrFuC70kcGapABj0AgFJZw6ajg/edit?gid=148277857#gid=148277857. Make it usable for a human. create a tab for each se…",
+  "user_interruptions": 0,
+  "user_response_times": [
+    104.324,
+    1271.77,
+    20.553
+  ],
+  "tool_errors": 3,
+  "tool_error_categories": {
+    "Command Failed": 3
+  },
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 978,
+  "lines_removed": 0,
+  "files_modified": 2,
+  "message_hours": [
+    9,
+    9,
+    9,
+    9
+  ],
+  "user_message_timestamps": [
+    "2026-03-01T08:24:42.069Z",
+    "2026-03-01T08:31:48.971Z",
+    "2026-03-01T08:56:01.113Z",
+    "2026-03-01T08:56:40.797Z"
+  ]
+}

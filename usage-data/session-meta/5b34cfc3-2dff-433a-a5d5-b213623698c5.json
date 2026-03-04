@@ -1,0 +1,32 @@
+{
+  "session_id": "5b34cfc3-2dff-433a-a5d5-b213623698c5",
+  "project_path": "/home/herbert",
+  "start_time": "2026-03-03T18:01:12.744Z",
+  "duration_minutes": 0,
+  "user_message_count": 1,
+  "assistant_message_count": 2,
+  "tool_counts": {},
+  "languages": {},
+  "git_commits": 0,
+  "git_pushes": 0,
+  "input_tokens": 20,
+  "output_tokens": 626,
+  "first_prompt": "CONTEXT: Assistant: ━━━ 🧠 THINK ━━━ 2/7 Assistant: ━━━ 📋 PLAN ━━━ 3/7 ━━━ 🔨 BUILD ━━━ 4/7 ━━━ ⚡ EXECUTE ━━━ 5/7  Here's the full picture, herbert:  ---  ## Voice Output System: What's Happening  **…",
+  "user_interruptions": 0,
+  "user_response_times": [],
+  "tool_errors": 0,
+  "tool_error_categories": {},
+  "uses_task_agent": false,
+  "uses_mcp": false,
+  "uses_web_search": false,
+  "uses_web_fetch": false,
+  "lines_added": 0,
+  "lines_removed": 0,
+  "files_modified": 0,
+  "message_hours": [
+    19
+  ],
+  "user_message_timestamps": [
+    "2026-03-03T18:01:12.744Z"
+  ]
+}
