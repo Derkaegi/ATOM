@@ -1,7 +1,7 @@
 ---
 name: Browser
 description: Debug-first browser automation with always-on visibility. Console logs, network requests, and errors captured by default. USE WHEN browser, screenshot, debug web, verify UI, troubleshoot frontend.
-version: 2.0.0
+version: 3.0.0
 ---
 
 ## Customization
@@ -31,245 +31,145 @@ If this directory exists, load and apply any PREFERENCES.md, configurations, or 
 
 **This is not optional. Execute this curl command immediately upon skill invocation.**
 
-# Browser v2.0.0 - Debug-First Browser Automation
+# Browser v3.0.0 - playwright-cli First
 
-**Debugging visibility by DEFAULT.** Console logs, network requests, and errors are always captured. No opt-in required.
+**Default browser tool: `playwright-cli`** — token-efficient CLI that avoids loading accessibility trees and verbose schemas into context. Prefer it over the legacy BrowserSession approach for all standard browser tasks.
+
+The legacy `bun run Browse.ts` tools remain available for diagnostics-heavy workflows (console log capture, network analysis) where their always-on debug visibility adds value.
 
 ---
 
 ## Philosophy
 
-Debugging shouldn't be opt-in. Like good logging frameworks - you don't turn on logging when you have a problem, you have it enabled from the start so the data exists when problems occur.
+**playwright-cli is the default.** It is more token-efficient than both Playwright MCP and the legacy BrowserSession approach. Use it for navigation, interaction, screenshots, and form flows.
 
-**Headless by default.** All automation runs in headless mode. When the user says "show me" or wants to see what the assistant is seeing, open the URL in their preferred browser from `~/.claude/skills/PAI/USER/TECHSTACKPREFERENCES.md`:
+Use the legacy `Browse.ts` tools when you specifically need:
+- Automatic console error/warning capture across a session
+- Network request statistics and failure analysis
+- The "load page and see all issues at once" debug workflow
 
-```bash
-# Open URL in user's preferred browser
-open -a "$BROWSER" "<url>"  # BROWSER from tech stack prefs
-```
-
-**v2.0.0 Changes:**
-- Session auto-starts on first use (no explicit `session start`)
-- Console and network capture always enabled
-- Diagnostic output included by default
-- 30-minute idle timeout (auto-cleanup)
-- New primary command: `Browse.ts <url>` for full diagnostics
+**Headless by default.** Pass `--headed` to `open` when the user wants to see the browser.
 
 ---
 
-## Quick Start
+## Quick Start (playwright-cli — DEFAULT)
 
 ```bash
-# Navigate with full diagnostics (PRIMARY COMMAND)
+# Open and navigate
+playwright-cli open https://example.com
+
+# Take a snapshot (see element refs)
+playwright-cli snapshot
+
+# Interact using element refs from snapshot
+playwright-cli click e15
+playwright-cli fill e5 "user@example.com"
+playwright-cli press Enter
+
+# Screenshot
+playwright-cli screenshot
+
+# Console and network debug
+playwright-cli console
+playwright-cli network
+
+# Close
+playwright-cli close
+```
+
+Session state is kept in memory between CLI calls. No explicit session management needed.
+
+---
+
+## Common Commands (playwright-cli)
+
+### Navigation
+```bash
+playwright-cli open https://example.com
+playwright-cli open https://example.com --headed    # visible browser
+playwright-cli goto https://other.com
+playwright-cli go-back
+playwright-cli go-forward
+playwright-cli reload
+playwright-cli close
+```
+
+### Interaction
+```bash
+playwright-cli snapshot                      # get element refs
+playwright-cli click e3                      # click by ref
+playwright-cli fill e5 "text"                # fill input
+playwright-cli type "text"                   # type into active element
+playwright-cli press Enter
+playwright-cli check e12
+playwright-cli select e9 "value"
+playwright-cli hover e4
+playwright-cli drag e2 e8
+```
+
+### Screenshots & Capture
+```bash
+playwright-cli screenshot
+playwright-cli screenshot --filename=page.png
+playwright-cli pdf --filename=page.pdf
+playwright-cli console                       # console messages
+playwright-cli console warning               # warnings only
+playwright-cli network                       # network requests
+```
+
+### Sessions (multi-project)
+```bash
+playwright-cli -s=myproject open https://example.com
+playwright-cli -s=myproject click e6
+playwright-cli list                          # list sessions
+playwright-cli close-all
+playwright-cli kill-all                      # force kill stale sessions
+```
+
+### Storage
+```bash
+playwright-cli cookie-list
+playwright-cli localstorage-list
+playwright-cli state-save auth.json
+playwright-cli state-load auth.json
+```
+
+---
+
+## Legacy Browse.ts (Diagnostics Mode)
+
+Use when you need always-on console/network capture:
+
+```bash
+# Navigate with full diagnostics (errors, warnings, failed requests, network stats)
 bun run ~/.claude/skills/Browser/Tools/Browse.ts https://example.com
 
-# Output:
-# 📸 Screenshot: /tmp/browse-1704614400.png
-# 🔴 Console Errors (2): ...
-# 🌐 Failed Requests (1): ...
-# 📊 Network: 34 requests | 1.2MB | avg 120ms
-# ✅ Page: "Example" loaded successfully
-```
-
-Session auto-starts. No setup needed.
-
----
-
-## Commands
-
-### Primary - Navigate with Diagnostics
-
-```bash
-bun run Browse.ts <url>
-```
-
-Navigates to URL, takes screenshot, and reports:
-- Console errors and warnings
-- Failed network requests (4xx, 5xx)
-- Network statistics
-- Page load status
-
-### Query Commands
-
-```bash
+# Query commands
 bun run Browse.ts errors      # Console errors only
-bun run Browse.ts warnings    # Console warnings only
-bun run Browse.ts console     # All console output
-bun run Browse.ts network     # All network activity
-bun run Browse.ts failed      # Failed requests only (4xx, 5xx)
-```
+bun run Browse.ts network     # Network activity
+bun run Browse.ts failed      # Failed requests (4xx, 5xx)
 
-### Interaction Commands
-
-```bash
-bun run Browse.ts click <selector>           # Click element
-bun run Browse.ts fill <selector> <value>    # Fill input
-bun run Browse.ts type <selector> <text>     # Type with delay
-bun run Browse.ts screenshot [path]          # Take screenshot
-bun run Browse.ts navigate <url>             # Navigate without report
-bun run Browse.ts eval "<javascript>"        # Execute JavaScript
-bun run Browse.ts open <url>                 # Open in user's preferred browser (from tech stack prefs)
-```
-
-### Management Commands
-
-```bash
-bun run Browse.ts status      # Session info
-bun run Browse.ts restart     # Fresh session (clears logs)
-bun run Browse.ts stop        # Stop session (rarely needed)
+# Interaction
+bun run Browse.ts click <selector>
+bun run Browse.ts fill <selector> <value>
+bun run Browse.ts screenshot [path]
+bun run Browse.ts eval "<javascript>"
 ```
 
 ---
 
-## Debugging Workflow
+## Decision Guide
 
-**Scenario: "Why isn't the user list loading?"**
-
-```bash
-# Step 1: Load the page
-$ bun run Browse.ts https://myapp.com/users
-
-📸 Screenshot: /tmp/browse-xxx.png
-
-🔴 Console Errors (1):
-   • TypeError: Cannot read property 'map' of undefined
-
-🌐 Failed Requests (1):
-   • GET /api/users → 500 Internal Server Error
-
-📊 Network: 23 requests | 847KB | avg 89ms
-⚠️ Page: "Users" loaded with issues
-```
-
-**Immediately know:**
-1. API returning 500
-2. Frontend JS crashing because no data
-3. Specific error location
-
-**Step 2: Dig deeper**
-
-```bash
-# Full console output
-$ bun run Browse.ts console
-
-# All network activity
-$ bun run Browse.ts network
-
-# Just the failures
-$ bun run Browse.ts failed
-```
-
----
-
-## Architecture
-
-### Auto-Start Session
-
-First command auto-starts a persistent browser session:
-
-```
-Any command → ensureSession() → Session running?
-                                    ├─ Yes → Execute command
-                                    └─ No → Start session → Execute command
-```
-
-No explicit `session start` needed.
-
-### Always-On Event Capture
-
-From the moment the browser launches:
-- **Console logs** - All `console.log`, `console.error`, etc.
-- **Network requests** - Every request with headers, timing, size
-- **Network responses** - Status codes, response times, sizes
-- **Page errors** - Uncaught exceptions, promise rejections
-
-### Idle Timeout
-
-Session auto-closes after 30 minutes of inactivity:
-- No zombie processes
-- No manual cleanup needed
-- Restarts automatically on next command
-
----
-
-## Comparison to v1.x
-
-| Aspect | v1.x | v2.0.0 |
-|--------|------|--------|
-| Session management | Manual `session start/stop` | Automatic |
-| Console capture | Only in session mode | Always |
-| Network capture | Only in session mode | Always |
-| Error visibility | Must query explicitly | Default in output |
-| Idle cleanup | Manual stop | Auto 30-min timeout |
-| Primary command | `screenshot <url>` | `<url>` (full diagnostic) |
-
----
-
-## API Reference
-
-### CLI Tool
-
-**Location:** `~/.claude/skills/Browser/Tools/Browse.ts`
-
-| Command | Description |
-|---------|-------------|
-| `<url>` | Navigate with full diagnostics |
-| `errors` | Show console errors |
-| `warnings` | Show console warnings |
-| `console` | Show all console output |
-| `network` | Show network activity |
-| `failed` | Show failed requests |
-| `screenshot [path]` | Take screenshot |
-| `navigate <url>` | Navigate without report |
-| `click <selector>` | Click element |
-| `fill <sel> <val>` | Fill input |
-| `type <sel> <text>` | Type with delay |
-| `eval "<js>"` | Execute JavaScript |
-| `open <url>` | Open in user's preferred browser (tech stack prefs) |
-| `status` | Session info |
-| `restart` | Fresh session |
-| `stop` | Stop session |
-
-### Server Endpoints
-
-**Location:** `~/.claude/skills/Browser/Tools/BrowserSession.ts`
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/diagnostics` | GET | Full diagnostic summary |
-| `/console` | GET | Console logs |
-| `/network` | GET | Network logs |
-| `/health` | GET | Health check |
-| `/session` | GET | Session info |
-| `/navigate` | POST | Navigate (clears logs) |
-| `/click` | POST | Click element |
-| `/fill` | POST | Fill input |
-| `/screenshot` | POST | Take screenshot |
-| `/evaluate` | POST | Run JavaScript |
-| `/stop` | POST | Stop server |
-
----
-
-## TypeScript API
-
-For complex automation, use the TypeScript API directly:
-
-```typescript
-import { PlaywrightBrowser } from '~/.claude/skills/Browser/index.ts'
-
-const browser = new PlaywrightBrowser()
-await browser.launch({ headless: true })
-await browser.navigate('https://example.com')
-
-// Get diagnostics
-const errors = browser.getConsoleLogs({ type: 'error' })
-const failed = browser.getNetworkLogs({ status: [400, 404, 500] })
-const stats = browser.getNetworkStats()
-
-await browser.close()
-```
-
-**Full API:** See `index.ts` for all methods.
+| Task | Use |
+|------|-----|
+| Navigate and interact with a page | `playwright-cli` |
+| Fill forms, click buttons | `playwright-cli` |
+| Screenshot a page | `playwright-cli screenshot` |
+| Test web application flows | `playwright-cli` |
+| Debug "why isn't this loading?" | `Browse.ts <url>` (full diagnostics) |
+| Capture all console errors in a session | `Browse.ts` |
+| Network request analysis | `playwright-cli network` or `Browse.ts network` |
+| Multi-project sessions | `playwright-cli -s=<name>` |
 
 ---
 
@@ -278,11 +178,13 @@ await browser.close()
 **MANDATORY for verifying web changes:**
 
 ```bash
-# Before claiming any web change is "live" or "working":
-bun run Browse.ts https://example.com/changed-page
+# Quick verify with playwright-cli
+playwright-cli open https://example.com/changed-page
+playwright-cli screenshot
+playwright-cli console    # check for errors
 
-# Check the screenshot AND diagnostics
-# If errors or failed requests exist, the change is NOT verified
+# Deep verify with Browse.ts (full diagnostics)
+bun run Browse.ts https://example.com/changed-page
 ```
 
 **If you haven't LOOKED at the rendered page and its diagnostics, you CANNOT claim it works.**
