@@ -854,16 +854,16 @@
     }
   },
   "counts": {
-    "skills": 46,
-    "workflows": 162,
+    "skills": 47,
+    "workflows": 163,
     "hooks": 20,
-    "signals": 223,
+    "signals": 239,
     "files": 38,
-    "work": 142,
+    "work": 165,
     "sessions": 15,
     "research": 0,
-    "ratings": 223,
-    "updatedAt": "2026-03-07T16:23:01.752Z"
+    "ratings": 239,
+    "updatedAt": "2026-03-08T21:24:41.085Z"
   },
   "effortLevel": "low"
 }
