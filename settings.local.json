@@ -9,7 +9,8 @@
       "mcp__n8n-mcp__n8n_test_workflow",
       "mcp__n8n-mcp__get_node",
       "mcp__playwright__browser_navigate",
-      "mcp__playwright__browser_install"
+      "mcp__playwright__browser_install",
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate"
     ]
   },
   "spinnerTipsEnabled": true
