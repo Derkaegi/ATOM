@@ -13,8 +13,9 @@
  *
  * Config in ~/.env:
  *   WEATHER_LOCATION=Barcelona
- *   GOOGLE_OAUTH_REFRESH_TOKEN / CLIENT_ID / CLIENT_SECRET
  *   NOTION_TOKEN
+ *
+ * Calendar via gws CLI (~/.local/bin/gws) — no OAuth tokens needed.
  *   NTFY_TOPIC / TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID
  *   GMAIL_USER / GMAIL_APP_PASSWORD / GMAIL_RECIPIENT
  */
@@ -51,22 +52,6 @@ const WEATHER_LOCATIONS: string[] = locationOverride
   ? [locationOverride]
   : (env.WEATHER_LOCATIONS ?? env.WEATHER_LOCATION ?? "Barcelona").split(",").map(s => s.trim()).filter(Boolean);
 const NOTION_DB = "231f11fc-6655-80e8-8f51-d9ba5b7293b5";
-
-// ─── Get Google access token ──────────────────────────────────────────────────
-async function getAccessToken(): Promise<string> {
-  const res = await fetch("https://oauth2.googleapis.com/token", {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: new URLSearchParams({
-      client_id: env.GOOGLE_OAUTH_CLIENT_ID,
-      client_secret: env.GOOGLE_OAUTH_CLIENT_SECRET,
-      refresh_token: env.GOOGLE_OAUTH_REFRESH_TOKEN,
-      grant_type: "refresh_token",
-    }),
-  });
-  const data = await res.json() as { access_token: string };
-  return data.access_token;
-}
 
 // ─── Weather via open-meteo + nominatim geocoding ────────────────────────────
 // WMO weather code → description + icon
@@ -146,62 +131,45 @@ async function getAllWeather(): Promise<string> {
   return results.join("\n\n");
 }
 
-// ─── Google Calendar events today ────────────────────────────────────────────
+// ─── Google Calendar events today (via gws CLI) ───────────────────────────────
 interface CalEvent {
   summary?: string;
   start?: { dateTime?: string; date?: string };
   location?: string;
 }
 
-async function getTodayEvents(accessToken: string): Promise<string> {
+function getTodayEvents(): string {
   try {
     const today = new Date();
     const timeMin = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 0, 0, 0).toISOString();
     const timeMax = new Date(today.getFullYear(), today.getMonth(), today.getDate(), 23, 59, 59).toISOString();
-    const headers = { Authorization: `Bearer ${accessToken}` };
 
-    // Fetch all calendars first
-    const listRes = await fetch("https://www.googleapis.com/calendar/v3/users/me/calendarList", { headers });
-    const listData = await listRes.json() as { items?: Array<{ id: string; summary: string; selected?: boolean }> };
-    // Include all calendars — output only shows ones with events that day
-    const calendars = listData.items ?? [];
+    const result = spawnSync(
+      `${process.env.HOME}/.local/bin/gws`,
+      ["calendar", "events", "list",
+        "--params", JSON.stringify({
+          calendarId: "primary",
+          singleEvents: true,
+          orderBy: "startTime",
+          timeMin,
+          timeMax,
+          maxResults: 20,
+        }),
+        "--format", "json",
+      ],
+      { encoding: "utf-8", timeout: 15_000 }
+    );
 
-    // Query all calendars in parallel
-    const allEvents: Array<CalEvent & { calendarName: string }> = [];
-    await Promise.all(calendars.map(async cal => {
-      try {
-        const url = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(cal.id)}/events`);
-        url.searchParams.set("timeMin", timeMin);
-        url.searchParams.set("timeMax", timeMax);
-        url.searchParams.set("singleEvents", "true");
-        url.searchParams.set("orderBy", "startTime");
-        url.searchParams.set("maxResults", "20");
-        const res = await fetch(url.toString(), { headers });
-        const data = await res.json() as { items?: CalEvent[] };
-        for (const e of data.items ?? []) {
-          allEvents.push({ ...e, calendarName: cal.summary });
-        }
-      } catch {}
-    }));
-
-    // Sort by start time
-    allEvents.sort((a, b) => {
-      const ta = a.start?.dateTime ?? a.start?.date ?? "";
-      const tb = b.start?.dateTime ?? b.start?.date ?? "";
-      return ta.localeCompare(tb);
-    });
-
-    if (allEvents.length === 0) return "📭 No events today — free day!";
-
-    // Group by calendar
-    const byCalendar = new Map<string, Array<CalEvent & { calendarName: string }>>();
-    for (const e of allEvents) {
-      const key = e.calendarName;
-      if (!byCalendar.has(key)) byCalendar.set(key, []);
-      byCalendar.get(key)!.push(e);
+    if (result.status !== 0) {
+      return `❌ Calendar unavailable: ${result.stderr || "gws error"}`;
     }
 
-    const formatEvent = (e: CalEvent & { calendarName: string }) => {
+    const data = JSON.parse(result.stdout) as { items?: CalEvent[] };
+    const events = data.items ?? [];
+
+    if (events.length === 0) return "📭 No events today — free day!";
+
+    const lines = events.map(e => {
       const startRaw = e.start?.dateTime ?? e.start?.date ?? "";
       let timeStr = "All day";
       if (startRaw.includes("T")) {
@@ -209,14 +177,9 @@ async function getTodayEvents(accessToken: string): Promise<string> {
       }
       const loc = e.location ? `  📍 ${e.location}` : "";
       return `  ${timeStr}  ${e.summary ?? "(no title)"}${loc}`;
-    };
+    });
 
-    const sections: string[] = [];
-    for (const [calName, events] of byCalendar) {
-      const eventLines = events.map(formatEvent).join("\n");
-      sections.push(`📅 ${calName}\n${eventLines}`);
-    }
-    return sections.join("\n\n");
+    return `📅 Calendar\n${lines.join("\n")}`;
   } catch (e) {
     return `❌ Calendar unavailable: ${e}`;
   }
@@ -392,15 +355,14 @@ const shortDate = now.toLocaleDateString("en-US", { weekday: "short", month: "sh
 
 console.log(`📋 Fetching briefing for ${dateStr}...`);
 
-// Parallel: access token + weather + notion tasks
-const [accessToken, weatherText, tasks] = await Promise.all([
-  getAccessToken(),
+// Parallel: weather + notion tasks
+const [weatherText, tasks] = await Promise.all([
   getAllWeather(),
   getNotionTasks(),
 ]);
 
-// Calendar needs the access token from step above
-const calendarText = await getTodayEvents(accessToken);
+// Calendar via gws CLI (synchronous)
+const calendarText = getTodayEvents();
 
 // ─── Compose two versions ─────────────────────────────────────────────────────
 const divider = "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━";

@@ -1,4 +1,7 @@
 #!/usr/bin/env bun
+// DEPRECATED: Use gws CLI (~/.local/bin/gws) for all Google Gmail operations.
+// Auth: ~/.config/gws/credentials.enc
+// Guide: ~/Documents/MONAD/03-REPORTS/ATOM-Tasks/2026-03-07-gws-cli-setup-and-guide.md
 /**
  * GmailAuth.ts — One-time OAuth flow for Gmail read access
  * Saves GOOGLE_GMAIL_REFRESH_TOKEN to ~/.env

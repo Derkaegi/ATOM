@@ -1,4 +1,7 @@
 #!/usr/bin/env bun
+// DEPRECATED: Use gws CLI (~/.local/bin/gws) for all Google Calendar operations.
+// Auth: ~/.config/gws/credentials.enc
+// Guide: ~/Documents/MONAD/03-REPORTS/ATOM-Tasks/2026-03-07-gws-cli-setup-and-guide.md
 /**
  * CalendarAuth.ts — One-time OAuth flow for Google Calendar read access
  * Saves GOOGLE_OAUTH_REFRESH_TOKEN to ~/.env
