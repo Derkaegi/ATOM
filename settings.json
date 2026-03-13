@@ -696,6 +696,7 @@
       "Hydrogen-Sonata-playing"
     ]
   },
+  "effortLevel": "medium",
   "plansDirectory": "~/.claude/Plans/",
   "teammateMode": "in-process",
   "contextFiles": [
@@ -857,13 +858,12 @@
     "skills": 47,
     "workflows": 163,
     "hooks": 20,
-    "signals": 257,
+    "signals": 263,
     "files": 38,
-    "work": 186,
-    "sessions": 16,
+    "work": 193,
+    "sessions": 17,
     "research": 0,
-    "ratings": 257,
-    "updatedAt": "2026-03-12T20:07:39.273Z"
-  },
-  "effortLevel": "low"
+    "ratings": 263,
+    "updatedAt": "2026-03-13T15:56:02.191Z"
+  }
 }
