@@ -707,7 +707,7 @@
   ],
   "daidentity": {
     "name": "ATOM",
-    "fullName": "ATOM — Personal AI",
+    "fullName": "ATOM \u2014 Personal AI",
     "displayName": "ATOM",
     "color": "#3B82F6",
     "voices": {
@@ -765,7 +765,8 @@
   },
   "pai": {
     "repoUrl": "github.com/danielmiessler/PAI",
-    "version": "3.0"
+    "version": "4.0.3",
+    "algorithmVersion": "3.7.0"
   },
   "contextDisplay": {
     "compactionThreshold": 83,

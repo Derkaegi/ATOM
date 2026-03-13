@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Web Server
+ * PAI Installer v4.0 — Web Server
  * Bun HTTP + WebSocket server for the thick-client web installer.
  * Serves static files and handles WebSocket communication.
  */

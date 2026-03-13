@@ -1,6 +1,6 @@
 #!/usr/bin/env bun
 /**
- * PAI Installer v3.0 — Welcome MP3 Generator
+ * PAI Installer v4.0 — Welcome MP3 Generator
  * Uses ElevenLabs API to generate the welcome audio with a voice clone.
  *
  * Usage: bun generate-welcome.ts

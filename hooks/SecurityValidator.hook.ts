@@ -156,6 +156,7 @@ interface PatternsConfig {
     principle: string;
   };
   bash: {
+    trusted: Pattern[];
     blocked: Pattern[];
     confirm: Pattern[];
     alert: Pattern[];
@@ -177,10 +178,10 @@ interface PatternsConfig {
 // ========================================
 
 // Pattern paths in priority order:
-// 1. skills/PAI/USER/PAISECURITYSYSTEM/patterns.yaml (user's custom rules)
-// 2. skills/PAI/PAISECURITYSYSTEM/patterns.example.yaml (default template)
-const USER_PATTERNS_PATH = paiPath('skills', 'PAI', 'USER', 'PAISECURITYSYSTEM', 'patterns.yaml');
-const SYSTEM_PATTERNS_PATH = paiPath('skills', 'PAI', 'PAISECURITYSYSTEM', 'patterns.example.yaml');
+// 1. PAI/USER/PAISECURITYSYSTEM/patterns.yaml (user's custom rules)
+// 2. PAI/PAISECURITYSYSTEM/patterns.example.yaml (default template)
+const USER_PATTERNS_PATH = paiPath('PAI', 'USER', 'PAISECURITYSYSTEM', 'patterns.yaml');
+const SYSTEM_PATTERNS_PATH = paiPath('PAI', 'PAISECURITYSYSTEM', 'patterns.example.yaml');
 
 let patternsCache: PatternsConfig | null = null;
 let patternsSource: 'user' | 'system' | 'none' = 'none';
@@ -213,7 +214,7 @@ function loadPatterns(): PatternsConfig {
     return {
       version: '0.0',
       philosophy: { mode: 'permissive', principle: 'No patterns loaded - fail open' },
-      bash: { blocked: [], confirm: [], alert: [] },
+      bash: { trusted: [], blocked: [], confirm: [], alert: [] },
       paths: { zeroAccess: [], readOnly: [], confirmWrite: [], noDelete: [] },
       projects: {}
     };
@@ -229,11 +230,27 @@ function loadPatterns(): PatternsConfig {
     return {
       version: '0.0',
       philosophy: { mode: 'permissive', principle: 'Parse error - fail open' },
-      bash: { blocked: [], confirm: [], alert: [] },
+      bash: { trusted: [], blocked: [], confirm: [], alert: [] },
       paths: { zeroAccess: [], readOnly: [], confirmWrite: [], noDelete: [] },
       projects: {}
     };
   }
+}
+
+// ========================================
+// Command Normalization
+// ========================================
+
+/**
+ * Strip leading environment variable assignments from a command.
+ * Prevents bypass like: LANG=C rm -rf / or FOO="bar" dangerous-cmd
+ * Also strips leading whitespace.
+ */
+function stripEnvVarPrefix(command: string): string {
+  return command.replace(
+    /^\s*(?:[A-Za-z_][A-Za-z0-9_]*=(?:"[^"]*"|'[^']*'|[^\s]*)\s+)*/,
+    ''
+  );
 }
 
 // ========================================
@@ -293,6 +310,13 @@ function matchesPathPattern(filePath: string, pattern: string): boolean {
 
 function validateBashCommand(command: string): { action: 'allow' | 'block' | 'confirm' | 'alert'; reason?: string } {
   const patterns = loadPatterns();
+
+  // Check trusted patterns FIRST (fast-path allow, no logging)
+  for (const p of (patterns.bash.trusted || [])) {
+    if (matchesPattern(command, p.pattern)) {
+      return { action: 'allow' };
+    }
+  }
 
   // Check blocked patterns (hard block)
   for (const p of patterns.bash.blocked) {
@@ -369,15 +393,17 @@ function validatePath(filePath: string, action: PathAction): { action: 'allow' |
 // ========================================
 
 function handleBash(input: HookInput): void {
-  const command = typeof input.tool_input === 'string'
+  const rawCommand = typeof input.tool_input === 'string'
     ? input.tool_input
     : (input.tool_input?.command as string) || '';
 
-  if (!command) {
+  if (!rawCommand) {
     console.log(JSON.stringify({ continue: true }));
     return;
   }
 
+  // Normalize: strip env var prefixes to prevent bypass (e.g., LANG=C rm -rf /)
+  const command = stripEnvVarPrefix(rawCommand);
   const result = validateBashCommand(command);
 
   switch (result.action) {
@@ -435,7 +461,7 @@ function handleBash(input: HookInput): void {
   }
 }
 
-function handleEdit(input: HookInput): void {
+function handleFileWrite(input: HookInput, toolName: string): void {
   const filePath = typeof input.tool_input === 'string'
     ? input.tool_input
     : (input.tool_input?.file_path as string) || '';
@@ -453,7 +479,7 @@ function handleEdit(input: HookInput): void {
         timestamp: new Date().toISOString(),
         session_id: input.session_id,
         event_type: 'block',
-        tool: 'Edit',
+        tool: toolName,
         category: 'path_access',
         target: filePath,
         reason: result.reason,
@@ -469,58 +495,7 @@ function handleEdit(input: HookInput): void {
         timestamp: new Date().toISOString(),
         session_id: input.session_id,
         event_type: 'confirm',
-        tool: 'Edit',
-        category: 'path_access',
-        target: filePath,
-        reason: result.reason,
-        action_taken: 'Prompted user for confirmation'
-      });
-      console.log(JSON.stringify({
-        decision: 'ask',
-        message: `[PAI SECURITY] ⚠️ ${result.reason}\n\nPath: ${filePath}\n\nProceed?`
-      }));
-      break;
-
-    default:
-      console.log(JSON.stringify({ continue: true }));
-  }
-}
-
-function handleWrite(input: HookInput): void {
-  const filePath = typeof input.tool_input === 'string'
-    ? input.tool_input
-    : (input.tool_input?.file_path as string) || '';
-
-  if (!filePath) {
-    console.log(JSON.stringify({ continue: true }));
-    return;
-  }
-
-  const result = validatePath(filePath, 'write');
-
-  switch (result.action) {
-    case 'block':
-      logSecurityEvent({
-        timestamp: new Date().toISOString(),
-        session_id: input.session_id,
-        event_type: 'block',
-        tool: 'Write',
-        category: 'path_access',
-        target: filePath,
-        reason: result.reason,
-        action_taken: 'Hard block - exit 2'
-      });
-      console.error(`[PAI SECURITY] 🚨 BLOCKED: ${result.reason}`);
-      console.error(`Path: ${filePath}`);
-      process.exit(2);
-      break;
-
-    case 'confirm':
-      logSecurityEvent({
-        timestamp: new Date().toISOString(),
-        session_id: input.session_id,
-        event_type: 'confirm',
-        tool: 'Write',
+        tool: toolName,
         category: 'path_access',
         target: filePath,
         reason: result.reason,
@@ -579,20 +554,37 @@ async function main(): Promise<void> {
   let input: HookInput;
 
   try {
-    // Fast stdin read with timeout
-    const text = await Promise.race([
-      Bun.stdin.text(),
-      new Promise<string>((_, reject) =>
-        setTimeout(() => reject(new Error('timeout')), 100)
-      )
-    ]);
+    // Streaming stdin read with hard timeout.
+    // Bun.stdin.text() can hang forever if stdin never closes (known Bun issue).
+    // Use streaming reader + setTimeout that forces process.exit on timeout.
+    const reader = Bun.stdin.stream().getReader();
+    let raw = '';
+    const readLoop = (async () => {
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        raw += new TextDecoder().decode(value, { stream: true });
+      }
+    })();
 
-    if (!text.trim()) {
+    // Hard timeout: if stdin doesn't close in 200ms, exit the process.
+    // setTimeout keeps the event loop alive, so we use process.exit to force cleanup.
+    const timeout = setTimeout(() => {
+      if (!raw.trim()) {
+        console.log(JSON.stringify({ continue: true }));
+        process.exit(0);
+      }
+    }, 200);
+
+    await Promise.race([readLoop, new Promise<void>(r => setTimeout(r, 200))]);
+    clearTimeout(timeout);
+
+    if (!raw.trim()) {
       console.log(JSON.stringify({ continue: true }));
       return;
     }
 
-    input = JSON.parse(text);
+    input = JSON.parse(raw);
   } catch {
     // Parse error or timeout - fail open
     console.log(JSON.stringify({ continue: true }));
@@ -606,10 +598,10 @@ async function main(): Promise<void> {
       break;
     case 'Edit':
     case 'MultiEdit':
-      handleEdit(input);
+      handleFileWrite(input, input.tool_name);
       break;
     case 'Write':
-      handleWrite(input);
+      handleFileWrite(input, 'Write');
       break;
     case 'Read':
       handleRead(input);

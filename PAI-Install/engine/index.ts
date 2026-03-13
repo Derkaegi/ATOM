@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Engine Entry Point
+ * PAI Installer v4.0 — Engine Entry Point
  * Re-exports all engine modules for convenient importing.
  */
 

@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — API Routes
+ * PAI Installer v4.0 — API Routes
  * HTTP + WebSocket API for the web installer.
  */
 

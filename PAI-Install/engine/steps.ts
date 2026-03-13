@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Step Definitions
+ * PAI Installer v4.0 — Step Definitions
  * Defines the 8 installation steps, their dependencies, and conditions.
  */
 

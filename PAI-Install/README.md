@@ -1,4 +1,4 @@
-# PAI Installer v3.0
+# PAI Installer v4.0
 
 > Install [PAI (Personal AI Infrastructure)](https://github.com/danielmiessler/PAI) with a single command.
 
@@ -171,7 +171,7 @@ Client                          Server
   │                               │
   │←──────── input_request ───────┤  ("What is your name?")
   ├── user_input ────────────────→│
-  │←──────────── message ─────────┤  ("Welcome, Daniel!")
+  │←──────────── message ─────────┤  ("Welcome, {PRINCIPAL.NAME}!")
   │                               │
   │←──────── choice_request ──────┤  ("Select voice type")
   ├── user_choice ───────────────→│
@@ -213,7 +213,7 @@ This ensures fresh installs get the full PAI configuration without the installer
 |------|----------|----------|
 | `settings.json` | `~/.claude/settings.json` | Merged config (template + user fields) |
 | `.env` | `~/.config/PAI/.env` | `ELEVENLABS_API_KEY=...` |
-| `LATEST` | `~/.claude/skills/PAI/Components/Algorithm/LATEST` | Algorithm version (patched to current) |
+| `LATEST` | `~/.claude/PAI/Algorithm/LATEST` | Algorithm version (patched to current) |
 | Shell alias | `~/.zshrc` | `alias pai='cd ~/.claude && claude'` |
 
 ### Directory Structure Created
@@ -239,7 +239,7 @@ On first launch after installation, the PAI banner displays system statistics (s
 1. **Calculated by the installer** during the Configuration step (initial values)
 2. **Updated by the StopOrchestrator hook** at the end of each Claude Code session
 
-The Algorithm version displayed in the banner reads from `skills/PAI/Components/Algorithm/LATEST`.
+The Algorithm version displayed in the banner reads from `PAI/Algorithm/LATEST`.
 
 ---
 
@@ -279,7 +279,7 @@ This reloads your shell config (activates the `pai` alias) and launches PAI for 
 | Permission denied | Run `chmod -R 755 ~/.claude` |
 | `pai` command not found | Run `source ~/.zshrc` to reload shell config |
 | Voice server won't start | Check port 8888 is free: `lsof -ti:8888`. Kill any process using it. |
-| Banner shows wrong algorithm version | Check `~/.claude/skills/PAI/Components/Algorithm/LATEST` contains correct version |
+| Banner shows wrong algorithm version | Check `~/.claude/PAI/Algorithm/LATEST` contains correct version |
 | Banner counts all show 0 | Normal on first launch — counts populate after your first Claude Code session ends |
 | WebSocket "Connection lost" | The installer auto-reconnects. If persistent, check if another process is using port 1337 |
 | Electron window blank | Try `--mode web` instead and open `http://localhost:1337` in your browser |

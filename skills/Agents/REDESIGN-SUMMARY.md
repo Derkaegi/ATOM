@@ -65,12 +65,12 @@ Example: `ArchitectContext.md`
 **Model**: opus
 
 ## Required Knowledge (Pre-load from Skills)
-- **skills/PAI/CONSTITUTION.md** - Foundational principles
-- **skills/PAI/CoreStack.md** - Stack preferences
+- **PAI/CONSTITUTION.md** - Foundational principles
+- **PAI/CoreStack.md** - Stack preferences
 
 ## Task-Specific Knowledge
 - **api** → skills/Development/References/APIDesign.md
-- **security** → skills/PAI/SecurityProtocols.md
+- **security** → PAI/SecurityProtocols.md
 ```
 
 ### 2. Simple Loader Reads Context

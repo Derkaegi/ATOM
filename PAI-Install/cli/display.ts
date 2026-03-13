@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — CLI Display Helpers
+ * PAI Installer v4.0 — CLI Display Helpers
  * ANSI colors, progress bars, banners, and formatted output.
  */
 
@@ -73,14 +73,14 @@ export function printBanner(): void {
   print(`                     ${c.italic}${c.lightBlue}"Magnifying human capabilities..."${c.reset}`);
   print("");
   print("");
-  print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.gray}"${c.reset}${c.lightBlue}Kai here, ready to go${c.reset}${c.gray}..."${c.reset}`);
+  print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.gray}"${c.reset}${c.lightBlue}{DAIDENTITY.NAME} here, ready to go${c.reset}${c.gray}..."${c.reset}`);
   print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${bar}`);
-  print(`           ${c.navy}████${c.reset}        ${c.navy}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.navy}⬢${c.reset}  ${c.gray}PAI${c.reset}       ${c.silver}v3.0${c.reset}`);
-  print(`           ${c.navy}████${c.reset}        ${c.navy}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.navy}⚙${c.reset}  ${c.gray}Algo${c.reset}      ${c.silver}v1.4.0${c.reset}`);
-  print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.lightBlue}✦${c.reset}  ${c.gray}Installer${c.reset} ${c.silver}v3.0${c.reset}`);
+  print(`           ${c.navy}████${c.reset}        ${c.navy}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.navy}⬢${c.reset}  ${c.gray}PAI v4.0.3${c.reset}`);
+  print(`           ${c.navy}████${c.reset}        ${c.navy}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.navy}⚙${c.reset}  ${c.gray}Algo${c.reset}      ${c.silver}v3.7.0${c.reset}`);
+  print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.lightBlue}✦${c.reset}  ${c.gray}Installer${c.reset} ${c.silver}v4.0${c.reset}`);
   print(`           ${c.navy}████████████████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${bar}`);
   print(`           ${c.navy}████${c.reset}        ${c.blue}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}`);
-  print(`           ${c.navy}████${c.reset}        ${c.blue}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.yellow}⚠  Alpha — rough edges expected${c.reset}`);
+  print(`           ${c.navy}████${c.reset}        ${c.blue}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}  ${c.lightBlue}✦  Lean and Mean${c.reset}`);
   print(`           ${c.navy}████${c.reset}        ${c.blue}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}`);
   print(`           ${c.navy}████${c.reset}        ${c.blue}████${c.reset}${c.lightBlue}████${c.reset}   ${sep}`);
   print("");

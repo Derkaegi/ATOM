@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Frontend Application
+ * PAI Installer v4.0 — Frontend Application
  * Vanilla JavaScript — no framework dependencies.
  * Handles WebSocket communication, UI rendering, and state management.
  */

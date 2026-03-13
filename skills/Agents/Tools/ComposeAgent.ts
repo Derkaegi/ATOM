@@ -8,7 +8,7 @@
  *
  * Configuration files:
  *   Base:  ~/.claude/skills/Agents/Data/Traits.yaml
- *   User:  ~/.claude/skills/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
+ *   User:  ~/.claude/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
  *
  * Usage:
  *   # Infer traits from task description
@@ -35,7 +35,7 @@ import Handlebars from "handlebars";
 // Paths
 const HOME = process.env.HOME || "~";
 const BASE_TRAITS_PATH = `${HOME}/.claude/skills/Agents/Data/Traits.yaml`;
-const USER_TRAITS_PATH = `${HOME}/.claude/skills/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml`;
+const USER_TRAITS_PATH = `${HOME}/.claude/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml`;
 const TEMPLATE_PATH = `${HOME}/.claude/skills/Agents/Templates/DynamicAgent.hbs`;
 const CUSTOM_AGENTS_DIR = `${HOME}/.claude/custom-agents`;
 
@@ -678,13 +678,13 @@ curl -X POST http://localhost:8888/notify \\
 - Message should be your 🎯 COMPLETED line (8-16 words optimal)
 - Must be grammatically correct and speakable
 - Send BEFORE writing your response
-- DO NOT SKIP - the principal needs to hear you speak
+- DO NOT SKIP - {PRINCIPAL.NAME} needs to hear you speak
 
 ---
 
 ## 🚨 MANDATORY OUTPUT FORMAT
 
-**USE THE PAI FORMAT FOR ALL RESPONSES:**
+**USE THE PAI FORMAT FROM PAI FOR ALL RESPONSES:**
 
 \`\`\`
 📋 SUMMARY: [One sentence - what this response is about]
@@ -891,7 +891,7 @@ OPTIONS:
 
 CONFIGURATION:
   Base traits:    ~/.claude/skills/Agents/Data/Traits.yaml
-  User traits:    ~/.claude/skills/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
+  User traits:    ~/.claude/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
   Custom agents:  ~/.claude/custom-agents/
 
   User traits are merged over base (user takes priority).

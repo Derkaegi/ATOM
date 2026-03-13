@@ -1,9 +1,6 @@
 ---
 name: Research
-description: Comprehensive research, analysis, and content extraction system. USE WHEN user says 'research' (ANY form - this is the MANDATORY trigger), 'do research', 'extensive research', 'quick research', 'minor research', 'research this', 'find information', 'investigate', 'extract wisdom', 'extract alpha', 'analyze content', 'can't get this content', 'use fabric', OR requests any web/content research. Supports three research modes (quick/standard/extensive), deep content analysis, intelligent retrieval, and 242+ Fabric patterns. NOTE: For due diligence, OSINT, or background checks, use OSINT skill instead.
-implements: Science
-science_cycle_time: meso
-context: fork
+description: Comprehensive research and content extraction — quick/standard/extensive/deep modes with multi-agent parallel research, content retrieval, AI trends analysis, and 242+ Fabric patterns. USE WHEN research, do research, quick research, extensive research, deep investigation, find information, investigate, extract alpha, analyze content, retrieve content, use fabric, AI trends, Claude research, enhance content, extract knowledge, interview research, web scraping, YouTube extraction, standard research.
 ---
 
 ## ⚠️ MANDATORY TRIGGER
@@ -22,7 +19,7 @@ context: fork
 ## Customization
 
 **Before executing, check for user customizations at:**
-`~/.claude/skills/PAI/USER/SKILLCUSTOMIZATIONS/Research/`
+`~/.claude/PAI/USER/SKILLCUSTOMIZATIONS/Research/`
 
 If this directory exists, load and apply any PREFERENCES.md, configurations, or resources found there. These override default behavior. If the directory does not exist, proceed with skill defaults.
 
@@ -150,9 +147,9 @@ See `Workflows/DeepInvestigation.md` for full workflow details.
 
 ## File Organization
 
-**Scratch (temporary work artifacts):** `~/.claude/MEMORY/WORK/{current_work}/scratch/`
+**Working files (temporary work artifacts):** `~/.claude/MEMORY/WORK/{current_work}/`
 - Read `~/.claude/MEMORY/STATE/current-work.json` to get the `work_dir` value
-- All iterative work artifacts go in the current work item's scratch/ subdirectory
+- All iterative work artifacts go in the current work item directory
 - This ties research artifacts to the work item for learning and context
 
 **History (permanent):** `~/.claude/History/research/YYYY-MM/YYYY-MM-DD_[topic]/`

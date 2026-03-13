@@ -6,7 +6,7 @@
  * Banner and statusline then read from settings.json (instant, no execution).
  *
  * ARCHITECTURE:
- * Stop hook → UpdateCounts → settings.json
+ * SessionEnd hook → UpdateCounts → settings.json
  * Session start → Banner reads settings.json (instant)
  * Session start → Statusline reads settings.json (instant)
  *
@@ -20,6 +20,7 @@ import { readFileSync, writeFileSync, readdirSync, existsSync, statSync } from '
 import { join } from 'path';
 import { execSync } from 'child_process';
 import { getPaiDir, getSettingsPath } from '../lib/paths';
+
 
 interface Counts {
   skills: number;
@@ -86,7 +87,10 @@ function countSkills(paiDir: string): number {
   const skillsDir = join(paiDir, 'skills');
   try {
     for (const entry of readdirSync(skillsDir, { withFileTypes: true })) {
-      if (entry.isDirectory()) {
+      // Handle both real directories and symlinks to directories
+      const isDir = entry.isDirectory() ||
+        (entry.isSymbolicLink() && statSync(join(skillsDir, entry.name)).isDirectory());
+      if (isDir) {
         const skillFile = join(skillsDir, entry.name, 'SKILL.md');
         if (existsSync(skillFile)) {
           count++;
@@ -149,8 +153,8 @@ function getCounts(paiDir: string): Counts {
     skills: countSkills(paiDir),
     workflows: countWorkflowFiles(join(paiDir, 'skills')),
     hooks: countHooks(paiDir),
-    signals: countRatingsLines(ratingsPath),
-    files: countFilesRecursive(join(paiDir, 'skills/PAI/USER')),
+    signals: countFilesRecursive(join(paiDir, 'MEMORY/LEARNING'), '.md'),
+    files: countFilesRecursive(join(paiDir, 'PAI/USER')),
     work: countSubdirs(join(paiDir, 'MEMORY/WORK')),
     sessions: countFilesRecursive(join(paiDir, 'MEMORY'), '.jsonl'),
     research: countFilesRecursive(join(paiDir, 'MEMORY/RESEARCH'), '.md') +
@@ -168,13 +172,19 @@ async function refreshUsageCache(paiDir: string): Promise<void> {
   const usageCachePath = join(paiDir, 'MEMORY/STATE/usage-cache.json');
 
   try {
-    // Extract OAuth token from macOS Keychain
-    const keychainData = execSync(
-      'security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null',
-      { encoding: 'utf-8', timeout: 3000 }
-    ).trim();
+    // Extract OAuth token — macOS Keychain or Linux credentials file
+    let credJson: string;
+    if (process.platform === 'darwin') {
+      credJson = execSync(
+        'security find-generic-password -s "Claude Code-credentials" -w 2>/dev/null',
+        { encoding: 'utf-8', timeout: 3000 }
+      ).trim();
+    } else {
+      const credPath = join(process.env.HOME || '', '.claude', '.credentials.json');
+      credJson = readFileSync(credPath, 'utf-8').trim();
+    }
 
-    const parsed = JSON.parse(keychainData);
+    const parsed = JSON.parse(credJson);
     const token = parsed?.claudeAiOauth?.accessToken;
     if (!token) return;
 
@@ -239,7 +249,7 @@ async function refreshUsageCache(paiDir: string): Promise<void> {
 }
 
 /**
- * Handler called by StopOrchestrator
+ * Handler called by UpdateCounts.hook.ts
  */
 export async function handleUpdateCounts(): Promise<void> {
   const paiDir = getPaiDir();
@@ -258,9 +268,18 @@ export async function handleUpdateCounts(): Promise<void> {
     // Update counts section
     settings.counts = counts;
 
+    // Extract and write Algorithm version from CLAUDE.md
+    try {
+      const claudeMd = readFileSync(join(paiDir, 'CLAUDE.md'), 'utf-8');
+      const algoMatch = claudeMd.match(/Algorithm\/v([\d.]+)\.md/);
+      if (algoMatch) {
+        settings.pai = settings.pai || {};
+        settings.pai.algorithmVersion = algoMatch[1];
+      }
+    } catch {}
+
     // Write back
     writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + '\n');
-
     console.error(`[UpdateCounts] Updated: SK:${counts.skills} WF:${counts.workflows} HK:${counts.hooks} SIG:${counts.signals} F:${counts.files} W:${counts.work} SESS:${counts.sessions} RES:${counts.research} RAT:${counts.ratings}`);
   } catch (error) {
     console.error('[UpdateCounts] Failed to update counts:', error);

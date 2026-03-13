@@ -23,6 +23,11 @@ const KITTY_SESSIONS_DIR = paiPath('MEMORY', 'STATE', 'kitty-sessions');
  * Resolution order:
  * 1. Process env vars (direct terminal context — always correct)
  * 2. Per-session file: kitty-sessions/{sessionId}.json (no shared state, no races)
+ * 3. Default socket at /tmp/kitty-$USER (fallback for socket-only configs)
+ *
+ * IMPORTANT: listenOn MUST be set for remote control to work safely.
+ * Without it, kitten @ commands fall back to escape-sequence IPC which
+ * leaks garbage text into the terminal output. See PR #493.
  */
 function getKittyEnv(sessionId?: string): { listenOn: string | null; windowId: string | null } {
   // Try environment first (direct terminal calls)
@@ -43,9 +48,21 @@ function getKittyEnv(sessionId?: string): { listenOn: string | null; windowId: s
     } catch { /* silent */ }
   }
 
+  // Fallback: check default socket path used by kitty's listen_on config.
+  // This prevents escape-sequence IPC when KITTY_LISTEN_ON isn't propagated
+  // to subprocess contexts (the root cause of terminal garbage in #493).
+  if (!listenOn) {
+    const defaultSocket = `/tmp/kitty-${process.env.USER}`;
+    try {
+      if (existsSync(defaultSocket)) {
+        listenOn = `unix:${defaultSocket}`;
+      }
+    } catch { /* silent */ }
+  }
+
   // Log when kitty env lookup fails with a session ID (diagnostic for compaction issues)
   if (sessionId && !listenOn && !windowId) {
-    console.error(`[tab-setter] getKittyEnv: no kitty env found for session ${sessionId.slice(0, 8)} (no env vars, no session file)`);
+    console.error(`[tab-setter] getKittyEnv: no kitty env found for session ${sessionId.slice(0, 8)} (no env vars, no session file, no default socket)`);
   }
 
   return { listenOn, windowId };
@@ -53,7 +70,7 @@ function getKittyEnv(sessionId?: string): { listenOn: string | null; windowId: s
 
 /**
  * Persist a session's Kitty environment for later hook lookups.
- * Called by StartupGreeting at session start.
+ * Called by KittyEnvPersist at session start.
  *
  * Each session gets its own file: kitty-sessions/{sessionId}.json
  * - No shared mutable state (concurrent session starts are safe)
@@ -100,8 +117,11 @@ function cleanupStaleStateFiles(): void {
     const files = readdirSync(TAB_TITLES_DIR).filter(f => f.endsWith('.json'));
     if (files.length === 0) return;
 
-    // Get live window IDs from kitty
-    const liveOutput = execSync('kitten @ ls 2>/dev/null | jq -r ".[].tabs[].windows[].id" 2>/dev/null', {
+    // Get live window IDs from kitty via socket (prevents escape sequence leaks)
+    const defaultSocket = `/tmp/kitty-${process.env.USER}`;
+    const socketPath = process.env.KITTY_LISTEN_ON || (existsSync(defaultSocket) ? `unix:${defaultSocket}` : null);
+    if (!socketPath) return; // No socket — skip cleanup to avoid escape sequence IPC
+    const liveOutput = execSync(`kitten @ --to="${socketPath}" ls 2>/dev/null | jq -r ".[].tabs[].windows[].id" 2>/dev/null`, {
       encoding: 'utf-8', timeout: 2000,
     }).trim();
     if (!liveOutput) return;
@@ -127,15 +147,22 @@ export function setTabState(opts: SetTabOptions): void {
     const isKitty = process.env.TERM === 'xterm-kitty' || kittyEnv.listenOn;
     if (!isKitty) return;
 
+    // CRITICAL: Always use --to flag for socket-based remote control.
+    // Without it, kitten @ falls back to escape-sequence IPC which leaks
+    // garbage text (e.g. "P@kitty-cmd{...}") into terminal output when
+    // running in subprocess contexts. See PR #493.
+    if (!kittyEnv.listenOn) {
+      console.error(`[tab-setter] No kitty socket available, skipping tab update to prevent escape sequence leaks`);
+      return;
+    }
+
     const escaped = title.replace(/"/g, '\\"');
     // Set BOTH tab title AND window title. Kitty's tab_title_template uses
     // {active_window.title} (the window title). OSC escape codes from Claude Code
     // reset set-tab-title overrides, so the template falls back to window title.
     // By setting both, our title survives OSC resets.
-    //
-    // Use --to flag with KITTY_LISTEN_ON for remote control when not in terminal context
-    const toFlag = kittyEnv.listenOn ? `--to="${kittyEnv.listenOn}"` : '';
-    console.error(`[tab-setter] Setting tab: "${escaped}" with toFlag: ${toFlag || '(none)'}`);
+    const toFlag = `--to="${kittyEnv.listenOn}"`;
+    console.error(`[tab-setter] Setting tab: "${escaped}" with toFlag: ${toFlag}`);
     execSync(`kitten @ ${toFlag} set-tab-title "${escaped}"`, { stdio: 'ignore', timeout: 2000 });
     execSync(`kitten @ ${toFlag} set-window-title "${escaped}"`, { stdio: 'ignore', timeout: 2000 });
 
@@ -192,7 +219,7 @@ export function readTabState(sessionId?: string): { title: string; state: TabSta
   try {
     const statePath = join(TAB_TITLES_DIR, `${windowId}.json`);
     if (!existsSync(statePath)) return null;
-    const raw = JSON.parse(require('fs').readFileSync(statePath, 'utf-8'));
+    const raw = JSON.parse(readFileSync(statePath, 'utf-8'));
     return {
       title: raw.title || '',
       state: raw.state || 'idle',
@@ -217,10 +244,10 @@ const SESSION_NOISE = new Set([
 ]);
 
 /**
- * Extract two representative words from a session name.
- * "Tab Title Upgrade" → "TAB TITLE", "Security Redesign" → "SECURITY REDESIGN"
- * "Fix Activity Dashboard" → "ACTIVITY DASHBOARD"
- * Returns uppercase. Falls back to first two words if all are noise.
+ * Extract up to 4 representative words from a session name.
+ * "Surface Filter Bar Redesign" → "SURFACE FILTER BAR REDESIGN"
+ * "Voice Server Phase Announcements" → "VOICE SERVER PHASE ANNOUNCEMENTS"
+ * Returns uppercase. Filters noise words but keeps up to 4 meaningful ones.
  */
 export function getSessionOneWord(sessionId: string): string | null {
   try {
@@ -233,19 +260,18 @@ export function getSessionOneWord(sessionId: string): string | null {
     const words = fullName.split(/\s+/).filter((w: string) => w.length > 0);
     if (words.length === 0) return null;
 
-    // Collect up to 2 non-noise words
+    // Collect up to 4 non-noise words
     const meaningful = words.filter((w: string) => !SESSION_NOISE.has(w.toLowerCase()));
     if (meaningful.length >= 2) {
-      return `${meaningful[0]} ${meaningful[1]}`.toUpperCase();
+      return meaningful.slice(0, 4).join(' ').toUpperCase();
     } else if (meaningful.length === 1) {
-      // One meaningful word — grab the next word (even if noise) for context
+      // One meaningful word — grab surrounding words for context
       const idx = words.indexOf(meaningful[0]);
-      const next = words[idx + 1];
-      if (next) return `${meaningful[0]} ${next}`.toUpperCase();
-      return meaningful[0].toUpperCase();
+      const nearby = words.slice(Math.max(0, idx - 1), idx + 3).filter((w: string) => w.length > 0);
+      return nearby.slice(0, 4).join(' ').toUpperCase();
     }
-    // All noise — take first two
-    return words.slice(0, 2).join(' ').toUpperCase();
+    // All noise — take first four
+    return words.slice(0, 4).join(' ').toUpperCase();
   } catch {
     return null;
   }
@@ -256,7 +282,7 @@ export function getSessionOneWord(sessionId: string): string | null {
  * Active format:    {SYMBOL} {ONE_WORD} | {PHASE}
  * Complete format:  {ONE_WORD} | {summary}
  *
- * Called by AlgorithmTracker on phase transitions.
+ * Called on algorithm phase transitions.
  */
 export function setPhaseTab(phase: AlgorithmTabPhase, sessionId: string, summary?: string): void {
   const config = PHASE_TAB_CONFIG[phase];
@@ -291,8 +317,14 @@ export function setPhaseTab(phase: AlgorithmTabPhase, sessionId: string, summary
     const isKitty = process.env.TERM === 'xterm-kitty' || kittyEnv.listenOn;
     if (!isKitty) return;
 
+    // CRITICAL: Require socket for remote control. See PR #493.
+    if (!kittyEnv.listenOn) {
+      console.error(`[tab-setter] No kitty socket available, skipping phase tab update`);
+      return;
+    }
+
     const escaped = title.replace(/"/g, '\\"');
-    const toFlag = kittyEnv.listenOn ? `--to="${kittyEnv.listenOn}"` : '';
+    const toFlag = `--to="${kittyEnv.listenOn}"`;
 
     execSync(`kitten @ ${toFlag} set-tab-title "${escaped}"`, { stdio: 'ignore', timeout: 2000 });
     execSync(`kitten @ ${toFlag} set-window-title "${escaped}"`, { stdio: 'ignore', timeout: 2000 });

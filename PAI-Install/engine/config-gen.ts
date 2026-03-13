@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Configuration Generator
+ * PAI Installer v4.0 — Configuration Generator
  * Generates a FALLBACK settings.json from collected user data.
  * Only used when no existing settings.json exists.
  * Produces minimal output — just fields the installer collects.
@@ -7,7 +7,7 @@
  */
 
 import type { PAIConfig } from "./types";
-import { DEFAULT_VOICES } from "./types";
+import { DEFAULT_VOICES, PAI_VERSION, ALGORITHM_VERSION } from "./types";
 
 /**
  * Generate a minimal fallback settings.json from installer-collected data.
@@ -52,9 +52,14 @@ export function generateSettingsJson(config: PAIConfig): Record<string, any> {
       timezone: config.timezone,
     },
 
+    preferences: {
+      temperatureUnit: config.temperatureUnit || "fahrenheit",
+    },
+
     pai: {
       repoUrl: "https://github.com/danielmiessler/PAI",
-      version: "3.0",
+      version: PAI_VERSION,
+      algorithmVersion: ALGORITHM_VERSION,
     },
   };
 }

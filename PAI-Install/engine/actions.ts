@@ -1,14 +1,15 @@
 /**
- * PAI Installer v3.0 — Install Actions
+ * PAI Installer v4.0 — Install Actions
  * Pure action functions called by both CLI and web frontends.
  * Each action takes state + event emitter, performs work, returns result.
  */
 
 import { execSync, spawn } from "child_process";
-import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, unlinkSync, chmodSync, lstatSync } from "fs";
+import { existsSync, mkdirSync, writeFileSync, readFileSync, readdirSync, symlinkSync, unlinkSync, chmodSync, lstatSync, cpSync, rmSync } from "fs";
 import { homedir } from "os";
 import { join, basename } from "path";
 import type { InstallState, EngineEventHandler, DetectionResult } from "./types";
+import { PAI_VERSION, ALGORITHM_VERSION } from "./types";
 import { detectSystem, validateElevenLabsKey } from "./detect";
 import { generateSettingsJson } from "./config-gen";
 
@@ -109,6 +110,93 @@ function tryExec(cmd: string, timeout = 30000): string | null {
   }
 }
 
+// ─── User Context Migration (v2.5/v3.0 → v4.x) ─────────────────
+//
+// In v2.5–v3.0, user context (ABOUTME.md, TELOS/, CONTACTS.md, etc.)
+// lived at skills/PAI/USER/ (or skills/CORE/USER/ in v2.4).
+// In v4.0, user context moved to PAI/USER/ and CONTEXT_ROUTING.md
+// points there. But the installer never migrated existing files,
+// leaving user data stranded at the old path while the new path
+// stayed empty. This function copies user files to the canonical
+// location and replaces the legacy directory with a symlink so
+// both routing systems resolve to the same place.
+
+/**
+ * Recursively copy files from src to dst, skipping files that
+ * already exist at the destination. Only copies regular files.
+ */
+function copyMissing(src: string, dst: string): number {
+  let copied = 0;
+  if (!existsSync(src)) return copied;
+
+  for (const entry of readdirSync(src, { withFileTypes: true })) {
+    const srcPath = join(src, entry.name);
+    const dstPath = join(dst, entry.name);
+
+    if (entry.isDirectory()) {
+      if (!existsSync(dstPath)) mkdirSync(dstPath, { recursive: true });
+      copied += copyMissing(srcPath, dstPath);
+    } else if (entry.isFile()) {
+      if (!existsSync(dstPath)) {
+        try {
+          cpSync(srcPath, dstPath);
+          copied++;
+        } catch {
+          // Skip files that can't be copied (permission errors)
+        }
+      }
+    }
+  }
+  return copied;
+}
+
+/**
+ * Migrate user context from legacy skills/PAI/USER or skills/CORE/USER
+ * to the canonical PAI/USER location. Replaces the legacy directory
+ * with a symlink so the skill's relative USER/ paths still resolve.
+ */
+async function migrateUserContext(
+  paiDir: string,
+  emit: EngineEventHandler
+): Promise<void> {
+  const newUserDir = join(paiDir, "PAI", "USER");
+  if (!existsSync(newUserDir)) return; // PAI/USER/ not set up yet
+
+  const legacyPaths = [
+    join(paiDir, "skills", "PAI", "USER"),   // v2.5–v3.0
+    join(paiDir, "skills", "CORE", "USER"),  // v2.4 and earlier
+  ];
+
+  for (const legacyDir of legacyPaths) {
+    if (!existsSync(legacyDir)) continue;
+
+    // Skip if already a symlink (migration already ran)
+    try {
+      if (lstatSync(legacyDir).isSymbolicLink()) continue;
+    } catch {
+      continue;
+    }
+
+    const label = legacyDir.includes("CORE") ? "skills/CORE/USER" : "skills/PAI/USER";
+    await emit({ event: "progress", step: "repository", percent: 70, detail: `Migrating user context from ${label}...` });
+
+    const copied = copyMissing(legacyDir, newUserDir);
+    if (copied > 0) {
+      await emit({ event: "message", content: `Migrated ${copied} user context files from ${label} to PAI/USER.` });
+    }
+
+    // Replace legacy dir with symlink so skill-relative paths still work
+    try {
+      rmSync(legacyDir, { recursive: true });
+      // Symlink target is relative: from skills/PAI/ or skills/CORE/ → ../../PAI/USER
+      symlinkSync(join("..", "..", "PAI", "USER"), legacyDir);
+      await emit({ event: "message", content: `Replaced ${label} with symlink to PAI/USER.` });
+    } catch {
+      await emit({ event: "message", content: `Could not replace ${label} with symlink. User files were copied but old directory remains.` });
+    }
+  }
+}
+
 // ─── Step 1: System Detection ────────────────────────────────────
 
 export async function runSystemDetect(
@@ -147,6 +235,7 @@ export async function runSystemDetect(
       if (settings.daidentity?.name && !isPlaceholder(settings.daidentity.name)) state.collected.aiName = settings.daidentity.name;
       if (settings.daidentity?.startupCatchphrase && !isPlaceholder(settings.daidentity.startupCatchphrase)) state.collected.catchphrase = settings.daidentity.startupCatchphrase;
       if (settings.env?.PROJECTS_DIR && !isPlaceholder(settings.env.PROJECTS_DIR)) state.collected.projectsDir = settings.env.PROJECTS_DIR;
+      if (settings.preferences?.temperatureUnit) state.collected.temperatureUnit = settings.preferences.temperatureUnit;
     } catch {
       // Ignore parse errors
     }
@@ -282,6 +371,17 @@ export async function runIdentity(
   );
   state.collected.timezone = tz.trim() || detectedTz;
 
+  // Temperature unit
+  const defaultTempUnit = state.collected.temperatureUnit || "fahrenheit";
+  const tempUnit = await getInput(
+    "temperature-unit",
+    `Temperature unit? Type F for Fahrenheit or C for Celsius. (Default: ${defaultTempUnit === "celsius" ? "C" : "F"})`,
+    "text",
+    defaultTempUnit === "celsius" ? "C" : "F"
+  );
+  const trimmedUnit = tempUnit.trim().toLowerCase();
+  state.collected.temperatureUnit = (trimmedUnit === "c" || trimmedUnit === "celsius") ? "celsius" : "fahrenheit";
+
   // AI Name
   const defaultAi = state.collected.aiName || "";
   const aiPrompt = defaultAi
@@ -401,6 +501,11 @@ export async function runRepository(
     }
   }
 
+  // Migrate user context from v2.5/v3.0 location to v4.x canonical location
+  if (state.installType === "upgrade") {
+    await migrateUserContext(paiDir, emit);
+  }
+
   await emit({ event: "progress", step: "repository", percent: 100, detail: "Repository ready" });
   await emit({ event: "step_complete", step: "repository" });
 }
@@ -424,6 +529,7 @@ export async function runConfiguration(
     aiName: state.collected.aiName || "PAI",
     catchphrase: state.collected.catchphrase || "Ready to go",
     projectsDir: state.collected.projectsDir,
+    temperatureUnit: state.collected.temperatureUnit,
     voiceType: state.collected.voiceType,
     voiceId: state.collected.customVoiceId,
     paiDir,
@@ -442,6 +548,11 @@ export async function runConfiguration(
       existing.principal = { ...existing.principal, ...config.principal };
       existing.daidentity = { ...existing.daidentity, ...config.daidentity };
       existing.pai = { ...existing.pai, ...config.pai };
+      // Force-overwrite version fields — these must ALWAYS match the release,
+      // never be preserved from the user's existing config
+      existing.pai.version = PAI_VERSION;
+      existing.pai.algorithmVersion = ALGORITHM_VERSION;
+      existing.preferences = { ...existing.preferences, ...config.preferences };
       // Only set permissions/contextFiles/plansDirectory if not already present
       if (!existing.permissions) existing.permissions = config.permissions;
       if (!existing.contextFiles) existing.contextFiles = config.contextFiles;
@@ -458,10 +569,10 @@ export async function runConfiguration(
   await emit({ event: "message", content: "settings.json generated." });
 
   // Update Algorithm LATEST version file (public repo may be behind)
-  const latestPath = join(paiDir, "skills", "PAI", "Components", "Algorithm", "LATEST");
-  const latestDir = join(paiDir, "skills", "PAI", "Components", "Algorithm");
+  const latestPath = join(paiDir, "PAI", "Algorithm", "LATEST");
+  const latestDir = join(paiDir, "PAI", "Algorithm");
   if (existsSync(latestDir)) {
-    try { writeFileSync(latestPath, "v1.4.0\n"); } catch {}
+    try { writeFileSync(latestPath, `v${ALGORITHM_VERSION}\n`); } catch {}
   }
 
   // Calculate and write initial counts so banner shows real numbers on first launch
@@ -570,23 +681,25 @@ export async function runConfiguration(
     }
   }
 
-  // Set up zsh alias
+  // Set up shell alias (detect bash/zsh/fish)
   await emit({ event: "progress", step: "configuration", percent: 80, detail: "Setting up shell alias..." });
 
-  const zshrcPath = join(homedir(), ".zshrc");
-  const aliasLine = `alias pai='bun ${join(paiDir, "skills", "PAI", "Tools", "pai.ts")}'`;
+  const userShell = process.env.SHELL || "/bin/zsh";
+  const rcFile = userShell.includes("bash") ? ".bashrc" : userShell.includes("fish") ? ".config/fish/config.fish" : ".zshrc";
+  const rcPath = join(homedir(), rcFile);
+  const aliasLine = `alias pai='bun ${join(paiDir, "PAI", "Tools", "pai.ts")}'`;
   const marker = "# PAI alias";
 
-  if (existsSync(zshrcPath)) {
-    let content = readFileSync(zshrcPath, "utf-8");
+  if (existsSync(rcPath)) {
+    let content = readFileSync(rcPath, "utf-8");
     // Remove any existing pai alias (old CORE or PAI paths, any marker variant)
     content = content.replace(/^#\s*(?:PAI|CORE)\s*alias.*\n.*alias pai=.*\n?/gm, "");
     content = content.replace(/^alias pai=.*\n?/gm, "");
     // Add fresh alias
     content = content.trimEnd() + `\n\n${marker}\n${aliasLine}\n`;
-    writeFileSync(zshrcPath, content);
+    writeFileSync(rcPath, content);
   } else {
-    writeFileSync(zshrcPath, `${marker}\n${aliasLine}\n`);
+    writeFileSync(rcPath, `${marker}\n${aliasLine}\n`);
   }
 
   // Fix permissions

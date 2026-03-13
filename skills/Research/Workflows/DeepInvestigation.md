@@ -42,7 +42,7 @@ All artifacts persist at:
 ~/.claude/MEMORY/RESEARCH/{YYYY-MM}/{YYYY-MM-DD}_{topic-slug}/
 ```
 
-Read `~/.claude/MEMORY/STATE/current-work.json` for the active work directory. If a work item exists, also symlink the vault into `{work_dir}/scratch/research-vault/`.
+Read `~/.claude/MEMORY/STATE/current-work.json` for the active work directory.
 
 ---
 

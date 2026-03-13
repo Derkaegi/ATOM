@@ -3,7 +3,7 @@
 #
 # This file provides MINIMAL working examples for the Agents skill.
 # For full customization, add your own Traits.yaml to:
-#   ~/.claude/skills/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
+#   ~/.claude/PAI/USER/SKILLCUSTOMIZATIONS/Agents/Traits.yaml
 #
 # The ComposeAgent tool merges: base + user (user takes priority)
 #
@@ -172,7 +172,7 @@ voice_mappings:
       characteristics: ["gruff", "veteran", "weathered"]
       description: "War veteran voice, gruff and experienced"
 
-    Daniel:
+    {PRINCIPAL.NAME}:
       voice_id: "onwK4e9ZLuTAKqWW03F9"
       gender: "male"
       characteristics: ["authoritative", "measured", "intellectual", "british"]
@@ -406,7 +406,7 @@ voice_mappings:
   mappings:
     # Authoritative/Professional combinations
     - traits: ["skeptical", "analytical"]
-      voice: "Daniel"
+      voice: "{PRINCIPAL.NAME}"
       voice_id: "onwK4e9ZLuTAKqWW03F9"
       reason: "Skeptical analysis suits authoritative British delivery"
 
@@ -473,9 +473,9 @@ voice_mappings:
   # ============================================================================
   fallbacks:
     # Analysis/Technical traits
-    skeptical: "Daniel"
+    skeptical: "{PRINCIPAL.NAME}"
     skeptical_voice_id: "onwK4e9ZLuTAKqWW03F9"
-    analytical: "Daniel"
+    analytical: "{PRINCIPAL.NAME}"
     analytical_voice_id: "onwK4e9ZLuTAKqWW03F9"
     technical: "James"
     technical_voice_id: "ZQe5CZNOzWyzPSCn5a3c"

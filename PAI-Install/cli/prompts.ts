@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — CLI Interactive Prompts
+ * PAI Installer v4.0 — CLI Interactive Prompts
  * readline-based input collection with proper cleanup.
  */
 

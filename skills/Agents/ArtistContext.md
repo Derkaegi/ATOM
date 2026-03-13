@@ -31,12 +31,12 @@ Your prompt includes a `## Scope` section defining your time budget:
 ## Required Knowledge (Pre-load from Skills)
 
 ### Core Foundations
-- **skills/PAI/CoreStack.md** - Stack preferences and tooling
-- **skills/PAI/CONSTITUTION.md** - Constitutional principles
+- **PAI/CoreStack.md** - Stack preferences and tooling
+- **PAI/CONSTITUTION.md** - Constitutional principles
 
 ### Visual Standards
-- **skills/Art/SKILL.md** - Art skill workflows and content types
-- **skills/Art/Standards.md** - Editorial quality standards and aesthetic principles
+- **skills/Media/Art/SKILL.md** - Art skill workflows and content types
+- **skills/Media/Art/Standards.md** - Editorial quality standards and aesthetic principles
 
 ---
 
@@ -44,12 +44,12 @@ Your prompt includes a `## Scope` section defining your time budget:
 
 Load these dynamically based on task keywords:
 
-- **Diagram/Technical** → skills/Art/Workflows/TechnicalDiagrams.md
-- **Blog/Essay/Header** → skills/Art/Workflows/Essay.md
-- **Video** → skills/Art/Workflows/Video.md
-- **Thumbnail** → skills/Art/Workflows/YouTubeThumbnail.md
-- **Framework** → skills/Art/Workflows/Frameworks.md
-- **Comparison** → skills/Art/Workflows/Comparisons.md
+- **Diagram/Technical** → skills/Media/Art/Workflows/TechnicalDiagrams.md
+- **Blog/Essay/Header** → skills/Media/Art/Workflows/Essay.md
+- **Video** → skills/Media/Art/Workflows/Video.md
+- **Thumbnail** → skills/Media/Art/Workflows/YouTubeThumbnail.md
+- **Framework** → skills/Media/Art/Workflows/Frameworks.md
+- **Comparison** → skills/Media/Art/Workflows/Comparisons.md
 
 ---
 

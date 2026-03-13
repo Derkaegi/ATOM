@@ -43,12 +43,15 @@ async function main() {
     // Extract session_id from stdin for correct tab targeting
     let sessionId: string | undefined;
     try {
-      const raw = await Bun.stdin.text();
+      const raw = await Promise.race([
+        Bun.stdin.text(),
+        new Promise<string>((_, reject) => setTimeout(() => reject(new Error('stdin timeout')), 2000)),
+      ]);
       if (raw.trim()) {
         const parsed = JSON.parse(raw);
         sessionId = parsed.session_id;
       }
-    } catch { /* stdin parse failed — continue without session_id */ }
+    } catch { /* stdin timeout or parse failed — continue without session_id */ }
 
     // Read previous working title saved by SetQuestionTab
     const currentState = readTabState(sessionId);

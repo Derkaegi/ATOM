@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — Type Definitions
+ * PAI Installer v4.0 — Type Definitions
  * Shared types for engine, CLI, and web frontends.
  */
 
@@ -84,6 +84,7 @@ export interface InstallState {
     aiName?: string;
     catchphrase?: string;
     projectsDir?: string;
+    temperatureUnit?: "fahrenheit" | "celsius";
     voiceType?: "female" | "male" | "custom";
     customVoiceId?: string;
   };
@@ -108,6 +109,7 @@ export interface PAIConfig {
   aiName: string;
   catchphrase: string;
   projectsDir?: string;
+  temperatureUnit?: "fahrenheit" | "celsius";
   voiceType?: string;
   voiceId?: string;
   paiDir: string;
@@ -179,6 +181,14 @@ export type EngineEvent =
 export type EngineEventHandler = (event: EngineEvent) => void | Promise<void>;
 
 // ─── Voice ───────────────────────────────────────────────────────
+
+// ─── Release Versions (single source of truth) ─────────────────
+// Update these when cutting a new PAI release.
+// The installer reads these constants — no other file should hardcode versions.
+
+export const PAI_VERSION = "4.0.3";
+export const ALGORITHM_VERSION = "3.7.0";
+export const INSTALLER_VERSION = "4.0";
 
 export const DEFAULT_VOICES = {
   male: "pNInz6obpgDQGcFmaJgB", // Adam

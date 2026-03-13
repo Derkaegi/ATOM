@@ -23,13 +23,13 @@
  * 4. If validation fails both paths → getWorkingFallback()
  *
  * VOICE: Announces inference-generated summary on prompt receipt.
- * Task completion voice is separate (StopOrchestrator → VoiceNotification handler).
+ * Task completion voice is separate (VoiceCompletion.hook.ts → VoiceNotification handler).
  * DO NOT REMOVE voice from this hook — see MEMORY/LEARNING/SYSTEM/2026-01/
  * 2026-01-15-205500_LEARNING_voice-on-prompt-submit-architecture.md
  */
 
-import { inference } from '../skills/PAI/Tools/Inference';
-import { isValidWorkingTitle, getWorkingFallback } from './lib/output-validators';
+import { inference } from '../PAI/Tools/Inference';
+import { isValidWorkingTitle, getWorkingFallback, trimToValidTitle } from './lib/output-validators';
 import { setTabState, getSessionOneWord } from './lib/tab-setter';
 import { getIdentity } from './lib/identity';
 
@@ -96,8 +96,7 @@ function extractPromptTitle(prompt: string): string | null {
   const firstLower = words[0].toLowerCase().replace(/[^a-z]/g, '');
 
   if (firstLower.endsWith('ing') && firstLower.length > 4 && !FALSE_GERUNDS.has(firstLower)) {
-    const result = words.slice(0, 4).join(' ');
-    return result.endsWith('.') ? result : result + '.';
+    return trimToValidTitle(words, isValidWorkingTitle);
   }
 
   const gerund = GERUND_MAP[firstLower];
@@ -130,8 +129,10 @@ Output ONLY the sentence. Nothing else.`;
 /**
  * Check if a generated title is relevant to the user's prompt.
  * Extracts the key nouns from the title (non-gerund words) and checks
- * if at least one appears in the prompt. If the title introduces a topic
+ * if ALL appear in the prompt. If the title introduces a topic
  * the user never mentioned, it's contamination from the model's context.
+ * Uses .every() not .some() to prevent one matching word from letting
+ * hallucinated words through (e.g. "keybinding" passing because "status" matched).
  */
 function isTitleRelevantToPrompt(title: string, prompt: string): boolean {
   const content = title.replace(/\.$/, '').trim();
@@ -147,16 +148,17 @@ function isTitleRelevantToPrompt(title: string, prompt: string): boolean {
 
   const promptLower = prompt.toLowerCase();
 
-  // At least one topic word (or 3-char prefix) must appear in the prompt
-  return topicWords.some(word =>
+  // ALL topic words (or stem prefix) must appear in the prompt
+  return topicWords.every(word =>
     promptLower.includes(word) || promptLower.includes(word.slice(0, Math.max(4, Math.floor(word.length * 0.6))))
   );
 }
 
 /**
- * Generate summary via inference. Returns null on failure.
+ * Generate summary via inference. Returns both raw (for voice) and validated (for tab title).
+ * Voice should always fire if inference succeeds. Tab title has stricter validation.
  */
-async function summarizePrompt(prompt: string): Promise<string | null> {
+async function summarizePrompt(prompt: string): Promise<{ voice: string | null; title: string | null }> {
   const cleanPrompt = prompt.replace(/<[^>]*>/g, ' ').replace(/\s+/g, ' ').trim().slice(0, 1000);
   const result = await inference({
     systemPrompt: SYSTEM_PROMPT,
@@ -166,24 +168,24 @@ async function summarizePrompt(prompt: string): Promise<string | null> {
   });
 
   if (result.success && result.output) {
-    let summary = result.output.replace(/<[^>]*>/g, '').replace(/^["']|["']$/g, '').trim();
-    const words = summary.split(/\s+/).slice(0, 4);
-    summary = words.join(' ');
-    if (!summary.endsWith('.')) summary += '.';
+    const raw = result.output.replace(/<[^>]*>/g, '').replace(/^["']|["']$/g, '').trim();
+    const words = raw.split(/\s+/);
+    const summary = trimToValidTitle(words, isValidWorkingTitle) || '';
 
-    if (!isValidWorkingTitle(summary)) return null;
+    // Voice gets the inference result if it's a valid working title (not generic)
+    const voiceSummary = summary || null;
 
-    // Reject titles that introduce topics not in the user's prompt
-    // This catches model hallucination from skill list anchoring
-    if (!isTitleRelevantToPrompt(summary, cleanPrompt)) {
-      console.error(`[UpdateTabTitle] Rejected contaminated title: "${summary}" — topic not in prompt`);
-      return null;
+    // Tab title has stricter validation — also rejects contaminated topics
+    let tabTitle = voiceSummary;
+    if (tabTitle && !isTitleRelevantToPrompt(tabTitle, cleanPrompt)) {
+      console.error(`[UpdateTabTitle] Contaminated title rejected for tab: "${tabTitle}" — voice still fires`);
+      tabTitle = null;
     }
 
-    return summary;
+    return { voice: voiceSummary, title: tabTitle };
   }
 
-  return null;
+  return { voice: null, title: null };
 }
 
 async function main() {
@@ -197,7 +199,7 @@ async function main() {
     // Skip ratings (1-10) — preserve current tab title
     if (/^([1-9]|10)$/.test(prompt.trim())) process.exit(0);
 
-    // Session label: two-word ALL CAPS prefix for tab identity
+    // Session label: up to 4-word ALL CAPS prefix for tab identity
     const sessionLabel = data.session_id ? getSessionOneWord(data.session_id) : null;
     const prefix = sessionLabel ? `${sessionLabel} | ` : '';
 
@@ -206,15 +208,16 @@ async function main() {
     const thinkingTitle = quickTitle || getWorkingFallback();
     setTabState({ title: `🧠 ${prefix}${thinkingTitle}`, state: 'thinking', sessionId: data.session_id });
 
-    // Phase 2: Inference for a validated title (orange = working)
-    const inferredTitle = await summarizePrompt(prompt);
+    // Phase 2: Inference for validated title + voice summary (decoupled)
+    const { voice: voiceSummary, title: inferredTitle } = await summarizePrompt(prompt);
     const finalTitle = inferredTitle || (quickTitle && isValidWorkingTitle(quickTitle) ? quickTitle : getWorkingFallback());
     setTabState({ title: `⚙️ ${prefix}${finalTitle}`, state: 'working', sessionId: data.session_id });
 
-    // Voice feedback — announce what's being worked on
-    // Only speak inference result (a proper sentence). If inference failed,
-    // stay silent — silence is better than speaking prompt word fragments.
-    const voiceContent = inferredTitle;
+    // Voice feedback — announce what's being worked on (only when we have a CLEAN summary).
+    // Voice uses inference result even if contamination filter rejected it for tab title.
+    // NO raw prompt fallback — promptToVoiceFallback sends garbage (task IDs, user anger,
+    // system-reminder content). Only speak validated working titles.
+    const voiceContent = voiceSummary || (quickTitle && isValidWorkingTitle(quickTitle) ? quickTitle : null);
     if (voiceContent) {
       const identity = getIdentity();
       try {

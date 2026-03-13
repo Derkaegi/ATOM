@@ -1,5 +1,5 @@
 /**
- * PAI Installer v3.0 — State Persistence
+ * PAI Installer v4.0 — State Persistence
  * Manages install state to support resume from interruption.
  */
 
@@ -7,6 +7,7 @@ import { existsSync, readFileSync, writeFileSync, mkdirSync, unlinkSync } from "
 import { homedir } from "os";
 import { join, dirname } from "path";
 import type { InstallState, StepId } from "./types";
+import { INSTALLER_VERSION } from "./types";
 
 const STATE_FILE = join(
   process.env.PAI_CONFIG_DIR || join(homedir(), ".config", "PAI"),
@@ -18,7 +19,7 @@ const STATE_FILE = join(
  */
 export function createFreshState(mode: "cli" | "web"): InstallState {
   return {
-    version: "3.0",
+    version: INSTALLER_VERSION,
     startedAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
     currentStep: "system-detect",
