@@ -47,3 +47,8 @@ downloads/
 backups/
 todos/
 plugins/
+
+# Python virtualenvs
+pai-venv/
+venv/
+.venv/
