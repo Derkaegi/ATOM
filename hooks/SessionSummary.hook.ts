@@ -50,6 +50,7 @@
 
 import { writeFileSync, existsSync, readFileSync, unlinkSync } from 'fs';
 import { join } from 'path';
+import { spawnSync } from 'child_process';
 import { getISOTimestamp } from './lib/time';
 import { setTabState, cleanupKittySession } from './lib/tab-setter';
 
@@ -88,6 +89,20 @@ function clearSessionWork(): void {
         metaContent = metaContent.replace(/^completed_at: null$/m, `completed_at: "${getISOTimestamp()}"`);
         writeFileSync(metaPath, metaContent, 'utf-8');
         console.error(`[SessionSummary] Marked work directory as COMPLETED: ${currentWork.work_dir}`);
+      }
+
+      // Auto-save to Obsidian if session had a PRD (Algorithm mode work)
+      const prdPath = join(WORK_DIR, currentWork.work_dir, 'PRD.md');
+      if (existsSync(prdPath)) {
+        const obsidianSavePath = join(process.env.HOME!, '.claude', 'skills', 'PAI', 'Tools', 'ObsidianSave.ts');
+        if (existsSync(obsidianSavePath)) {
+          const result = spawnSync('/usr/local/bin/bun', [obsidianSavePath, '--prd', prdPath], {
+            encoding: 'utf-8',
+            timeout: 10_000,
+          });
+          if (result.stdout) console.error(`[SessionSummary] ObsidianSave: ${result.stdout.trim()}`);
+          if (result.stderr) console.error(`[SessionSummary] ObsidianSave stderr: ${result.stderr.trim()}`);
+        }
       }
     }
 

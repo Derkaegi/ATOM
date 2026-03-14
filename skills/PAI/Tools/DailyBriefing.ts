@@ -7,23 +7,23 @@
  *   bun DailyBriefing.ts --print            ← print only, don't send
  *   bun DailyBriefing.ts --location Munich  ← override weather location
  *
- * Channel formats:
- *   ntfy + Telegram → compact (title + due date, max 10 tasks)
- *   email           → full (all fields, no task limit)
+ * Channels:
+ *   ntfy   → compact briefing (title + due date, max 10 tasks)
+ *   Obsidian → full briefing saved to MONAD/05-JOURNAL/Daily-Notes/
  *
  * Config in ~/.env:
  *   WEATHER_LOCATION=Barcelona
  *   NOTION_TOKEN
+ *   NTFY_TOPIC
  *
  * Calendar via gws CLI (~/.local/bin/gws) — no OAuth tokens needed.
- *   NTFY_TOPIC / TELEGRAM_BOT_TOKEN / TELEGRAM_CHAT_ID
- *   GMAIL_USER / GMAIL_APP_PASSWORD / GMAIL_RECIPIENT
  */
 
-import { readFileSync, writeFileSync } from "fs";
-import { homedir, tmpdir } from "os";
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from "fs";
+import { homedir } from "os";
 import { join } from "path";
 import { spawnSync } from "child_process";
+const MONAD_DAILY_NOTES = join(homedir(), "Documents", "MONAD", "05-JOURNAL", "Daily-Notes");
 
 // ─── Load ~/.env ──────────────────────────────────────────────────────────────
 function loadEnv(): Record<string, string> {
@@ -280,38 +280,6 @@ function formatTasksFull(tasks: NotionTask[]): string {
 }
 
 // ─── Channel send functions ───────────────────────────────────────────────────
-async function sendEmail(subject: string, body: string): Promise<string> {
-  const tmpFile = join(tmpdir(), `pai-briefing-${Date.now()}.py`);
-  const pyScript = `
-import smtplib, os
-from email.mime.text import MIMEText
-from email.mime.multipart import MIMEMultipart
-msg = MIMEMultipart()
-msg['From'] = os.environ['GMAIL_USER']
-msg['To'] = os.environ['GMAIL_RECIPIENT']
-msg['Subject'] = os.environ['SUBJECT']
-msg.attach(MIMEText(os.environ['BODY'], 'plain'))
-with smtplib.SMTP_SSL('smtp.gmail.com', 465) as s:
-    s.login(os.environ['GMAIL_USER'], os.environ['GMAIL_APP_PASSWORD'])
-    s.sendmail(os.environ['GMAIL_USER'], os.environ['GMAIL_RECIPIENT'], msg.as_string())
-print('sent')
-`;
-  writeFileSync(tmpFile, pyScript);
-  const result = spawnSync("python3", [tmpFile], {
-    encoding: "utf-8",
-    env: {
-      ...process.env,
-      SUBJECT: subject,
-      BODY: body,
-      GMAIL_USER: env.GMAIL_USER,
-      GMAIL_RECIPIENT: env.GMAIL_RECIPIENT,
-      GMAIL_APP_PASSWORD: env.GMAIL_APP_PASSWORD,
-    },
-  });
-  try { Bun.file(tmpFile); } catch {}
-  return result.stdout?.includes("sent") ? `✅ Email → ${env.GMAIL_RECIPIENT}` : `❌ Email failed: ${result.stderr}`;
-}
-
 async function sendNtfy(title: string, body: string): Promise<string> {
   try {
     const ntfyTitle = title.replace(/[^\x00-\x7F]/g, c =>
@@ -326,25 +294,6 @@ async function sendNtfy(title: string, body: string): Promise<string> {
     return `✅ ntfy → ${env.NTFY_TOPIC} (id: ${data.id})`;
   } catch (e) {
     return `❌ ntfy failed: ${e}`;
-  }
-}
-
-async function sendTelegram(title: string, body: string): Promise<string> {
-  try {
-    // Telegram Markdown: escape special chars in body, use plain text for safety
-    const text = `${title}\n\n${body}`;
-    const res = await fetch(
-      `https://api.telegram.org/bot${env.TELEGRAM_BOT_TOKEN}/sendMessage`,
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: env.TELEGRAM_CHAT_ID, text }),
-      }
-    );
-    const data = (await res.json()) as { ok: boolean; result?: { message_id: number }; description?: string };
-    return data.ok ? `✅ Telegram (msg_id: ${data.result?.message_id})` : `❌ Telegram failed: ${data.description}`;
-  } catch (e) {
-    return `❌ Telegram failed: ${e}`;
   }
 }
 
@@ -406,16 +355,22 @@ const fullBriefing = [
 console.log("\n" + fullBriefing + "\n");
 
 if (!printOnly) {
-  console.log("📤 Sending via all channels...");
-  // ntfy + Telegram → compact, Email → full
-  const [emailResult, ntfyResult, telegramResult] = await Promise.all([
-    sendEmail(`Daily Briefing — ${shortDate}`, fullBriefing),
-    sendNtfy(`Daily Briefing — ${shortDate}`, compactBriefing),
-    sendTelegram(`🌅 Daily Briefing — ${shortDate}`, compactBriefing),
-  ]);
-  console.log(emailResult);
+  console.log("📤 Sending...");
+
+  // ntfy notification
+  const ntfyResult = await sendNtfy(`Daily Briefing — ${shortDate}`, compactBriefing);
   console.log(ntfyResult);
-  console.log(telegramResult);
+
+  // Write to Obsidian
+  try {
+    mkdirSync(MONAD_DAILY_NOTES, { recursive: true });
+    const isoDate = now.toISOString().split("T")[0];
+    const obsidianPath = join(MONAD_DAILY_NOTES, `Daily-Briefing-${isoDate}.md`);
+    writeFileSync(obsidianPath, fullBriefing, "utf-8");
+    console.log(`✅ Obsidian → ${obsidianPath}`);
+  } catch (e) {
+    console.error(`❌ Obsidian write failed: ${e}`);
+  }
 } else {
   console.log("(--print mode: not sending)");
 }

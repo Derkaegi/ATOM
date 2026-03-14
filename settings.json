@@ -856,15 +856,15 @@
     }
   },
   "counts": {
-    "skills": 54,
-    "workflows": 299,
+    "skills": 55,
+    "workflows": 304,
     "hooks": 27,
     "signals": 265,
     "files": 49,
-    "work": 196,
-    "sessions": 17,
+    "work": 209,
+    "sessions": 18,
     "research": 0,
     "ratings": 268,
-    "updatedAt": "2026-03-13T17:43:52.394Z"
+    "updatedAt": "2026-03-14T13:35:00.387Z"
   }
 }
