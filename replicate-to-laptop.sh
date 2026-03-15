@@ -30,6 +30,8 @@ rsync -az --progress \
   "$SRC/settings.json" \
   "$SRC/package.json" \
   "$SRC/bun.lock" \
+  "$SRC/statusline-command.sh" \
+  "$SRC/mcp-firecrawl.json" \
   "$TARGET:~/.claude/"
 ok "Config files synced"
 

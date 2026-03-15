@@ -36,8 +36,8 @@ Any project can be mapped back up to the problem(s) it solves. This gives transp
 - **CPU:** Intel Core i7-4790K @ 4.00 GHz
 - **RAM:** 16 GB
 - **GPU:** NVIDIA GeForce GTX 960
-- **OS:** Ubuntu 22.04 LTS
-- **Desktop:** GNOME 42.9
+- **OS:** Ubuntu 24.04.4 LTS (kernel 6.8.0-101-generic)
+- **Desktop:** GNOME
 - **Use:** PAI infrastructure, Claude Code (runs under atompa sandbox account)
 
 ### Private PC (Personal Projects)
@@ -47,6 +47,22 @@ Any project can be mapped back up to the problem(s) it solves. This gives transp
 - **RAM:** 32 GB (31.3 GB usable)
 - **OS:** Windows 11 Pro 64-bit (10.0.26200)
 - **Use:** AI development, content creation, PokerStories, personal projects
+
+### Personal Notebook (Lenovo IdeaPad 5)
+
+- **Model:** Lenovo IdeaPad 5 14ARE05 (81YM)
+- **CPU:** AMD Ryzen 5 4500U with Radeon Graphics — 6 cores, up to 2.375 GHz
+- **RAM:** 8 GB
+- **GPU:** AMD Radeon RX Vega 6 (integrated, Renoir)
+- **Storage:** 512 GB Samsung NVMe SSD (MZALQ512HALU-000L2)
+- **Display:** 14" FHD 1920×1080
+- **WiFi:** Intel Wi-Fi 6 AX200
+- **Bluetooth:** Intel AX200
+- **OS:** Ubuntu 24.04.4 LTS (kernel 6.17.0-14-generic)
+- **Hostname:** herbo-IdeaPad-5-14ARE05
+- **LAN IP:** 192.168.1.142 (SSH: `ssh notebook`)
+- **BIOS:** DTCN26WW v1.12 (2022-02-10)
+- **Use:** Personal Ubuntu notebook, SSH-accessible from desktop
 
 ### Work Notebook (HP/Infogain Contract)
 

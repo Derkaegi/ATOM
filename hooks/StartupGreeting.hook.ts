@@ -110,6 +110,15 @@ const settingsPath = getSettingsPath();
     });
 
     if (result.stdout) {
+      // Write to /dev/tty so the banner is visible in the user's terminal
+      try {
+        const { writeSync, openSync } = await import('fs');
+        const tty = openSync('/dev/tty', 'w');
+        writeSync(tty, result.stdout);
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        require('fs').closeSync(tty);
+      } catch { /* /dev/tty not available (e.g. non-interactive) — skip */ }
+      // Also log to stdout so Claude receives it as system context
       console.log(result.stdout);
     }
 

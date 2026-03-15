@@ -10,7 +10,11 @@
       "mcp__n8n-mcp__get_node",
       "mcp__playwright__browser_navigate",
       "mcp__playwright__browser_install",
-      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate"
+      "mcp__claude_ai_Hugging_Face__gr1_z_image_turbo_generate",
+      "mcp__claude_ai_Notion__notion-fetch",
+      "mcp__claude_ai_Notion__notion-search",
+      "mcp__claude_ai_Notion__notion-update-page",
+      "mcp__claude_ai_Notion__notion-create-pages"
     ]
   },
   "spinnerTipsEnabled": true
