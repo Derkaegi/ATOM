@@ -81,6 +81,7 @@ Route to the appropriate workflow based on the request.
 - Perplexity API research (use Quick for single-agent) -> `Workflows/QuickResearch.md`
 - Interview preparation (Tyler Cowen style) -> `Workflows/InterviewResearch.md`
 - AI trends analysis -> `Workflows/AnalyzeAiTrends.md`
+- Scientific / academic paper search (OpenAlex API) -> `Workflows/ScientificResearch.md`
 
 ### Fabric Pattern Processing
 - Use Fabric patterns (242+ specialized prompts) -> `Workflows/Fabric.md`
@@ -101,6 +102,7 @@ Route to the appropriate workflow based on the request.
 | "do research" | 3 agents (default) | ~15-30s |
 | "extensive research" | 12 agents | ~60-90s |
 | "deep investigation" | Progressive iteration | ~3-60min |
+| "find papers", "scientific research", "literature search" | → ScientificResearch workflow | ~5-10s |
 
 ---
 
@@ -116,6 +118,7 @@ Route to the appropriate workflow based on the request.
 - **OSINT** - MANDATORY for company/people comprehensive research
 - **BrightData MCP** - CAPTCHA solving, advanced scraping
 - **Apify MCP** - RAG browser, specialized site scrapers
+- **OpenAlex API** — `api.openalex.org` — free academic paper search, no key needed
 
 ---
 

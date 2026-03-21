@@ -267,3 +267,4 @@
 {"timestamp":"2026-03-13T17:26:11+01:00","rating":5,"session_id":"900c9ffb-b750-42bb-a711-2022ac251642","source":"implicit","sentiment_summary":"System task completion notification, no sentiment","confidence":0.95}
 {"timestamp":"2026-03-13T17:26:21+01:00","rating":5,"session_id":"900c9ffb-b750-42bb-a711-2022ac251642","source":"implicit","sentiment_summary":"System task notification, no sentiment expressed","confidence":0.95}
 {"timestamp":"2026-03-20T08:57:23+01:00","rating":1,"session_id":"d1adf958-f8a5-441c-8b2a-18a92f36c106","source":"explicit","comment":"2 4"}
+{"timestamp":"2026-03-21T11:35:55+01:00","rating":7,"session_id":"969e27ba-52a9-40ea-a760-4475049b5d63","source":"implicit","sentiment_summary":"Approved option A, authorized to proceed","confidence":0.85}
