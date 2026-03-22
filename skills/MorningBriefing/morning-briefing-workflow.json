@@ -62,7 +62,42 @@
     },
     {
       "parameters": {
-        "jsCode": "const items = $input.all();\n\nconst weather = items.find(i => i.json.temp)?.json;\nconst tasks = items.find(i => i.json.pending)?.json;\nconst learnings = items.filter(i => i.json.insight).map(i => i.json);\n\nconst now = new Date();\nconst dateStr = now.toLocaleDateString('en-US', {\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric'\n});\n\nreturn {\n  json: {\n    date: dateStr,\n    weather: weather || { temp: 'N/A', condition: 'Unknown', high: 'N/A', low: 'N/A' },\n    calendar: [],\n    tasks: tasks || { pending: 0, inProgress: 0, urgent: [] },\n    learnings: learnings || []\n  }\n};"
+        "operation": "getAll",
+        "calendar": { "value": "primary" },
+        "returnAll": false,
+        "limit": 20,
+        "options": {
+          "timeMin": "={{ $now.startOf('day').toISO() }}",
+          "timeMax": "={{ $now.endOf('day').toISO() }}",
+          "singleEvents": true,
+          "orderBy": "startTime"
+        }
+      },
+      "name": "Get Calendar",
+      "type": "n8n-nodes-base.googleCalendar",
+      "typeVersion": 1.2,
+      "position": [450, 600],
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "GOOGLE_CALENDAR_CREDENTIAL_ID",
+          "name": "Google Calendar"
+        }
+      },
+      "id": "node-11"
+    },
+    {
+      "parameters": {
+        "jsCode": "const events = $input.all();\n\nif (!events || events.length === 0) return [{ json: { _calendarEmpty: true } }];\n\nreturn events.map(e => {\n  const startRaw = e.json.start?.dateTime ?? e.json.start?.date ?? '';\n  let timeStr = 'Ganztag';\n  if (startRaw.includes('T')) {\n    timeStr = new Date(startRaw).toLocaleTimeString('de-DE', {\n      hour: '2-digit', minute: '2-digit', hour12: false,\n      timeZone: 'Europe/Berlin'\n    });\n  }\n  return {\n    json: {\n      time: timeStr,\n      title: e.json.summary ?? '(kein Titel)',\n      location: e.json.location ?? null\n    }\n  };\n});"
+      },
+      "name": "Parse Calendar",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [650, 600],
+      "id": "node-12"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all();\n\nconst weather = items.find(i => i.json.temp)?.json;\nconst tasks = items.find(i => i.json.pending)?.json;\nconst learnings = items.filter(i => i.json.insight).map(i => i.json);\nconst calendar = items.filter(i => i.json.time).map(i => i.json);\n\nconst now = new Date();\nconst dateStr = now.toLocaleDateString('en-US', {\n  weekday: 'long',\n  year: 'numeric',\n  month: 'long',\n  day: 'numeric'\n});\n\nreturn {\n  json: {\n    date: dateStr,\n    weather: weather || { temp: 'N/A', condition: 'Unknown', high: 'N/A', low: 'N/A' },\n    calendar: calendar,\n    tasks: tasks || { pending: 0, inProgress: 0, urgent: [] },\n    learnings: learnings || []\n  }\n};"
       },
       "name": "Merge Data",
       "type": "n8n-nodes-base.code",
@@ -178,6 +213,33 @@
           },
           {
             "node": "Read Learnings",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Get Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Calendar": {
+      "main": [
+        [
+          {
+            "node": "Parse Calendar",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Parse Calendar": {
+      "main": [
+        [
+          {
+            "node": "Merge Data",
             "type": "main",
             "index": 0
           }
