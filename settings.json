@@ -698,6 +698,7 @@
   },
   "effortLevel": "medium",
   "plansDirectory": "~/.claude/Plans/",
+  "voiceEnabled": true,
   "teammateMode": "in-process",
   "contextFiles": [
     "skills/PAI/SKILL.md",
@@ -861,11 +862,11 @@
     "hooks": 27,
     "signals": 266,
     "files": 49,
-    "work": 292,
+    "work": 297,
     "sessions": 19,
     "research": 0,
     "ratings": 270,
-    "updatedAt": "2026-03-29T13:50:13.853Z"
+    "updatedAt": "2026-03-30T20:59:47.596Z"
   },
-  "voiceEnabled": true
+  "model": "opus"
 }
