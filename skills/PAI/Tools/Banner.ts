@@ -286,8 +286,9 @@ function createNavyBanner(stats: SystemStats, width: number): string {
   const SEPARATOR = `${C.steel}${BOX.v}${RESET}`;
 
   // Info section with Unicode icons - meaningful symbols (10 lines for perfect centering with 10-row logo)
+  const catchphraseDisplay = stats.catchphrase.length > 22 ? stats.catchphrase.slice(0, 19) + "..." : stats.catchphrase;
   const infoLines = [
-    `${C.slate}"${RESET}${C.lightBlue}${stats.catchphrase}${RESET}${C.slate}..."${RESET}`,
+    `${C.slate}"${RESET}${C.lightBlue}${catchphraseDisplay}${RESET}${C.slate}..."${RESET}`,
     `${C.steel}${BOX.h.repeat(24)}${RESET}`,
     `${C.navy}\u2B22${RESET}  ${C.slate}PAI${RESET}       ${C.silver}v${stats.paiVersion}${RESET}`,                            // ⬢ hexagon (tech/AI)
     `${C.navy}\u2699${RESET}  ${C.slate}Algo${RESET}      ${C.silver}v${stats.algorithmVersion}${RESET}`,                      // ⚙ gear (algorithm)
@@ -657,8 +658,9 @@ function createNavyMediumBanner(stats: SystemStats, width: number): string {
   const LOGO_WIDTH = 20;
   const SEPARATOR = `${C.steel}${BOX.v}${RESET}`;
 
+  const catchphraseDisplay = stats.catchphrase.length > 22 ? stats.catchphrase.slice(0, 19) + "..." : stats.catchphrase;
   const infoLines = [
-    `${C.slate}"${RESET}${C.lightBlue}${stats.catchphrase}${RESET}${C.slate}..."${RESET}`,
+    `${C.slate}"${RESET}${C.lightBlue}${catchphraseDisplay}${RESET}${C.slate}..."${RESET}`,
     `${C.steel}${BOX.h.repeat(24)}${RESET}`,
     `${C.navy}\u2B22${RESET}  ${C.slate}PAI${RESET}       ${C.silver}v${stats.paiVersion}${RESET}`,
     `${C.navy}\u2699${RESET}  ${C.slate}Algo${RESET}      ${C.silver}v${stats.algorithmVersion}${RESET}`,
