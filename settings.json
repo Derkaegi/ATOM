@@ -862,11 +862,11 @@
     "hooks": 27,
     "signals": 266,
     "files": 49,
-    "work": 322,
+    "work": 325,
     "sessions": 19,
     "research": 0,
     "ratings": 270,
-    "updatedAt": "2026-04-12T10:23:38.536Z"
+    "updatedAt": "2026-04-13T16:28:11.622Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
