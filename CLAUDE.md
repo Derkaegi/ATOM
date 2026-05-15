@@ -1,4 +1,4 @@
-# PAI 4.0.3 — Personal AI Infrastructure
+# PAI 5.0.0 — Personal AI Infrastructure
 
 # MODES
 
@@ -15,7 +15,7 @@ Your first output MUST be the mode header. No freeform output. No skipping this 
 ## NATIVE MODE
 FOR: Simple tasks that won't take much effort or time. More advanced tasks use ALGORITHM MODE below.
 
-**Voice:** `curl -s -X POST http://localhost:8888/notify -H "Content-Type: application/json" -d '{"message": "Executing using PAI native mode", "voice_id": "fTtv3eikoepIosk8dTZ5", "voice_enabled": true}'`
+**Voice:** `curl -sk -X POST http://localhost:31337/notify -H "Content-Type: application/json" -d '{"message": "Executing using PAI native mode", "voice_id": "fTtv3eikoepIosk8dTZ5", "voice_enabled": true}'`
 
 ```
 ════ PAI | NATIVE MODE ═══════════════════════
@@ -32,7 +32,7 @@ On follow-ups, include the ITERATION line. On first response to a new request, o
 ## ALGORITHM MODE
 FOR: Multi-step, complex, or difficult work. Troubleshooting, debugging, building, designing, investigating, refactoring, planning, or any task requiring multiple files or steps.
 
-**MANDATORY FIRST ACTION:** Use the Read tool to load `PAI/Algorithm/v3.7.0.md`, then follow that file's instructions exactly. Starting with it's entering of the Algorithm voice command and processing. Do NOT improvise your own "algorithm" format; you switch all processing and responses to the actual Algorithm in that file until the Algorithm completes.
+**MANDATORY FIRST ACTION:** Read `PAI/Algorithm/LATEST` to get the current version, then Read `PAI/Algorithm/v{VERSION}.md` and follow that file's instructions exactly. Starting with its entering of the Algorithm voice command and processing. Do NOT improvise your own "algorithm" format; you switch all processing and responses to the actual Algorithm in that file until the Algorithm completes.
 
 ## MINIMAL — pure acknowledgments, ratings
 ```
@@ -54,6 +54,20 @@ FOR: Multi-step, complex, or difficult work. Troubleshooting, debugging, buildin
 
 ---
 
+### Operational Rules
+
+- bun/bunx always. Never npm/npx. Zero exceptions.
+- TypeScript always. Never Python unless herbert explicitly approves.
+- Never hardcode paths. Use `${PAI_DIR}`, `${HOME}`, relative paths.
+- Never run `claude` subprocess inline. CLAUDECODE env blocks nested sessions.
+- Never respond to duplicate task notifications. If a background task's output was already consumed via TaskOutput, produce ZERO output when `<task-notification>` arrives.
+- Plan means stop. "Create a plan" = present and STOP. No execution without approval.
+- Build over ask for reversible actions. Execute low-risk reversible actions directly. Reserve AskUserQuestion for irreversible or high-impact decisions.
+- Reproduce before fixing. Reported UI bug = open the page first. Console errors and network 404s before code analysis.
+- Effort shortcuts: `/e1` (Standard), `/e2` (Extended), `/e3` (Advanced), `/e4` (Deep), `/e5` (Comprehensive).
+
+---
+
 ### Context Routing
 
 When you need context about any of these topics, read `~/.claude/PAI/CONTEXT_ROUTING.md` for the file path:
@@ -63,3 +77,13 @@ When you need context about any of these topics, read `~/.claude/PAI/CONTEXT_ROU
 - Your own personality and rules
 - Any project referenced, any work, etc.
 - Basically anything that's specialized
+
+| Topic | Path |
+|-------|------|
+| System architecture | `~/.claude/PAI/DOCUMENTATION/PAISystemArchitecture.md` |
+| Algorithm system | `~/.claude/PAI/DOCUMENTATION/Algorithm/AlgorithmSystem.md` |
+| Memory system | `~/.claude/PAI/DOCUMENTATION/Memory/MemorySystem.md` |
+| Skill system | `~/.claude/PAI/DOCUMENTATION/Skills/SkillSystem.md` |
+| Hook system | `~/.claude/PAI/DOCUMENTATION/Hooks/HookSystem.md` |
+| ISA format spec | `~/.claude/PAI/DOCUMENTATION/IsaFormat.md` |
+| Pulse system | `~/.claude/PAI/DOCUMENTATION/Pulse/PulseSystem.md` |
