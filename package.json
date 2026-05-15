@@ -1,5 +1,8 @@
 {
   "dependencies": {
-    "@notionhq/client": "^5.9.0"
+    "@notionhq/client": "^5.9.0",
+    "minisearch": "^7.2.0",
+    "smol-toml": "^1.6.1",
+    "yaml": "^2.9.0"
   }
 }

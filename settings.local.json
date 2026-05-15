@@ -18,7 +18,11 @@
       "Bash(curl -s -X POST http://localhost:8888/notify -H 'Content-Type: application/json' -d '{\"message\": \"Entering the Algorithm\", \"voice_id\": \"fTtv3eikoepIosk8dTZ5\", \"voice_enabled\": true}')",
       "Bash(mkdir -p /home/herbert/.claude/MEMORY/WORK/20260513-130000_pokerstories-epilog-write)",
       "Bash(mkdir -p /home/herbert/.claude/MEMORY/WORK/20260515-poker-research-expansion)",
-      "Bash(date -Iseconds)"
+      "Bash(date -Iseconds)",
+      "Bash(cp ~/.claude/PAI/PULSE/PULSE.toml.example ~/.claude/PAI/PULSE/PULSE.toml)",
+      "Bash(python3 -c ' *)",
+      "Bash(echo '{ *)",
+      "Bash(echo '...')"
     ]
   },
   "spinnerTipsEnabled": true
