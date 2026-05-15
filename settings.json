@@ -137,6 +137,60 @@
             "command": "${PAI_DIR}/hooks/SkillGuard.hook.ts"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
+          }
+        ],
+        "matcher": "Bash"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
+          }
+        ],
+        "matcher": "Write"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
+          }
+        ],
+        "matcher": "Edit"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
+          }
+        ],
+        "matcher": "Read"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
+          }
+        ],
+        "matcher": "MultiEdit"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/ContextReduction.hook.sh"
+          }
+        ],
+        "matcher": "Bash"
       }
     ],
     "PostToolUse": [
@@ -184,6 +238,50 @@
             "command": "${PAI_DIR}/hooks/AlgorithmTracker.hook.ts"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/ContentScanner.hook.ts"
+          }
+        ],
+        "matcher": "WebFetch"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/ContentScanner.hook.ts"
+          }
+        ],
+        "matcher": "WebSearch"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/TelosSummarySync.hook.ts"
+          }
+        ],
+        "matcher": "Write"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/TelosSummarySync.hook.ts"
+          }
+        ],
+        "matcher": "Edit"
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/ToolActivityTracker.hook.ts"
+          }
+        ]
       }
     ],
     "SessionEnd": [
@@ -210,6 +308,14 @@
             "command": "${PAI_DIR}/hooks/IntegrityCheck.hook.ts"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/KVSync.hook.ts"
+          }
+        ]
       }
     ],
     "UserPromptSubmit": [
@@ -232,6 +338,38 @@
             "command": "${PAI_DIR}/hooks/SessionAutoName.hook.ts"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/PromptGuard.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/RepeatDetection.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/PromptProcessing.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/SatisfactionCapture.hook.ts"
+          }
+        ]
       }
     ],
     "SessionStart": [
@@ -250,6 +388,22 @@
             "command": "${PAI_DIR}/hooks/CheckVersion.hook.ts"
           }
         ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/KittyEnvPersist.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/KVSync.hook.ts"
+          }
+        ]
       }
     ],
     "Stop": [
@@ -258,6 +412,48 @@
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/StopOrchestrator.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/LastResponseCache.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/ResponseTabReset.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/VoiceCompletion.hook.ts"
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/DocIntegrity.hook.ts"
+          }
+        ]
+      }
+    ],
+    "PreCompact": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "${PAI_DIR}/hooks/PreCompact.hook.ts"
           }
         ]
       }
@@ -708,7 +904,7 @@
   ],
   "daidentity": {
     "name": "ATOM",
-    "fullName": "ATOM — Personal AI",
+    "fullName": "ATOM \u2014 Personal AI",
     "displayName": "ATOM",
     "color": "#3B82F6",
     "voices": {
@@ -766,8 +962,8 @@
   },
   "pai": {
     "repoUrl": "github.com/danielmiessler/PAI",
-    "version": "4.0.3",
-    "algorithmVersion": "3.7.0"
+    "version": "5.0.0",
+    "algorithmVersion": "6.3.0"
   },
   "contextDisplay": {
     "compactionThreshold": 83,
@@ -857,9 +1053,9 @@
     }
   },
   "counts": {
-    "skills": 56,
+    "skills": 77,
     "workflows": 305,
-    "hooks": 27,
+    "hooks": 50,
     "signals": 266,
     "files": 49,
     "work": 420,
