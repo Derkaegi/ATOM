@@ -904,7 +904,7 @@
   ],
   "daidentity": {
     "name": "ATOM",
-    "fullName": "ATOM \u2014 Personal AI",
+    "fullName": "ATOM — Personal AI",
     "displayName": "ATOM",
     "color": "#3B82F6",
     "voices": {
@@ -1053,16 +1053,16 @@
     }
   },
   "counts": {
-    "skills": 77,
-    "workflows": 305,
-    "hooks": 50,
+    "skills": 75,
+    "workflows": 354,
+    "hooks": 51,
     "signals": 266,
     "files": 49,
-    "work": 420,
-    "sessions": 19,
+    "work": 430,
+    "sessions": 20,
     "research": 0,
     "ratings": 273,
-    "updatedAt": "2026-05-15T13:44:29.788Z"
+    "updatedAt": "2026-05-16T13:00:55.271Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
