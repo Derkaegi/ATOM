@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-19T05:13:33.170Z",
+  "session_id": "3ddef875-498f-430d-aaf2-c5b38c5aeb19",
+  "event_type": "confirm",
+  "tool": "Edit",
+  "category": "path_access",
+  "target": "/home/herbert/.ssh/config",
+  "reason": "Writing to protected file requires confirmation: ~/.ssh/*",
+  "action_taken": "Prompted user for confirmation"
+}

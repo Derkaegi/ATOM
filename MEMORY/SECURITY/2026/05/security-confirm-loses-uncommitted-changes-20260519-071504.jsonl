@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-19T05:15:04.654Z",
+  "session_id": "3ddef875-498f-430d-aaf2-c5b38c5aeb19",
+  "event_type": "confirm",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "ssh notebook '\necho \"=== Aktuelles Remote ===\"\ncd ~/.claude && git remote -v\n\necho \"\"\necho \"=== Remote auf Derkaegi/ATOM umstellen ===\"\ngit remote set-url origin git@github.com:Derkaegi/ATOM.git\ngit remote -v\n\necho \"\"\necho \"=== Fetch vom richtigen Repo ===\"\ngit fetch origin 2>&1 | tail -5\n\necho \"\"\necho \"=== Reset auf Derkaegi/ATOM main ===\"\ngit reset --hard origin/main\necho \"Git: $(git log --oneline -1)\"\n' 2>&1",
+  "reason": "Loses uncommitted changes",
+  "action_taken": "Prompted user for confirmation"
+}

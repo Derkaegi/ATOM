@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-19T05:03:05.410Z",
+  "session_id": "3ddef875-498f-430d-aaf2-c5b38c5aeb19",
+  "event_type": "confirm",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "cat > /tmp/notebook-sync.sh << 'SCRIPT'\n#!/usr/bin/env bash\n# PAI/ATOM Notebook Sync Script\n# Führe aus wenn das Notebook im Netz ist\n\nset -e\n\nNOTEBOOK_HOST=\"${1:-notebook}\"\necho \"=== PAI Notebook Sync — $(date) ===\"\necho \"=== Target: $NOTEBOOK_HOST ===\"\n\n# 1. Connectivity prüfen\necho \"\"\necho \"--- [1/6] Connectivity prüfen ---\"\nif ! ssh -o ConnectTimeout=5 \"$NOTEBOOK_HOST\" 'echo ok' 2>/dev/null; then\n    # IP-Scan als Fallback\n    echo \"Standard-Host nicht erreichbar. Suche Notebook im LAN...\"\n ",
+  "reason": "Loses uncommitted changes",
+  "action_taken": "Prompted user for confirmation"
+}

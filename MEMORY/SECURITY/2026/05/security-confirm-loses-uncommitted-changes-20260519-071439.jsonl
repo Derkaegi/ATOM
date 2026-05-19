@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-05-19T05:14:39.986Z",
+  "session_id": "3ddef875-498f-430d-aaf2-c5b38c5aeb19",
+  "event_type": "confirm",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "ssh notebook '\nset -e\necho \"=== [1/4] Git reset auf origin/main ===\"\ncd ~/.claude\ngit fetch origin\ngit reset --hard origin/main\necho \"Git: $(git log --oneline -1)\"\n\necho \"\"\necho \"=== [2/4] bun PATH in settings.json wiederherstellen ===\"\npython3 - <<PYEOF\nimport json\npath = \"/home/herbert/.claude/settings.json\"\nwith open(path) as f:\n    s = json.load(f)\ns.setdefault(\"env\", {})[\"PATH\"] = \"/home/herbert/.bun/bin:/home/herbert/.local/bin:/usr/local/bin:/usr/bin:/bin\"\nwith open(path, \"w\") as f:\n    j",
+  "reason": "Loses uncommitted changes",
+  "action_taken": "Prompted user for confirmation"
+}
