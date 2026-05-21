@@ -22,7 +22,9 @@
       "Bash(cp ~/.claude/PAI/PULSE/PULSE.toml.example ~/.claude/PAI/PULSE/PULSE.toml)",
       "Bash(python3 -c ' *)",
       "Bash(echo '{ *)",
-      "Bash(echo '...')"
+      "Bash(echo '...')",
+      "Bash(mkdir -p ~/.claude/skills/PokerStories/Workflows)",
+      "Bash(mkdir -p ~/.claude/skills/PokerStories/Tools)"
     ]
   },
   "spinnerTipsEnabled": true
