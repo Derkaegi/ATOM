@@ -40,7 +40,7 @@ const CHAPTER_MAP: Record<string, { cardId: string; band: string; chapter: strin
   "02a-Exkurs-ICM-GTO.md":      { cardId: "cps_ch7a_icmgto_000000000000a", band: "band2", chapter: "B2-2a", driveId: "1tJ24xt0NrwtvXmE33yhACKSDElGB1FjD" },
   "02b-Exkurs-Data-Mining.md":  { cardId: "cp9b9gj5xpiyk5jox7ryz43my6r",  band: "band2", chapter: "B2-2b", driveId: "1Z5_XgjTg-NEs2sVBE4jJaVs635f7_otP" },
   "03-Poker-Platforms.md":      { cardId: "cps_ch08_platforms_0000000000", band: "band2", chapter: "B2-03", driveId: "12v1QD14N6vOhELKBcvENjlidNJCxTZ_2" },
-  "03a-Exkurs-Networks.md":     { cardId: "cbmmsrn39djdpiqfmdfjpzwp8xa",   band: "band2", chapter: "B2-3a", driveId: "1a39z7w_rsogdrHlOHCzVN8f3BuM-kTfj" },
+  "03a-Exkurs-Networks.md":     { cardId: "cbmmsrn39djdaim1aaykbqy5w1o",   band: "band2", chapter: "B2-3a", driveId: "1a39z7w_rsogdrHlOHCzVN8f3BuM-kTfj" },
   "03b-Exkurs-Country-Pools.md":{ cardId: "c4cb4yxxtnjf1d7bdqkwjftk3pw",   band: "band2", chapter: "B2-3b", driveId: "1J59J59RE486NaQWXJZuMGZzDIVNnIXaY" },
   "04-Economy-Rakeback.md":     { cardId: "cps_ch09_rakeback_00000000000", band: "band2", chapter: "B2-04", driveId: "1G2V4Mn-idmkeJ0e1RbvKIYCqZe66vlf1" },
   "04a-Exkurs-Staking.md":      { cardId: "c1p1c9586cb8t1cj7b4n8cpkpso",   band: "band2", chapter: "B2-4a", driveId: "16suXVS8ip5fZJVRli9nBtf6Wh9wDPw1Q" },
