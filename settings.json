@@ -1058,11 +1058,11 @@
     "hooks": 51,
     "signals": 266,
     "files": 49,
-    "work": 442,
+    "work": 451,
     "sessions": 24,
     "research": 0,
     "ratings": 273,
-    "updatedAt": "2026-05-22T12:21:39.360Z"
+    "updatedAt": "2026-05-24T11:54:44.337Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
