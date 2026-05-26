@@ -139,58 +139,58 @@
         ]
       },
       {
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
           }
-        ],
-        "matcher": "Bash"
+        ]
       },
       {
+        "matcher": "Write",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
           }
-        ],
-        "matcher": "Write"
+        ]
       },
       {
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
           }
-        ],
-        "matcher": "Edit"
+        ]
       },
       {
+        "matcher": "Read",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
           }
-        ],
-        "matcher": "Read"
+        ]
       },
       {
+        "matcher": "MultiEdit",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/SecurityPipeline.hook.ts"
           }
-        ],
-        "matcher": "MultiEdit"
+        ]
       },
       {
+        "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/ContextReduction.hook.sh"
           }
-        ],
-        "matcher": "Bash"
+        ]
       }
     ],
     "PostToolUse": [
@@ -240,40 +240,40 @@
         ]
       },
       {
+        "matcher": "WebFetch",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/ContentScanner.hook.ts"
           }
-        ],
-        "matcher": "WebFetch"
+        ]
       },
       {
+        "matcher": "WebSearch",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/ContentScanner.hook.ts"
           }
-        ],
-        "matcher": "WebSearch"
+        ]
       },
       {
+        "matcher": "Write",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/TelosSummarySync.hook.ts"
           }
-        ],
-        "matcher": "Write"
+        ]
       },
       {
+        "matcher": "Edit",
         "hooks": [
           {
             "type": "command",
             "command": "${PAI_DIR}/hooks/TelosSummarySync.hook.ts"
           }
-        ],
-        "matcher": "Edit"
+        ]
       },
       {
         "hooks": [
@@ -1058,13 +1058,14 @@
     "hooks": 51,
     "signals": 266,
     "files": 49,
-    "work": 451,
-    "sessions": 24,
+    "work": 454,
+    "sessions": 25,
     "research": 0,
     "ratings": 273,
-    "updatedAt": "2026-05-24T11:54:44.337Z"
+    "updatedAt": "2026-05-26T17:41:26.494Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
-  }
+  },
+  "skipAutoPermissionPrompt": true
 }
