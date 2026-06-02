@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T04:59:14.147Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try with curl to get the screenshots HTML\ncurl -sL \"https://web.archive.org/web/20080610065234/http://www.pokertracker.com/screenshots.html\" -o /tmp/pt-screenshots.html 2>&1 && echo \"Done, size: $(wc -c < /tmp/pt-screenshots.html)\" && grep -i \"img\\|src\" /tmp/pt-screenshots.html | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

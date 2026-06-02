@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:55:42.986Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Great! The main page IS archived. Let's access it and look for screenshot links\n# First fetch the main page content to find any screenshot-related links\ncurl -s --max-time 30 \"http://web.archive.org/web/20080602074723/http://www.everestpoker.com:80/\" 2>&1 | grep -i \"screenshot\\|screen\\|image\\|img\\|software\\|client\\|download\" | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

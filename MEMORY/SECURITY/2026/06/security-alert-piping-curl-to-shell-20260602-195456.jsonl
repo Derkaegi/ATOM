@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:54:56.152Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try pokernews search and cardschat \nplaywright-cli -s=bodog-search goto \"https://www.pokernews.com/search/?q=bodog+poker+review\" 2>&1 &\ncurl -s --max-time 15 \"https://www.cardschat.com/room/bodog-poker/\" 2>&1 | grep -i \"screenshot\\|img\\|bodog\" | head -20 &\nwait",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

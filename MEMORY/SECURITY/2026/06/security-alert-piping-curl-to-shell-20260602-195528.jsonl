@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:55:28.121Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try pokerstars forums and well-known poker review sites\n# Also try online-casino-reviews.com and similar\ncurl -s --max-time 15 \"https://www.onlinepokerreviews.com/bodog-poker/\" 2>&1 | grep -i \"screenshot\\|img.*bodog\\|software\" | head -10 &\ncurl -s --max-time 15 \"https://www.pokersites.org/bodog-poker/\" 2>&1 | grep -i \"screenshot\\|img\\|software\" | head -10 &\nwait",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

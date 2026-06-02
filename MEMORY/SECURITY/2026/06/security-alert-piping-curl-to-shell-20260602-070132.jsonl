@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T05:01:32.000Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try to get the PT3 screenshots - the page had thumbnails but let me look for full screenshots\n# Let's navigate to the PT3 screenshots page and see if there are full-size links\ncurl -sL \"https://web.archive.org/web/20080604041217/http://www.pokertracker.com/products/PT3/screenshots.php\" -o /tmp/pt3-screenshots.html && wc -c /tmp/pt3-screenshots.html && grep -i \"pt3_\\|screenshot\\|img src\\|\\.jpg\\|\\.png\\|href\" /tmp/pt3-screenshots.html | grep -v \"archive.org\\|logo\\|banner\\|nav\\|icon\\|facebook\\|twi",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:53:34.375Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try a different approach - use CDX to find all partypoker pages from 2004-2006\ncurl -s --max-time 60 \"https://web.archive.org/cdx/search/cdx?url=www.partypoker.com/*&output=text&limit=100&from=20040101&to=20070101&fl=timestamp,original,mimetype,statuscode\" 2>&1 | grep -v \"404\\|redirect\\|301\\|302\" | grep -i \"screenshot\\|software\\|client\\|howto\\|how_to\\|poker_room\\|game\" | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

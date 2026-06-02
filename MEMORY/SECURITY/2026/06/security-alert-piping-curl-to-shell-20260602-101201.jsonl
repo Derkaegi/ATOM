@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T08:12:01.581Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try full-page screenshot with more time using puppeteer approach\n# First let's install node and puppeteer on VPS for better screenshot\nSSH_AUTH_SOCK= ssh -i ~/.ssh/atom -o IdentitiesOnly=yes root@72.60.80.232 \"which node 2>/dev/null || which nodejs 2>/dev/null || (curl -fsSL https://deb.nodesource.com/setup_20.x | bash - && apt-get install -y nodejs 2>&1 | tail -3)\" 2>&1",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

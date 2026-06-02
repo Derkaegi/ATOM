@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:56:54.234Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try a different approach - look for Bodog poker review blogs or YouTube thumbnails with client images\n# Also try the Wayback Machine via an alternative proxy\ncurl -s --max-time 20 \"https://timetravel.mementoweb.org/\" 2>&1 | head -5 &\n# Try specific poker image databases and review sites\ncurl -s --max-time 15 \"https://pokerlistings.com/bodog-poker\" 2>&1 | grep -oP 'src=\"[^\"]*(?:screenshot|software|client|bodog)[^\"]*\\.(jpg|png|gif)\"' | head -10 &\nwait",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

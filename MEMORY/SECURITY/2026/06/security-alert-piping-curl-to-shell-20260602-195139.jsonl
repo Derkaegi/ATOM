@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:51:39.478Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# The browser can't connect but curl can - likely a proxy/DNS issue for playwright\n# Let's use curl directly to fetch archived pages\ncurl -s --max-time 30 -L \"https://web.archive.org/web/20091201000000*/http://www.cakepoker.com/\" 2>&1 | grep -o 'href=\"[^\"]*cakepoker[^\"]*screenshot[^\"]*\"' | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

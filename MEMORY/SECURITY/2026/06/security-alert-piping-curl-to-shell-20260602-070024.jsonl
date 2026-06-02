@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T05:00:24.162Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try the 2005 screenshots page - these are from the older PT2 era\ncurl -sL \"https://web.archive.org/web/20050722010652/http://www.pokertracker.com/screenshots.html\" -o /tmp/pt2-screenshots.html 2>&1 && wc -c /tmp/pt2-screenshots.html && grep -i \"img src\\|\\.jpg\\|\\.gif\\|\\.png\" /tmp/pt2-screenshots.html | grep -v \"archive.org\\|logo\\|nav\\|icon\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

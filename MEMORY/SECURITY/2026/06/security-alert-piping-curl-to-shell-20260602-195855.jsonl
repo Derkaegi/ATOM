@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:58:55.191Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Use curl to get the page HTML and find image URLs\ncurl -s \"https://www.pokerroommate.com/archives/may05/reviews/hollywoodpoker.htm\" 2>&1 | grep -i \"img\\|src\\|screenshot\\|jpg\\|png\\|gif\" | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

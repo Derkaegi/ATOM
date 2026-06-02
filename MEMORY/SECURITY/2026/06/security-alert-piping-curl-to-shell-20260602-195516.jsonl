@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T17:55:16.502Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try to look at casinomeister.com which is well known for archiving casino/poker room reviews with screenshots\ncurl -s --max-time 15 \"https://www.casinomeister.com/casino-rogues-hall-of-infamy/bodog/\" 2>&1 | grep -i \"img\\|screenshot\\|poker\" | head -20 &\ncurl -s --max-time 15 \"https://www.casinomeister.com/casinos/bodog/\" 2>&1 | grep -i \"img\\|screenshot\" | head -10 &\nwait",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}
