@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:46:32.376Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Get the full list and look for \"table\", \"game\", \"poker-soft\" images\ncurl --max-time 30 --resolve \"web.archive.org:443:207.241.237.3\" \"https://web.archive.org/cdx/search/cdx?url=fulltiltpoker.com/images/com/en/content/how-to-play/new-features/*&output=json&limit=500&fl=timestamp,original&filter=statuscode:200&collapse=original\" 2>/dev/null | python3 -c \"import json,sys; data=json.load(sys.stdin); [print(r[0], r[1]) for r in data[1:]]\" 2>/dev/null | grep -i \"table\\|game\\|run-it\\|rush\\|full-tilt-",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

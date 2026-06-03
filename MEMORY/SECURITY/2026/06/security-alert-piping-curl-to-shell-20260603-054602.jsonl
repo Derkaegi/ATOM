@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-03T03:46:02.915Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try the cardschat review which should have a table screenshot \ncurl -sk --max-time 30 -L \"https://web.archive.org/web/20050601000000/http://www.cardschat.com/poker-room.php\" 2>/dev/null | grep -i \"pokerroom\\|img\\|screenshot\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

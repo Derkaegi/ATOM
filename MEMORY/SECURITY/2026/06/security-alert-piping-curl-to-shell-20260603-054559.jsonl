@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-03T03:45:59.268Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "curl -s --max-time 30 \"https://web.archive.org/web/20070815130853/http://www.cardschat.com/pacific-poker.php\" | grep -i -E \"img.*src|src.*img|screenshot|table|jpg|gif|png\" | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-03T03:47:19.879Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Try with a different user agent and check if the issue is the wayback machine itself\ncurl -sk --max-time 30 -H \"User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36\" \"https://web.archive.org/web/20040901/http://www.pokerroom.com/\" 2>/dev/null | grep -i \"img\\|screenshot\\|table\\|\\.gif\\|\\.jpg\\|\\.png\" | grep -v \"archive\\|wayback\\|logo\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

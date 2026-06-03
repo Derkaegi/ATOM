@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:51:52.672Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Good! The download page was captured in 2004-2005. Let me fetch it to find embedded screenshots\n# First let's get the 2005 version of the download page\ncurl -m 60 -k --resolve \"web.archive.org:443:207.241.237.3\" -s \"https://web.archive.org/web/20050213072729if_/http://www.pacificpoker.com:80/download\" 2>&1 | grep -iE \"img|src|screenshot|screen|\\.jpg|\\.gif|\\.png\" | head -40",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

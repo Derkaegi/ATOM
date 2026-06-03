@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:48:04.428Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Check the dload page content for screenshot mentions or navigate links\nSSH_AUTH_SOCK= ssh -i ~/.ssh/atom -o IdentitiesOnly=yes -o ConnectTimeout=10 root@72.60.80.232 \"curl -s -L --max-time 30 'https://web.archive.org/web/20070615220131/http://www.everestpoker.com/en/dload/'\" 2>&1 | grep -i \"screenshot\\|screen\\|gallery\\|table\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

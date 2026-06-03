@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:47:31.849Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Let me look at the /en/poker-client/ page to find links to screenshot images\nSSH_AUTH_SOCK= ssh -i ~/.ssh/atom -o IdentitiesOnly=yes -o ConnectTimeout=10 root@72.60.80.232 \"curl -s -L --max-time 30 'https://web.archive.org/web/20070615220446/http://www.everestpoker.com/en/'\" 2>&1 | grep -i \"screenshot\\|poker-client\\|dload\\|download\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-03T03:42:09.040Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "curl -s --max-time 30 \"https://web.archive.org/cdx/search/cdx?url=pacificpoker.com/*.jpg&output=text&fl=timestamp,original&limit=30&from=20040101&to=20071231\" 2>/dev/null | grep -i -E \"screenshot|table|game|preview|lobby|client|poker\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

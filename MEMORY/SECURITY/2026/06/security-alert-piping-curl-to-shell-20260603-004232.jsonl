@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:42:32.297Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Fetch howtoplay page and scan for img tags\ncurl -sk \"https://web.archive.org/web/20040601000000/http://www.pokerroom.com/howtoplay/\" 2>/dev/null | grep -i \"img\\|screenshot\\|table\\|game\" | head -40",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

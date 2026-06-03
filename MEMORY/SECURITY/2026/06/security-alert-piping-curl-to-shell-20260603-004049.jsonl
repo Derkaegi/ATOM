@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:40:49.123Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "curl -sk \"https://web.archive.org/cdx/search/cdx?url=fulltiltpoker.com/images/*&output=text&limit=30&fl=timestamp,original,mimetype&filter=mimetype:image/jpeg&filter=statuscode:200\" 2>/dev/null | grep -i \"screenshot\\|table\\|client\\|game\\|poker\\|lobby\\|software\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

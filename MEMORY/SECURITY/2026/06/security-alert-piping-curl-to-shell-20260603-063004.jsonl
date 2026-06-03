@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-03T04:30:04.368Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Search for \"tournament-screenshot\" type files and poker table images specifically\ncurl -s \"http://web.archive.org/cdx/search/cdx?url=www.fulltiltpoker.com/images/com/en/content*&output=text&limit=500&from=20080101&to=20101231&filter=statuscode:200&matchType=prefix\" 2>&1 | grep -i \"\\.jpg\" | grep -iv \"banner\\|bonus\\|affiliate\\|header\\|logo\\|icon\\|button\\|arrow\\|bg\\|background\\|nav\\|menu\" | grep -i \"screen\\|shot\\|table\\|game\\|poker\\|play\\|avatar\\|client\" | head -30",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

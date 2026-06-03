@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-06-02T22:46:01.149Z",
+  "session_id": "556f3929-6a30-4198-a7cc-28e34867f6e7",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "# Search for larger/better table screenshots - look at the software/screenshots sections\ncurl --max-time 30 --resolve \"web.archive.org:443:207.241.237.3\" \"https://web.archive.org/cdx/search/cdx?url=fulltiltpoker.com/images/*&output=text&limit=200&fl=timestamp,original,mimetype&filter=mimetype:image/jpeg&filter=statuscode:200&from=20080101&to=20110101\" 2>/dev/null | grep -i \"table\\|poker-soft\\|screenshot\\|game\\|play\\|holdem\\|hand\" | head -20",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}
