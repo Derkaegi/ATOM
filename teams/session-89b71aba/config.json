@@ -1,0 +1,18 @@
+{
+  "name": "session-89b71aba",
+  "createdAt": 1781672063618,
+  "leadAgentId": "team-lead@session-89b71aba",
+  "leadSessionId": "89b71aba-b400-4d1d-beb3-60624d616d8e",
+  "members": [
+    {
+      "agentId": "team-lead@session-89b71aba",
+      "name": "team-lead",
+      "agentType": "team-lead",
+      "joinedAt": 1781672063618,
+      "tmuxPaneId": "leader",
+      "cwd": "/home/herbert",
+      "subscriptions": [],
+      "backendType": "in-process"
+    }
+  ]
+}

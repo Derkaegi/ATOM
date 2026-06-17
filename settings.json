@@ -26,7 +26,12 @@
       "ExitPlanMode",
       "Task",
       "Skill",
-      "mcp__*"
+      "mcp__claude_ai_Google_Drive__*",
+      "mcp__claude_ai_Notion__*",
+      "mcp__claude_ai_Hugging_Face__*",
+      "mcp__playwright__*",
+      "mcp__n8n-mcp__*",
+      "mcp__firecrawl__*"
     ],
     "deny": [],
     "ask": [
@@ -1058,11 +1063,11 @@
     "hooks": 51,
     "signals": 266,
     "files": 49,
-    "work": 476,
-    "sessions": 68,
+    "work": 480,
+    "sessions": 69,
     "research": 0,
     "ratings": 273,
-    "updatedAt": "2026-06-05T08:50:09.468Z"
+    "updatedAt": "2026-06-17T04:54:20.310Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
