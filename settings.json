@@ -900,6 +900,7 @@
   "effortLevel": "medium",
   "plansDirectory": "~/.claude/Plans/",
   "teammateMode": "in-process",
+  "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "contextFiles": [
     "skills/PAI/SKILL.md",
@@ -1063,14 +1064,14 @@
     "hooks": 51,
     "signals": 269,
     "files": 49,
-    "work": 506,
+    "work": 509,
     "sessions": 71,
     "research": 0,
     "ratings": 275,
-    "updatedAt": "2026-06-21T18:56:53.501Z"
+    "updatedAt": "2026-06-24T10:55:09.155Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
   },
-  "skipAutoPermissionPrompt": true
+  "tui": "fullscreen"
 }
