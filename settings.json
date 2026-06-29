@@ -899,6 +899,7 @@
   },
   "effortLevel": "medium",
   "plansDirectory": "~/.claude/Plans/",
+  "tui": "fullscreen",
   "teammateMode": "in-process",
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
@@ -1073,5 +1074,7 @@
   "preferences": {
     "temperatureUnit": "celsius"
   },
-  "tui": "fullscreen"
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  }
 }
