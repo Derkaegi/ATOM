@@ -468,6 +468,9 @@
     "type": "command",
     "command": "$PAI_DIR/statusline-command.sh"
   },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true
+  },
   "spinnerVerbs": {
     "mode": "replace",
     "verbs": [
@@ -901,6 +904,7 @@
   "plansDirectory": "~/.claude/Plans/",
   "tui": "fullscreen",
   "teammateMode": "in-process",
+  "agentPushNotifEnabled": false,
   "skipAutoPermissionPrompt": true,
   "voiceEnabled": true,
   "contextFiles": [
@@ -1063,18 +1067,16 @@
     "skills": 78,
     "workflows": 359,
     "hooks": 51,
-    "signals": 269,
+    "signals": 270,
     "files": 49,
-    "work": 533,
+    "work": 538,
     "sessions": 76,
     "research": 0,
-    "ratings": 275,
-    "updatedAt": "2026-06-30T11:43:24.019Z"
+    "ratings": 276,
+    "updatedAt": "2026-07-02T14:47:44.514Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
   },
-  "enabledPlugins": {
-    "frontend-design@claude-plugins-official": true
-  }
+  "model": "opus"
 }
