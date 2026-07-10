@@ -1,0 +1,10 @@
+{
+  "timestamp": "2026-07-10T07:58:22.117Z",
+  "session_id": "911516d4-90d8-42e1-9f38-24a02fb7f63f",
+  "event_type": "alert",
+  "tool": "Bash",
+  "category": "bash_command",
+  "target": "curl -s -X POST http://localhost:31337/notify -H \"Content-Type: application/json\" -d '{\"message\": \"Entering the Verify phase.\"}' >/dev/null 2>&1 & echo \"=== Ordnerinhalt Kosten & Belege ===\"; gws drive files list --params '{\"q\": \"'\"'\"'1YiSykfJlmujeE9Jz_G2PC1uEpfsb9v0G'\"'\"' in parents and trashed=false\", \"fields\": \"files(name)\", \"pageSize\": 50}' 2>&1 | grep '\"name\"' | sort; echo \"=== Doc unverändert? ===\"; gws drive files get --params '{\"fileId\": \"1xDBh83CBDo7SQW_aXN9lrSb5AOUOANxWktIDjLp_cmM\", \"f",
+  "reason": "Piping curl to shell",
+  "action_taken": "Logged alert, allowed execution"
+}

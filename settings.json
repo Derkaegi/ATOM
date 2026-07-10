@@ -67,6 +67,7 @@
     ],
     "defaultMode": "plan"
   },
+  "model": "sonnet",
   "enableAllProjectMcpServers": true,
   "enabledMcpjsonServers": [],
   "skillOverrides": {
@@ -1127,14 +1128,13 @@
     "hooks": 51,
     "signals": 270,
     "files": 49,
-    "work": 553,
-    "sessions": 77,
+    "work": 557,
+    "sessions": 78,
     "research": 0,
     "ratings": 276,
-    "updatedAt": "2026-07-08T18:04:07.518Z"
+    "updatedAt": "2026-07-10T16:19:15.283Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
-  },
-  "model": "opus"
+  }
 }
