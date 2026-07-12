@@ -1,0 +1,15 @@
+{
+  "pid": 125195,
+  "version": "2.1.207",
+  "jsonPath": "/home/herbert/.claude/daemon.json",
+  "logPath": "/home/herbert/.claude/daemon.log",
+  "startedAt": 1783850238896,
+  "origin": "transient",
+  "spawnedBy": {
+    "label": "claude",
+    "cwd": "/home/herbert",
+    "pid": 92532
+  },
+  "procStart": "6260776",
+  "launchTarget": "/home/herbert/.local/share/claude/versions/2.1.207"
+}

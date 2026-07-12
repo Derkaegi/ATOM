@@ -1,0 +1,29 @@
+{
+  "state": "working",
+  "detail": "**Done:** Chapter 10 (The Virtual Felt Revolution / Tournaments) merged from `05-Tournaments.edited.docx` into `02-Chapt",
+  "tempo": "blocked",
+  "needs": "send a prompt to start",
+  "output": null,
+  "children": null,
+  "linkScanOffset": 0,
+  "template": "bg",
+  "respawnFlags": [
+    "--permission-mode",
+    "auto",
+    "--model",
+    "sonnet"
+  ],
+  "bgIsolation": "none",
+  "providerEnv": {},
+  "intent": "same for /home/herbert/Downloads/05-Tournaments.edited.docx",
+  "name": "merge-chapter-04-grammarly-edits",
+  "nameSource": "auto",
+  "sessionId": "f26e0d7d-8c83-4580-9e9e-77157c7537df",
+  "resumeSessionId": "f26e0d7d-8c83-4580-9e9e-77157c7537df",
+  "daemonShort": "f26e0d7d",
+  "cwd": "/home/herbert",
+  "createdAt": "2026-07-12T09:57:18.426Z",
+  "updatedAt": "2026-07-12T09:57:19.940Z",
+  "firstTerminalAt": null,
+  "backend": "daemon"
+}

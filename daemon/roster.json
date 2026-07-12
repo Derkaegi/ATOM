@@ -1,0 +1,61 @@
+{
+  "proto": 1,
+  "supervisorPid": 125195,
+  "updatedAt": 1783850270073,
+  "workers": {
+    "f26e0d7d": {
+      "pid": 125227,
+      "procStart": "6260823",
+      "sessionId": "f26e0d7d-8c83-4580-9e9e-77157c7537df",
+      "rendezvousSock": "/tmp/cc-daemon-1000/f8e6b6db/rv/f26e0d7d.sock",
+      "ptySock": "/tmp/cc-daemon-1000/f8e6b6db/pty/f26e0d7d.sock",
+      "cliVersion": "2.1.207",
+      "startedAt": 1783850239001,
+      "attempt": 1,
+      "cwd": "/home/herbert",
+      "dispatch": {
+        "proto": 1,
+        "short": "f26e0d7d",
+        "nonce": "0bffb922",
+        "sessionId": "f26e0d7d-8c83-4580-9e9e-77157c7537df",
+        "createdAt": 1783850238462,
+        "source": "slash",
+        "cwd": "/home/herbert",
+        "launch": {
+          "mode": "resume",
+          "sessionId": "/home/herbert/.claude/projects/-home-herbert/f57b9dd7-facc-4c06-9e65-bbdb58819be3.jsonl",
+          "fork": true,
+          "flagArgs": [
+            "--permission-mode",
+            "auto"
+          ]
+        },
+        "env": {
+          "CLAUDE_BG_ISOLATION": "none"
+        },
+        "isolation": "none",
+        "respawnFlags": [
+          "--permission-mode",
+          "auto"
+        ],
+        "seed": {
+          "intent": "same for /home/herbert/Downloads/05-Tournaments.edited.docx",
+          "name": "merge-chapter-04-grammarly-edits"
+        },
+        "cols": 117,
+        "rows": 46
+      },
+      "decModes": [
+        1000,
+        1002,
+        1003,
+        1006,
+        2004,
+        1004,
+        2031
+      ],
+      "rvAuth": "2da9341af53abfdf38226f8835539cd7",
+      "ptyAuth": "c4da0122a68afc007afed461384090a5"
+    }
+  }
+}

@@ -17,5 +17,8 @@
     }
   },
   "compliance_taints": [],
-  "defaults": {}
+  "monitoring_notice": null,
+  "defaults": {
+    "remote_control_at_startup": false
+  }
 }
