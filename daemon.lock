@@ -1,16 +1,16 @@
 {
-  "pid": 639608,
-  "version": "2.1.209",
+  "pid": 1201886,
+  "version": "2.1.212",
   "jsonPath": "/home/herbert/.claude/daemon.json",
   "logPath": "/home/herbert/.claude/daemon.log",
-  "startedAt": 1784046860863,
+  "startedAt": 1784267182798,
   "origin": "transient",
   "spawnedBy": {
     "label": "claude",
     "cwd": "/home/herbert",
     "pid": 92532
   },
-  "procStart": "25922978",
-  "launchTarget": "/home/herbert/.local/share/claude/versions/2.1.209",
+  "procStart": "47955169",
+  "launchTarget": "/home/herbert/.local/share/claude/versions/2.1.212",
   "processWrapper": ""
 }
