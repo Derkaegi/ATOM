@@ -24,7 +24,20 @@
       "Bash(echo '{ *)",
       "Bash(echo '...')",
       "Bash(mkdir -p ~/.claude/skills/PokerStories/Workflows)",
-      "Bash(mkdir -p ~/.claude/skills/PokerStories/Tools)"
+      "Bash(mkdir -p ~/.claude/skills/PokerStories/Tools)",
+      "mcp__hostinger-hosting__hosting_listWebsitesV1",
+      "Bash(crontab -l)",
+      "Read(//etc/cron.d/**)",
+      "Bash(systemctl --user list-timers --all)",
+      "mcp__hostinger-domains__domains_getDomainListV1",
+      "mcp__hostinger-dns__DNS_getDNSRecordsV1",
+      "mcp__hostinger-vps__VPS_getProjectContentsV1",
+      "Bash(pm2 list *)",
+      "mcp__hostinger-dns__DNS_resetDNSRecordsV1",
+      "mcp__hostinger-hosting__hosting_listOrdersV1",
+      "mcp__hostinger-domains__domains_getDomainDetailsV1",
+      "mcp__hostinger-vps__VPS_getProjectListV1",
+      "mcp__hostinger-vps__VPS_getVirtualMachinesV1"
     ]
   },
   "spinnerTipsEnabled": true
