@@ -25,11 +25,11 @@
 import { appendFileSync, mkdirSync, existsSync, readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
 
-import { inference } from '../PAI/TOOLS/Inference';
+import { inference } from '../PAI/Tools/Inference';
 import { getIdentity, getPrincipal, getPrincipalName } from './lib/identity';
 import { getLearningCategory } from './lib/learning-utils';
 import { getISOTimestamp, getPSTComponents } from './lib/time';
-import { captureFailure } from '../PAI/TOOLS/FailureCapture';
+import { captureFailure } from '../PAI/Tools/FailureCapture';
 import { addRatingPulse } from './lib/isa-utils';
 
 // ── Types ──

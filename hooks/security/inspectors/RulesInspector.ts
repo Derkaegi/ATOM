@@ -9,7 +9,7 @@
 import type { Inspector, InspectionContext, InspectionResult } from '../types.ts';
 import { ALLOW, deny } from '../types.ts';
 import { paiPath } from '../../lib/paths.ts';
-import { inference } from '../../../PAI/TOOLS/Inference.ts';
+import { inference } from '../../../PAI/Tools/Inference.ts';
 import { readFileSync, existsSync } from 'fs';
 
 const RULES_PATH = paiPath('USER', 'SECURITY', 'SECURITY_RULES.md');

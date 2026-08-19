@@ -27,7 +27,7 @@
 import { appendFileSync, mkdirSync, existsSync, readFileSync, writeFileSync, rmdirSync, renameSync, statSync } from 'fs';
 import { join, dirname } from 'path';
 
-import { inference } from '../PAI/TOOLS/Inference';
+import { inference } from '../PAI/Tools/Inference';
 import { getIdentity, getPrincipal } from './lib/identity';
 import { isValidWorkingTitle, getWorkingFallback, trimToValidTitle } from './lib/output-validators';
 import { setTabState, getSessionOneWord } from './lib/tab-setter';

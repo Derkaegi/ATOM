@@ -126,7 +126,12 @@
     "n8n-node-configuration": "off",
     "n8n-validation-expert": "off",
     "n8n-workflow-patterns": "off",
-    "playwright-cli": "off"
+    "playwright-cli": "off",
+    "Aphorisms": "off",
+    "Delegation": "off",
+    "Loop": "off",
+    "MorningBriefing": "off",
+    "SetPieceTakers": "off"
   },
   "hooks": {
     "PreToolUse": [
@@ -1128,11 +1133,11 @@
     "hooks": 51,
     "signals": 270,
     "files": 49,
-    "work": 576,
-    "sessions": 79,
+    "work": 579,
+    "sessions": 88,
     "research": 0,
-    "ratings": 277,
-    "updatedAt": "2026-08-18T07:18:20.439Z"
+    "ratings": 286,
+    "updatedAt": "2026-08-19T15:02:06.312Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
