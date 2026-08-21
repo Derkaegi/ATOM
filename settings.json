@@ -1131,13 +1131,13 @@
     "skills": 78,
     "workflows": 359,
     "hooks": 51,
-    "signals": 272,
+    "signals": 275,
     "files": 49,
-    "work": 582,
-    "sessions": 89,
+    "work": 585,
+    "sessions": 91,
     "research": 0,
-    "ratings": 294,
-    "updatedAt": "2026-08-20T07:14:10.433Z"
+    "ratings": 307,
+    "updatedAt": "2026-08-21T08:03:44.336Z"
   },
   "preferences": {
     "temperatureUnit": "celsius"
